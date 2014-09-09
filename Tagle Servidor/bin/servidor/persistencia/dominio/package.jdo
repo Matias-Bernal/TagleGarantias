@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jdo PUBLIC
+    "-//Sun Microsystems, Inc.//DTD Java Data Objects Metadata 2.0//EN"
+    "http://java.sun.com/dtd/jdo_2_0.dtd">
+<jdo>
+    <package name="servidor.persistencia.dominio">
+		<class
+              name="Agente" persistence-capable-superclass = "Registrante">
+			  <inheritance strategy="new-table"/>
+		</class> 
+		<class
+              name="Bdg">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="fecha_bdg" persistence-modifier="persistent"/>
+			
+			<field name="pieza" persistence-modifier="persistent">
+                <foreign-key name="fk_pie_00" delete-action="cascade"/>
+            </field>
+
+			<field name="pedido" persistence-modifier="persistent" >
+                <foreign-key name="fk_ped_00" delete-action="cascade"/>
+            </field>
+			
+			<field name="numero_bdg" persistence-modifier="persistent"/>
+
+        </class>
+		<class
+              name="Devolucion_Pieza">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="numero_remito" persistence-modifier="persistent"/>
+			
+			<field name="fecha_devolucion" persistence-modifier="persistent"/>
+
+			<field name="transporte" persistence-modifier="persistent"/>
+			
+			<field name="numero_retiro" persistence-modifier="persistent"/>
+        </class>
+        <class
+              name="Entidad" persistence-capable-superclass = "Registrante">
+			  <inheritance strategy="new-table"/>
+        </class>
+        <class
+              name="Mano_Obra">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent" />
+			
+			<field name="cantidad_horas" persistence-modifier="persistent"/>
+			
+			<field name="valor_mano_obra" persistence-modifier="persistent"/>
+			
+			<field name="codigo_mano_obra" persistence-modifier="persistent"/>
+			
+			<field name="reclamo" persistence-modifier="persistent" >
+                <foreign-key name="fk_rec_01" delete-action="cascade"/>
+            </field>
+        </class>		
+        <class
+              name="Marca">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+		
+			<field name="nombre_marca" persistence-modifier="persistent"/>
+        </class>
+        <class
+              name="Modelo">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="nombre_modelo" persistence-modifier="persistent" />
+			
+			<field name="marca" persistence-modifier="persistent">
+                <foreign-key name="fk_mar_02" delete-action="cascade"/>
+            </field>
+        </class>
+        <class
+              name="MTelefono">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			<field name="reclamante" persistence-modifier="persistent" >
+                <foreign-key name="fk_recl_03" delete-action="cascade"/>
+            </field> 
+            <field name="telefono" persistence-modifier="persistent"/>
+        </class>
+        <class
+              name="Muleto">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="descripcion" persistence-modifier="persistent"/>
+			
+			<field name="vin" persistence-modifier="persistent"/>
+				
+			<field name="pedido" persistence-modifier="persistent">
+                <foreign-key name="fk_ped_04" delete-action="cascade"/>
+            </field>
+
+			<field name="pieza" persistence-modifier="persistent">
+                <foreign-key name="fk_pie_04" delete-action="cascade"/>
+            </field>
+        </class>
+		<class
+              name="Notificacion_Reclamo">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="notificacion" persistence-modifier="persistent">
+                <foreign-key name="fk_notif_r_05" delete-action="cascade"/>
+            </field>
+            
+            <field name="reclamo" persistence-modifier="persistent" >
+                <foreign-key name="fk_usua_r_05" delete-action="cascade"/>
+            </field>
+        </class>
+        <class
+              name="Notificacion_Usuario">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="notificacion" persistence-modifier="persistent">
+                <foreign-key name="fk_notif_05" delete-action="cascade"/>
+            </field>
+            
+            <field name="usuario" persistence-modifier="persistent" >
+                <foreign-key name="fk_usua_05" delete-action="cascade"/>
+            </field>
+        </class>
+        <class
+              name="Notificacion">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="fecha_notificacion" persistence-modifier="persistent"/>
+			
+			<field name="concretada_notificacion" persistence-modifier="persistent"/>
+			
+			<field name="texto_notificacion" persistence-modifier="persistent"/>
+			
+			<field name="tipo_notificacion" persistence-modifier="persistent"/>
+
+        </class>		
+        <class
+              name="Orden_Reclamo">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="orden" persistence-modifier="persistent">
+			    <foreign-key name="fk_orden_06" delete-action="cascade"/>
+            </field>
+			
+			<field name="reclamo" persistence-modifier="persistent">
+			    <foreign-key name="fk_recl_06" delete-action="cascade"/>
+            </field>
+
+        </class>
+        <class
+              name="Orden">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+		
+			<field name="numero_orden" persistence-modifier="persistent"/>
+			
+			<field name="fecha_apertura" persistence-modifier="persistent"/>
+			
+			<field name="fecha_cierre" persistence-modifier="persistent"/>
+			
+			<field name="estado" persistence-modifier="persistent"/>
+			
+			<field name="recurso" persistence-modifier="persistent">
+			    <foreign-key name="fk_recu_07" delete-action="null"/>
+            </field>
+			
+        </class>
+        <class
+              name="Pedido_Pieza_Reclamo_Agente">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+		
+			<field name="pedido" persistence-modifier="persistent">
+                <foreign-key name="fk_pedido_08a" delete-action="cascade"/>
+            </field>
+
+			<field name="pieza" persistence-modifier="persistent">
+                <foreign-key name="fk_pieza_08a" delete-action="cascade"/>
+            </field>
+            
+           	<field name="reclamo_agente" persistence-modifier="persistent">
+                <foreign-key name="fk_rec_fab_08a" delete-action="cascade"/>
+            </field>
+        </class>		
+        <class
+              name="Pedido_Pieza_Reclamo_Fabrica">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+		
+			<field name="pedido" persistence-modifier="persistent">
+                <foreign-key name="fk_pedido_08f" delete-action="cascade"/>
+            </field>
+
+			<field name="pieza" persistence-modifier="persistent">
+                <foreign-key name="fk_pieza_08f" delete-action="cascade"/>
+            </field>
+            
+           	<field name="reclamo_fabrica" persistence-modifier="persistent">
+                <foreign-key name="fk_rec_fab_08f" delete-action="cascade"/>
+            </field>
+        </class>
+        <class
+              name="Pedido_Pieza">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+	
+			<field name="pedido" persistence-modifier="persistent" >
+                <foreign-key name="fk_pedido_09" delete-action="cascade"/>
+            </field>
+		
+			<field name="pieza" persistence-modifier="persistent" >
+                <foreign-key name="fk_pieza_09" delete-action="cascade"/>
+            </field>
+			
+			<field name="numero_pedido" persistence-modifier="persistent"/>
+            
+            <field name="fecha_solicitud_fabrica" persistence-modifier="persistent"/>
+             
+            <field name="fecha_recepcion_fabrica" persistence-modifier="persistent"/>
+            
+			<field name="fecha_cambio" persistence-modifier="persistent"/>
+             
+            <field name="pnc" persistence-modifier="persistent"/>
+             
+            <field name="stock" persistence-modifier="persistent"/>
+			
+			<field name="propio" persistence-modifier="persistent"/>
+			
+			<field name="muleto" persistence-modifier="persistent" >
+                <foreign-key name="fk_muleto_09" delete-action="cascade"/>
+            </field>
+
+			<field name="fecha_solicitud_devolucion" persistence-modifier="persistent" >
+                <foreign-key name="fk_sol_dev_pieza_11" delete-action="cascade"/>
+            </field>
+
+			<field name="fecha_aprobacion_solicitud_devolucion" persistence-modifier="persistent" >
+                <foreign-key name="fk_aprob_sol_dev_pieza_12" delete-action="cascade"/>
+            </field>
+
+			<field name="devolucion_pieza" persistence-modifier="persistent" >
+                <foreign-key name="fk_dev_pieza_09" delete-action="cascade"/>
+            </field>
+
+			<field name="estado_pedido" persistence-modifier="persistent" />
+			
+            <field name="bdg" persistence-modifier="persistent" >
+                <foreign-key name="fk_bdg_09" delete-action="cascade"/>
+            </field>
+            
+			<field name="mano_obra" persistence-modifier="persistent" >
+                <foreign-key name="fk_man_obr_09" delete-action="cascade"/>
+            </field>
+            
+            <field name="fecha_envio_agente" persistence-modifier="persistent"/>
+             
+            <field name="fecha_recepcion_agente" persistence-modifier="persistent"/>
+             
+            <field name="pieza_usada" persistence-modifier="persistent"/>
+        </class>		
+        <class
+              name="Pedido">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+					
+			<field name="fecha_solicitud_pedido" persistence-modifier="persistent"/>
+
+			<field name="reclamo" persistence-modifier="persistent" >
+                <foreign-key name="fk_recl_10" delete-action="cascade"/>
+            </field>
+        </class>
+        <class
+              name="Pieza">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+		
+			<field name="numero_pieza" persistence-modifier="persistent"/>
+			
+			<field name="descripcion" persistence-modifier="persistent"/>
+			
+			<field name="proveedor" persistence-modifier="persistent">
+                <foreign-key name="fk_prov_11" delete-action="cascade"/>
+            </field>
+        </class>
+        <class
+              name="Proveedor">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="nombre" persistence-modifier="persistent"/>
+
+        </class>
+        <class
+              name="Reclamante_Reclamo">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+				
+			<field name="reclamante" persistence-modifier="persistent" >
+                <foreign-key name="fk_reclam_12" delete-action="cascade"/>
+            </field>
+            
+            <field name="reclamo" persistence-modifier="persistent" >
+                <foreign-key name="fk_recl_12" delete-action="cascade"/>
+            </field>
+        </class>
+        <class
+              name="Reclamante">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="nombre_apellido" persistence-modifier="persistent"/>
+			
+			<field name="dni" persistence-modifier="persistent"/>
+			
+			<field name="email" persistence-modifier="persistent"/>
+        </class>		
+         <class
+              name="Reclamo_Agente">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="fecha_reclamo_agente" persistence-modifier="persistent"/>
+			
+			<field name="descripcion" persistence-modifier="persistent"/>
+			
+			<field name="pieza" persistence-modifier="persistent">
+                <foreign-key name="fk_pieza_13a" delete-action="cascade"/>
+            </field>
+
+			<field name="pedido" persistence-modifier="persistent" >
+                <foreign-key name="fk_ped_13a" delete-action="cascade"/>
+            </field>
+
+			<field name="usuario" persistence-modifier="persistent" >
+                <foreign-key name="fk_usua_13a" delete-action="cascade"/>
+            </field>
+        </class>
+		<class
+              name="Reclamo_Fabrica">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="fecha_reclamo_fabrica" persistence-modifier="persistent"/>
+			
+			<field name="descripcion" persistence-modifier="persistent"/>
+			
+			<field name="pieza" persistence-modifier="persistent">
+                <foreign-key name="fk_pieza_13f" delete-action="cascade"/>
+            </field>
+
+			<field name="pedido" persistence-modifier="persistent" >
+                <foreign-key name="fk_ped_13f" delete-action="cascade"/>
+            </field>
+
+			<field name="usuario" persistence-modifier="persistent" >
+                <foreign-key name="fk_usua_13f" delete-action="cascade"/>
+            </field>
+        </class>
+        <class
+              name="Reclamo">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="fecha_reclamo" persistence-modifier="persistent"/>
+
+			<field name="fecha_llamado_turno" persistence-modifier="persistent"/>
+			
+			<field name="fecha_turno" persistence-modifier="persistent"/>
+			
+			<field name="estado_reclamo" persistence-modifier="persistent"/>
+			
+			<field name="registrante" persistence-modifier="persistent" >
+                <foreign-key name="fk_regis_14" delete-action="cascade"/>
+            </field>
+
+			<field name="reclamante" persistence-modifier="persistent" >
+                <foreign-key name="fk_recla_14" delete-action="cascade"/>
+            </field>
+
+			<field name="vehiculo" persistence-modifier="persistent" >
+                <foreign-key name="fk_vehi_14" delete-action="cascade"/>
+            </field>
+
+			<field name="inmovilizado" persistence-modifier="persistent"/>
+			
+			<field name="peligroso" persistence-modifier="persistent"/>
+			
+            <field name="usuario" persistence-modifier="persistent" >
+                <foreign-key name="fk_usua_14" delete-action="cascade"/>
+            </field>
+			
+			<field name="orden" persistence-modifier="persistent" >
+                <foreign-key name="fk_orden_14" delete-action="cascade"/>
+            </field>
+            
+            <field name="descripcion" persistence-modifier="persistent"/>
+        </class>
+        <class
+              name="Recurso">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="fecha_recurso" persistence-modifier="persistent"/>
+			
+			<field name="numero_recurso" persistence-modifier="persistent"/>
+
+        </class>		
+        <class
+              name="Registrante">
+			<inheritance strategy="new-table"/>
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+		
+			<field name="nombre_registrante" persistence-modifier="persistent"/>
+        </class>		
+        <class
+              name="Usuario">
+			<field name="nombre_usuario" persistence-modifier="persistent"/>
+			
+			<field name="clave" persistence-modifier="persistent"/>
+			
+			<field name="email" persistence-modifier="persistent"/>
+			
+			<field name="tipo" persistence-modifier="persistent"/>
+			
+            <field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+        </class>
+        <class
+              name="Vehiculo">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+		
+			<field name="dominio" persistence-modifier="persistent"/>
+			
+			<field name="vin" persistence-modifier="persistent"/>
+			
+			<field name="nombre_titular" persistence-modifier="persistent"/>
+			
+			<field name="marca" persistence-modifier="persistent" >
+                <foreign-key name="fk_marca_16" delete-action="cascade"/>
+            </field>
+
+			<field name="modelo" persistence-modifier="persistent" >
+                <foreign-key name="fk_modelo_16" delete-action="cascade"/>
+            </field>
+        </class>
+    </package>
+</jdo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="D:/DESARROLLO/IT10 Cooperativa/Tagle/Extras/lib/asm-3.1.jar"/>
+	<classpathentry kind="lib" path="D:/DESARROLLO/IT10 Cooperativa/Tagle/Extras/lib/datanucleus-core-2.2.0-m1.jar"/>
+	<classpathentry kind="lib" path="D:/DESARROLLO/IT10 Cooperativa/Tagle/Extras/lib/datanucleus-enhancer-2.1.0-release.jar"/>
+	<classpathentry kind="lib" path="D:/DESARROLLO/IT10 Cooperativa/Tagle/Extras/lib/datanucleus-rdbms-2.2.0-m1.jar"/>
+	<classpathentry kind="lib" path="D:/DESARROLLO/IT10 Cooperativa/Tagle/Extras/lib/jdo2-api-2.3-eb.jar"/>
+	<classpathentry kind="lib" path="D:/DESARROLLO/IT10 Cooperativa/Tagle/Extras/lib/jdo-api-3.0.jar"/>
+	<classpathentry kind="lib" path="D:/DESARROLLO/IT10 Cooperativa/Tagle/Extras/lib/jdt-compiler-3.1.1.jar"/>
+	<classpathentry kind="lib" path="D:/DESARROLLO/IT10 Cooperativa/Tagle/Extras/lib/jpa.jar"/>
+	<classpathentry kind="lib" path="D:/DESARROLLO/IT10 Cooperativa/Tagle/Extras/lib/log4j-1.2.7.jar"/>
+	<classpathentry kind="lib" path="D:/DESARROLLO/IT10 Cooperativa/Tagle/Extras/lib/persistence-api-1.0.2.jar"/>
+	<classpathentry kind="lib" path="D:/DESARROLLO/IT10 Cooperativa/Tagle/Extras/Librerias/Conectores SQL/mysql-connector-java-5.1.26-bin.jar"/>
+	<classpathentry kind="lib" path="D:/DESARROLLO/IT10 Cooperativa/Tagle/Extras/Librerias/Conectores SQL/postgresql-9.2-1003.jdbc4.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Tagle Common"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

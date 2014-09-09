@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+SwingJD-Version: swingJD 1.0
+Created-By: 21.12-2012 (SwingJD.)
+
