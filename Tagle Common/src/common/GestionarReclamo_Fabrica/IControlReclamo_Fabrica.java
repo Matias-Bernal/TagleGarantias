@@ -18,6 +18,7 @@ public interface IControlReclamo_Fabrica extends Remote{
 	public Vector<Reclamo_FabricaDTO> obtenerReclamo_Fabrica(PedidoDTO pedidoDTO) throws Exception;
 	public Vector<Reclamo_FabricaDTO> obtenerReclamo_Fabrica(Date fecha_reclamo) throws Exception;
 	public Vector<Reclamo_FabricaDTO> obtenerReclamo_Fabrica(PiezaDTO piezaDTO) throws Exception;
+	public Vector<Reclamo_FabricaDTO> obtenerReclamos_Fabrica(PedidoDTO pedidoDTO, PiezaDTO piezaDTO) throws Exception;
 	
 	public boolean existeReclamo_Fabrica(Long id) throws Exception;
 	public boolean existeReclamo_Fabrica(PedidoDTO pedidoDTO, PiezaDTO piezaDTO) throws Exception;

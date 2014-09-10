@@ -238,4 +238,24 @@ public class ControlReclamo_Agente extends UnicastRemoteObject implements IContr
 		return reclamo_AgenteDTO;
 	}
 
+	@Override
+	public Vector<Reclamo_AgenteDTO> obtenerReclamo_Agente(PedidoDTO pedidoDTO,	PiezaDTO piezaDTO) throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<Reclamo_AgenteDTO> reclamos_AgenteDTO = new Vector<Reclamo_AgenteDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+			String filtro = "pieza.id == "+piezaDTO.getId()+" && pedido.id =="+ pedidoDTO.getId();
+			Vector<Reclamo_Agente> reclamos_agente = new Vector<Reclamo_Agente> (accesoBD.buscarPorFiltro(Reclamo_Agente.class, filtro));
+			Reclamo_AgenteAssembler reclamo_agenteAssemb = new Reclamo_AgenteAssembler(accesoBD);
+			for (int i = 0; i < reclamos_agente.size(); i++) {
+				Reclamo_AgenteDTO reclamo_AgenteDTO = reclamo_agenteAssemb.getReclamo_AgenteDTO(reclamos_agente.elementAt(i));
+				reclamos_AgenteDTO.add(reclamo_AgenteDTO);
+			}		
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return reclamos_AgenteDTO;
+	}
+
 }

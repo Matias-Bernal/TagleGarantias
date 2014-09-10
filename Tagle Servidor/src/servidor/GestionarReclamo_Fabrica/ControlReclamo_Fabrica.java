@@ -7,13 +7,15 @@ import java.util.Collection;
 import java.util.Vector;
 
 import servidor.assembler.PedidoAssembler;
+import servidor.assembler.Pedido_PiezaAssembler;
 import servidor.assembler.PiezaAssembler;
 import servidor.assembler.Reclamo_FabricaAssembler;
 import servidor.assembler.UsuarioAssembler;
 import servidor.persistencia.AccesoBD;
+import servidor.persistencia.dominio.Pedido_Pieza;
 import servidor.persistencia.dominio.Reclamo_Fabrica;
-
 import common.DTOs.PedidoDTO;
+import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.PiezaDTO;
 import common.DTOs.Reclamo_FabricaDTO;
 import common.GestionarReclamo_Fabrica.IControlReclamo_Fabrica;
@@ -233,6 +235,27 @@ public class ControlReclamo_Fabrica extends UnicastRemoteObject implements ICont
 			accesoBD.rollbackTransaccion();
 		}
 		return reclamo_FabricaDTO;
+	}
+
+	@Override
+	public Vector<Reclamo_FabricaDTO> obtenerReclamos_Fabrica(PedidoDTO pedidoDTO, PiezaDTO piezaDTO) throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<Reclamo_FabricaDTO> reclamos_FabricaDTO = new Vector<Reclamo_FabricaDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+				
+			String filtro = "pieza.id == "+piezaDTO.getId()+" && pedido == "+pedidoDTO.getId();       
+			Vector<Reclamo_Fabrica> reclamos_Fabrica = new Vector<Reclamo_Fabrica> (accesoBD.buscarPorFiltro(Reclamo_Fabrica.class, filtro));
+			Reclamo_FabricaAssembler reclamo_FabricaAssemb = new Reclamo_FabricaAssembler(accesoBD);
+			for (int i = 0; i < reclamos_Fabrica.size(); i++) {
+				Reclamo_FabricaDTO reclamo_FabricaDTO = reclamo_FabricaAssemb.getReclamo_FabricaDTO(reclamos_Fabrica.elementAt(i));
+				reclamos_FabricaDTO.add(reclamo_FabricaDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return reclamos_FabricaDTO;
 	}
 
 }
