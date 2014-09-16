@@ -58,6 +58,7 @@ import cliente.Recursos.util.Theme;
 import cliente.excellexport.ExportarExcel;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.Orden_ReclamoDTO;
 
 public class GUIGestionarOrden extends JFrame {
@@ -328,7 +329,7 @@ public class GUIGestionarOrden extends JFrame {
 		tfRecurso.setBounds(170, 140, 160, 20);
 		contentPane.add(tfRecurso);
 			
-		cbEstadoReclamo = new JComboBox();
+		cbEstadoReclamo = new JComboBox<String>();
 		cbEstadoReclamo.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cmbEstado_reclamo = new DefaultComboBoxModel<String>(estados_reclamo);
 		cbEstadoReclamo.addItemListener(new ItemListener() {

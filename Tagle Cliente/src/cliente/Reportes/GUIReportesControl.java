@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Vector;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -46,8 +47,11 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
 import cliente.excellexport.ExportarExcel;
+
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.ReclamoDTO;
 
@@ -294,6 +298,7 @@ public class GUIReportesControl extends JFrame{
 		initialize();
 	}
 
+	@SuppressWarnings({ "unused", "deprecation" })
 	private void cargarDatos() {
 		Vector<Pedido_PiezaDTO> pedidos_piezas = mediador.obtenerPedido_Piezas();
 		int chico = 100;
@@ -699,7 +704,6 @@ public class GUIReportesControl extends JFrame{
 			}
 			if(fcierre!=null && frecurso!=null){
 				final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día 
-				@SuppressWarnings("deprecation")
 				Calendar calendar = new GregorianCalendar(frecurso.getYear(), frecurso.getMonth()-1, frecurso.getDay());
 				long diferencia = (frecurso.getTime() - fcierre.getTime())/MILLSECS_PER_DAY;
 				row.add(String.valueOf(diferencia));
@@ -714,6 +718,7 @@ public class GUIReportesControl extends JFrame{
 		////////////////// FIN	/////////////////
 	}
 	
+	@SuppressWarnings({ "unused", "deprecation" })
 	private void cargarLineaDDFSF(Pedido_PiezaDTO pedido_pieza){
 		if(pedido_pieza.getFecha_solicitud_fabrica()!=null && pedido_pieza.getFecha_recepcion_fabrica()==null){
 			Vector<String> row = new Vector<String> ();
@@ -736,7 +741,6 @@ public class GUIReportesControl extends JFrame{
 				row.add(format2.format(fsf));//Fecha Solicitud Fabrica
 				final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día 
 				java.util.Date hoy = new Date(); //Fecha de hoy 
-				@SuppressWarnings("deprecation")
 				Calendar calendar = new GregorianCalendar(fsf.getYear(), fsf.getMonth()-1, fsf.getDay());
 				long diferencia = ( hoy.getTime() - fsf.getTime() )/MILLSECS_PER_DAY;
 				row.add(String.valueOf(diferencia));	
@@ -747,6 +751,7 @@ public class GUIReportesControl extends JFrame{
 			datosTabla_dias_desde_fsf.add(row);
 		}
 	}
+	@SuppressWarnings({ "unused", "deprecation" })
 	private void cargarLineaDDFRF(Pedido_PiezaDTO pedido_pieza){
 		boolean resp = false;
 		if (mediador.esEntidad(pedido_pieza.getPedido().getReclamo().getRegistrante())){
@@ -781,7 +786,6 @@ public class GUIReportesControl extends JFrame{
 					row.add(format2.format(frf));//Fecha Recepcion Fabrica
 					final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día 
 					java.util.Date hoy = new Date(); //Fecha de hoy 
-					@SuppressWarnings("deprecation")
 					Calendar calendar = new GregorianCalendar(frf.getYear(), frf.getMonth()-1, frf.getDay());
 					long diferencia = ( hoy.getTime() - frf.getTime() )/MILLSECS_PER_DAY;
 					row.add(String.valueOf(diferencia));
@@ -792,6 +796,7 @@ public class GUIReportesControl extends JFrame{
 				datosTabla_dias_desde_frf.add(row);
 			}
 	}
+	@SuppressWarnings({ "unused", "deprecation" })
 	private void cargarLineaDDFCFT(Pedido_PiezaDTO pedido_pieza){
 		if(pedido_pieza.getPedido().getReclamo().getOrden().getFecha_cierre()!=null && (pedido_pieza.getPedido().getReclamo().getFecha_turno()!=null)){
 			Vector<String> row = new Vector<String> ();
@@ -825,7 +830,6 @@ public class GUIReportesControl extends JFrame{
 			}
 			if(fturno!=null && fcierre!=null){
 				final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día 
-				@SuppressWarnings("deprecation")
 				Calendar calendar = new GregorianCalendar(fturno.getYear(), fturno.getMonth()-1, fturno.getDay());
 				long diferencia = ( fcierre.getTime() - fturno.getTime() )/MILLSECS_PER_DAY;
 				row.add(String.valueOf(diferencia));
@@ -835,6 +839,7 @@ public class GUIReportesControl extends JFrame{
 			datosTabla_dias_desde_fcierre_fturno.add(row);
 		}
 	}
+	@SuppressWarnings({ "unused", "deprecation" })
 	private void cargarLineaDDFRFC(Pedido_PiezaDTO pedido_pieza){
 		if(pedido_pieza.getPedido().getReclamo().getOrden().getFecha_cierre()!=null && pedido_pieza.getPedido().getReclamo().getOrden()!=null && pedido_pieza.getPedido().getReclamo().getOrden().getRecurso()!=null && pedido_pieza.getPedido().getReclamo().getOrden().getRecurso().getFecha_recurso()!=null ){
 			Vector<String> row = new Vector<String> ();			
@@ -870,7 +875,6 @@ public class GUIReportesControl extends JFrame{
 			}
 			if(frecurso!=null && fcierre!=null){
 				final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día 
-				@SuppressWarnings("deprecation")
 				Calendar calendar = new GregorianCalendar(frecurso.getYear(), frecurso.getMonth()-1, frecurso.getDay());
 				long diferencia = ( fcierre.getTime() - frecurso.getTime() )/MILLSECS_PER_DAY;
 				row.add(String.valueOf(diferencia));
@@ -880,6 +884,7 @@ public class GUIReportesControl extends JFrame{
 			datosTabla_dias_desde_frecurso_fcierre.add(row);
 		}
 	}
+	@SuppressWarnings({ "unused", "deprecation" })
 	private void cargarLineaDDFRFFT(Pedido_PiezaDTO pedido_pieza){
 		boolean resp = false;
 		if (mediador.esEntidad(pedido_pieza.getPedido().getReclamo().getRegistrante())){
@@ -928,7 +933,6 @@ public class GUIReportesControl extends JFrame{
 			}
 			if(fturno!=null && frf!=null){
 				final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día 
-				@SuppressWarnings("deprecation")
 				Calendar calendar = new GregorianCalendar(fturno.getYear(), fturno.getMonth()-1, fturno.getDay());
 				long diferencia = (fturno.getTime() -  frf.getTime() )/MILLSECS_PER_DAY;
 				row.add(String.valueOf(diferencia));
@@ -938,6 +942,7 @@ public class GUIReportesControl extends JFrame{
 			datosTabla_dias_desde_frf_fturno.add(row);
 		}
 	}
+	@SuppressWarnings({ "unused", "deprecation" })
 	private void cargarLineaDDFRFD(Pedido_PiezaDTO pedido_pieza){
 		if(pedido_pieza.getPedido().getReclamo().getFecha_reclamo()!=null && pedido_pieza.getFecha_solicitud_fabrica()!=null && 
 				pedido_pieza.getFecha_recepcion_fabrica()!=null && pedido_pieza.getDevolucion_pieza()!=null && pedido_pieza.getDevolucion_pieza().getFecha_devolucion()!=null){
@@ -978,7 +983,6 @@ public class GUIReportesControl extends JFrame{
 			}
 			if(fdf!=null && freclamo!=null){
 				final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día 
-				@SuppressWarnings("deprecation")
 				Calendar calendar = new GregorianCalendar(fdf.getYear(), fdf.getMonth()-1, fdf.getDay());
 				long diferencia = (fdf.getTime() - freclamo.getTime())/MILLSECS_PER_DAY;
 				row.add(String.valueOf(diferencia));

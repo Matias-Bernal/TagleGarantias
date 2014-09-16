@@ -73,13 +73,13 @@ public class CircularGlossyButton extends JButton {
 
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g.create();
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		int h = getHeight();
-		int w = getWidth();
 		int height = getHeight();
 
 		Color textColor = null;

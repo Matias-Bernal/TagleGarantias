@@ -46,7 +46,6 @@ import javax.swing.table.TableRowSorter;
 import cliente.excellexport.ExportarExcel;
 
 import com.toedter.calendar.JDateChooser;
-import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.ReclamoDTO;
 
 public class GUIReporteRecurso_CierreOrden extends JFrame{
@@ -84,9 +83,8 @@ public class GUIReporteRecurso_CierreOrden extends JFrame{
 		initialize();
 	}
 
+	@SuppressWarnings("unused")
 	private void cargarDatos() {
-		Vector<Pedido_PiezaDTO> pedidos_piezas = mediador.obtenerPedido_Piezas();
-		int chico = 100;
 		int mediano = 150;
 		int grande = 230;
 		//TABLA FECHA RECURSO - FECHA CIERRE///

@@ -48,6 +48,7 @@ import cliente.Recursos.util.Theme;
 import cliente.Recursos.util.TransparentPanel;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.OrdenDTO;
 import common.DTOs.PiezaDTO;
 import common.DTOs.ProveedorDTO;
@@ -132,16 +133,16 @@ public class GUIAltaReclamoRapido extends JFrame{
 	private JButton btn_Quitar_Pieza_R;
 	private JButton btnAgregar_Pieza_R;
 	private JDateChooser dCFSP_R;
-	private JComboBox cB_Piezas_R;
-	private JComboBox cb_proveedor_R;
+	private JComboBox<String> cB_Piezas_R;
+	private JComboBox<String> cb_proveedor_R;
 	private JTextArea taDesc_Pieza_R;
 	private JTextField tf_Num_Pedido_A;
 	private JTextField tfNumero_Pieza_A;
 	private JDateChooser dcFSP_A;
-	private JComboBox cbPiezas_A;
+	private JComboBox<String> cbPiezas_A;
 	private JButton btnAgregar_PiezaA;
 	private JButton btnQuitar_Piezas_A;
-	private JComboBox cbProveedores_A;
+	private JComboBox<String> cbProveedores_A;
 	private JTextArea tADesc_Pieza_A;
 	private Vector<String> proveedores;
 	private DefaultComboBoxModel<String> cmbProveedor_A;
@@ -628,7 +629,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 		dCFSP_R.setBounds(154, 35, 163, 20);
 		selectPiezasEntidad.add(dCFSP_R);
 		
-		cB_Piezas_R = new JComboBox();
+		cB_Piezas_R = new JComboBox<String>();
 		cB_Piezas_R.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cB_Piezas_R.setBounds(154, 60, 163, 20);
 		selectPiezasEntidad.add(cB_Piezas_R);
@@ -678,7 +679,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 		tfNumero_Pieza_R.setBounds(154, 85, 163, 20);
 		selectPiezasEntidad.add(tfNumero_Pieza_R);
 		
-		cb_proveedor_R = new JComboBox();
+		cb_proveedor_R = new JComboBox<String>();
 		cb_proveedor_R.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cmbProveedor_R = new DefaultComboBoxModel<String>(proveedores);
 		cb_proveedor_R.setModel(cmbProveedor_R);
@@ -1188,7 +1189,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 		dcFSP_A.setBounds(154, 35, 163, 20);
 		selectPiezasAgente.add(dcFSP_A);
 		
-		cbPiezas_A = new JComboBox();
+		cbPiezas_A = new JComboBox<String>();
 		cbPiezas_A.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cbPiezas_A.setBounds(154, 60, 163, 20);
 		selectPiezasAgente.add(cbPiezas_A);
@@ -1238,7 +1239,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 		tfNumero_Pieza_A.setBounds(154, 85, 163, 20);
 		selectPiezasAgente.add(tfNumero_Pieza_A);
 		
-		cbProveedores_A = new JComboBox();
+		cbProveedores_A = new JComboBox<String>();
 		cbProveedores_A.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cbProveedores_A.setModel(cmbProveedor_A);
 		cbProveedores_A.setBounds(154, 110, 163, 20);
@@ -1429,6 +1430,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 		return res;
 	}
 
+	@SuppressWarnings("unused")
 	protected void crearReclamoEntidad() {
 		if (chequearCamposEntidad()){
 			JOptionPane.showMessageDialog(this,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
@@ -1472,6 +1474,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 				);
 		return res;
 	}
+	@SuppressWarnings("unused")
 	protected void crearReclamoAgente() {
 		if (chequearCamposAgente()){
 			JOptionPane.showMessageDialog(this,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);

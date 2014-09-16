@@ -476,7 +476,6 @@ public class MediadorReclamo {
 
 	public void verRegistrante(String id_reclamo) {
 		IControlReclamo iControlReclamo= MediadorAccionesIniciarPrograma.getControlReclamo();
-		IControlReclamante iControlReclamante = MediadorAccionesIniciarPrograma.getControlReclamante();
 		try {
 			if (iControlReclamo.existeReclamo(new Long(id_reclamo))){
 				ReclamoDTO reclamo =iControlReclamo.buscarReclamo(new Long(id_reclamo));

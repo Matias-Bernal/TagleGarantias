@@ -45,6 +45,7 @@ import javax.swing.table.TableRowSorter;
 import cliente.excellexport.ExportarExcel;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.Pedido_PiezaDTO;
 
 public class GUIReporteDiasDesdeRecepcionFabrica extends JFrame{
@@ -79,6 +80,7 @@ public class GUIReporteDiasDesdeRecepcionFabrica extends JFrame{
 		initialize();
 	}
 
+	@SuppressWarnings({ "unused", "deprecation" })
 	private void cargarDatos() {
 		Vector<Pedido_PiezaDTO> pedidos_piezas = mediador.obtenerPedido_Piezas();
 		int chico = 100;
@@ -146,7 +148,6 @@ public class GUIReporteDiasDesdeRecepcionFabrica extends JFrame{
 						row.add(format2.format(frf));//Fecha Recepcion Fabrica
 						final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día 
 						java.util.Date hoy = new Date(); //Fecha de hoy 
-						@SuppressWarnings("deprecation")
 						Calendar calendar = new GregorianCalendar(frf.getYear(), frf.getMonth()-1, frf.getDay());
 						long diferencia = ( hoy.getTime() - frf.getTime() )/MILLSECS_PER_DAY;
 						row.add(String.valueOf(diferencia));

@@ -13,22 +13,28 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *********************************************************/
 package cliente;
-public class Main extends Thread {  
+public class Main extends Thread { 
+	
+	private static  MediadorPrincipal mediadorPrinciapal;
   
     public static void main(String[] args) throws Exception {
-    	String conf = "";
-        if (args.length > 0) {
-            conf = args[0];
-        }
-        MediadorPrincipal mp = new MediadorPrincipal();
+    	setMediadorPrinciapal(new MediadorPrincipal());
     }
     
 	@Override
 	public void run (){
 		try {
-			MediadorPrincipal mp = new MediadorPrincipal();
+			mediadorPrinciapal = new MediadorPrincipal();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static MediadorPrincipal getMediadorPrinciapal() {
+		return mediadorPrinciapal;
+	}
+
+	public static void setMediadorPrinciapal(MediadorPrincipal mediadorPrinciapal) {
+		Main.mediadorPrinciapal = mediadorPrinciapal;
 	}
 }

@@ -40,6 +40,7 @@ import cliente.Recursos.util.JPanel_Whit_Image;
 import cliente.Recursos.util.Theme;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.PiezaDTO;
 import common.DTOs.ProveedorDTO;
 import common.DTOs.ReclamoDTO;
@@ -58,8 +59,8 @@ public class GUIAltaPedidoEntidad extends JFrame {
 	private JLabel lblNumeroPieza;
 	private JTextField tfNumero_Pieza;
 	private JTextArea taDescripcion;
-	private JComboBox cb_proveedor;
-	private JComboBox cbPiezas;
+	private JComboBox<String> cb_proveedor;
+	private JComboBox<String> cbPiezas;
 	private JButton btnAgregar;
 	private JButton btnQuitar;
 	
@@ -152,7 +153,7 @@ public class GUIAltaPedidoEntidad extends JFrame {
 		lblPiezas.setBounds(0, 103, 130, 20);
 		contentPane.add(lblPiezas);
 		
-		cbPiezas = new JComboBox();
+		cbPiezas = new JComboBox<String>();
 		cbPiezas.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cmbPieza = new DefaultComboBoxModel<String>(numeros_piezas);
 		cbPiezas.setModel(cmbPieza);
@@ -221,7 +222,7 @@ public class GUIAltaPedidoEntidad extends JFrame {
 		lblProveedor.setBounds(0, 165, 130, 20);
 		contentPane.add(lblProveedor);
 		
-		cb_proveedor = new JComboBox();
+		cb_proveedor = new JComboBox<String>();
 		cb_proveedor.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cmbProveedor = new DefaultComboBoxModel<String>(proveedores);
 		cb_proveedor.setModel(cmbProveedor);
@@ -254,6 +255,7 @@ public class GUIAltaPedidoEntidad extends JFrame {
 		contentPane.setVisible(true);
 	}
 		
+	@SuppressWarnings("unused")
 	protected void crear() {
 		if(tfNumero_Pedido.getText().isEmpty()||fecha_solicitud_pedido.getDate()==null||tfReclamo.getText().isEmpty()|| cbPiezas.getItemCount()<1){
 			JOptionPane.showMessageDialog(this,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);

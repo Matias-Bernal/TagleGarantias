@@ -141,9 +141,9 @@ public class GUIAltaRegistrante extends JFrame {
 		tiposRegistrantes.add("Agente");
 		tiposRegistrantes.add("Entidad");
 		
-		comboBox = new JComboBox();
+		comboBox = new JComboBox<String>();
 		comboBox.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		comboBox.setModel(new DefaultComboBoxModel(tiposRegistrantes));
+		comboBox.setModel(new DefaultComboBoxModel<String>(tiposRegistrantes));
 		comboBox.setBounds(155, 41, 230, 20);
 		contentPane.add(comboBox);
 

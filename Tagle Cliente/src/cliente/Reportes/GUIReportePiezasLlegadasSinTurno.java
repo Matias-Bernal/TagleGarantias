@@ -44,6 +44,7 @@ import javax.swing.table.TableRowSorter;
 import cliente.excellexport.ExportarExcel;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.Pedido_PiezaDTO;
 
 public class GUIReportePiezasLlegadasSinTurno extends JFrame {
@@ -374,6 +375,7 @@ public class GUIReportePiezasLlegadasSinTurno extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarPorIntervaloPLLST() {
 		if(dC_FI_PLLST.getDate()!=null && dC_FF_PLLST.getDate()!=null){
 			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
@@ -475,6 +477,7 @@ public class GUIReportePiezasLlegadasSinTurno extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarMesPasadoPLLST() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -527,7 +530,7 @@ public class GUIReportePiezasLlegadasSinTurno extends JFrame {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "static-access" })
 	protected void filtrarUMes() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -576,6 +579,7 @@ public class GUIReportePiezasLlegadasSinTurno extends JFrame {
 		}	
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarSemanaPLLST() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();

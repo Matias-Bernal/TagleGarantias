@@ -31,6 +31,7 @@ public class IniFile {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Set keySet(){
 		return p.keySet();
 	}

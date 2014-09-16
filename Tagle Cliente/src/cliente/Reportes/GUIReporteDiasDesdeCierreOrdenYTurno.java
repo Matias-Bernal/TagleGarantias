@@ -44,6 +44,7 @@ import javax.swing.table.TableRowSorter;
 import cliente.excellexport.ExportarExcel;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.Pedido_PiezaDTO;
 
 public class GUIReporteDiasDesdeCierreOrdenYTurno extends JFrame{
@@ -78,6 +79,7 @@ public class GUIReporteDiasDesdeCierreOrdenYTurno extends JFrame{
 		initialize();
 	}
 
+	@SuppressWarnings("unused")
 	private void cargarDatos() {
 		Vector<Pedido_PiezaDTO> pedidos_piezas = mediador.obtenerPedido_Piezas();
 		int chico = 100;

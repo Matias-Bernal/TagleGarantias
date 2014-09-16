@@ -45,6 +45,7 @@ import javax.swing.table.TableRowSorter;
 import cliente.excellexport.ExportarExcel;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.ReclamoDTO;
 
@@ -1924,6 +1925,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarPorIntervaloSDPSN() {
 		if(dC_FI_PSNP.getDate()!=null && dC_FF_PSNP.getDate()!=null){
 			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
@@ -2037,6 +2039,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtarMesPasadoSDPSN() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -2098,7 +2101,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "static-access" })
 	protected void filtrarMesSDPSN() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -2155,6 +2158,7 @@ public class GUIReportesGestion extends JFrame {
 		}	
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarUSemanaSDPSN() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -2277,6 +2281,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarPorIntervaloOSSDP() {
 		if(dC_FI_OSSDP.getDate()!=null && dC_FF_OSSDP.getDate()!=null){
 			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
@@ -2383,6 +2388,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarMesAnteriorOSSDP() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -2440,7 +2446,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "static-access" })
 	protected void filtrarUMesOSSDP() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -2493,6 +2499,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarUSemanaOSSDP() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -2607,6 +2614,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarPorIntervaloPLLST() {
 		if(dC_FI_PLLST.getDate()!=null && dC_FF_PLLST.getDate()!=null){
 			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
@@ -2736,6 +2744,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarMesPasadoPLLST() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -2805,7 +2814,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "static-access" })
 	protected void filtrarUMes() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -2872,6 +2881,7 @@ public class GUIReportesGestion extends JFrame {
 		}	
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarSemanaPLLST() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -3012,6 +3022,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 	
+	@SuppressWarnings("static-access")
 	protected void filtrarMPasadoSLL() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -3138,7 +3149,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "static-access" })
 	protected void filtrarMesSLL() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -3200,6 +3211,7 @@ public class GUIReportesGestion extends JFrame {
 		}		
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarSemanaSLL() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -3322,6 +3334,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarIntervaloSLL() {
 		if(dC_FI_SLL.getDate()!=null && dC_FF_SLL.getDate()!=null){
 			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
@@ -3460,7 +3473,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "static-access" })
 	protected void filtrarUMesPDev() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -3539,6 +3552,7 @@ public class GUIReportesGestion extends JFrame {
 		}	
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarManteriorPDev() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -3621,6 +3635,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarUSemanaPDev() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -3778,6 +3793,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarInervaloPDev() {
 		if(dC_FI_PD.getDate()!=null && dC_FF_PD.getDate()!=null){
 			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
@@ -3939,7 +3955,7 @@ public class GUIReportesGestion extends JFrame {
 		}		
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "static-access" })
 	protected void filtrarUMesPLL() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -4007,6 +4023,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarUSemanaPLL() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		
@@ -4142,6 +4159,7 @@ public class GUIReportesGestion extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarMesAnteriorPLL() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -4213,6 +4231,7 @@ public class GUIReportesGestion extends JFrame {
 		}		
 	}
 	
+	@SuppressWarnings("static-access")
 	private void filtrarIntervaloPLL() {
 		if(dC_FInicioPLL.getDate()!=null && dC_FFinPLL.getDate()!=null){
 			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");

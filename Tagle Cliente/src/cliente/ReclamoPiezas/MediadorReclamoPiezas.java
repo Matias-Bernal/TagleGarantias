@@ -143,6 +143,7 @@ public class MediadorReclamoPiezas {
 		return res;
 	}
 	
+	@SuppressWarnings("unused")
 	public Date obtenerUltimoReclamoFabrica(Pedido_PiezaDTO pedido_pieza) {
 		Date fecha_ultimo_reclamoFabrica = null;
 		IControlReclamo_Fabrica iControlReclamo_Fabrica = MediadorAccionesIniciarPrograma.getControlReclamo_Fabrica();
@@ -162,6 +163,7 @@ public class MediadorReclamoPiezas {
 		return fecha_ultimo_reclamoFabrica;
 	}
 	
+	@SuppressWarnings("unused")
 	public Date obtenerUltimoReclamoAgente(Pedido_PiezaDTO pedido_pieza) {
 		Date fecha_ultimo_reclamoAgente = null;
 		IControlReclamo_Agente iControlReclamo_Agente = MediadorAccionesIniciarPrograma.getControlReclamo_Agente();

@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Vector;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -39,8 +40,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
 import cliente.excellexport.ExportarExcel;
+
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.Pedido_PiezaDTO;
 
 public class GUIReportePiezasLlegadas extends JFrame {
@@ -428,7 +432,7 @@ public class GUIReportePiezasLlegadas extends JFrame {
 		}		
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "static-access" })
 	protected void filtrarUMesPLL() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -477,6 +481,7 @@ public class GUIReportePiezasLlegadas extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarUSemanaPLL() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -575,6 +580,7 @@ public class GUIReportePiezasLlegadas extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	protected void filtrarMesAnteriorPLL() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -627,6 +633,7 @@ public class GUIReportePiezasLlegadas extends JFrame {
 		}		
 	}
 	
+	@SuppressWarnings("static-access")
 	private void filtrarIntervaloPLL() {
 		if(dC_FInicioPLL.getDate()!=null && dC_FFinPLL.getDate()!=null){
 			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");

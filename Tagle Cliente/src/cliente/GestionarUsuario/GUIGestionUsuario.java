@@ -413,9 +413,7 @@ public class GUIGestionUsuario extends JFrame {
 
 		nombreColumnas = new Vector<String> ();
 		anchos = new Vector<Integer>();
-		
-		int chico = 100;
-		int mediano = 150;
+
 		int grande = 227;
 		
 		nombreColumnas.add("ID Usuario");

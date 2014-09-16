@@ -50,7 +50,7 @@ public class MediadorEjecutarNotificacion extends Thread {
 		guiNotificacion = new GUINotificacion(this,notificacion_reclamo.getNotificacion().getTipo_notificacion(),notificacion_reclamo.getNotificacion().getTexto_notificacion());
 	}
 	
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "static-access" })
 	@Override
 	public void run (){
 		try {

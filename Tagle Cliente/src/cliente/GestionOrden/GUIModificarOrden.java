@@ -37,6 +37,7 @@ import cliente.Recursos.util.JPanel_Whit_Image;
 import cliente.Recursos.util.Theme;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.OrdenDTO;
 import common.DTOs.RecursoDTO;
 
@@ -223,6 +224,7 @@ public class GUIModificarOrden extends JFrame {
 		contentPane.setVisible(true);
 	}
 		
+	@SuppressWarnings("unused")
 	protected void modificarOrden(){
 		if (tfNumero_Orden.getText().isEmpty() || fecha_apertura.getDate()==null){
 			JOptionPane.showMessageDialog(contentPane,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);

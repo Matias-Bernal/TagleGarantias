@@ -59,6 +59,7 @@ import cliente.Recursos.util.Theme;
 import cliente.excellexport.ExportarExcel;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.EntidadDTO;
 import common.DTOs.ReclamoDTO;
 
@@ -69,7 +70,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 	private JPanel contentPane;
 	
 	private MediadorReclamo mediador;
-	private JComboBox entidad;
+	private JComboBox<String> entidad;
 	private JDateChooser fecha_reclamo;
 	private JDateChooser fecha_llamado_turno;
 	private JDateChooser fecha_turno;
@@ -79,11 +80,11 @@ public class GUIGestionReclamoEntidad extends JFrame {
 	private JTextField dominio;
 	private JTextField vin;
 	private JTextField numero_orden;
-	private JComboBox estado_reclamo;
+	private JComboBox<String> estado_reclamo;
 	private DefaultTableModel modelo;
 	private JTable tablaReclamo;
 	private Vector<Vector<String>> datosTabla;
-	private Vector nombreColumnas;
+	private Vector<String> nombreColumnas;
 	private Vector<String> entidades;
 	private Vector<String> estados_reclamo;
 	private DefaultComboBoxModel<String> cmbEstado_reclamo;
@@ -117,7 +118,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 		lblEntidad.setBounds(10, 10, 130, 20);
 		contentPane.add(lblEntidad);
 		
-		entidad = new JComboBox();
+		entidad = new JComboBox<String>();
 		entidad.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cmbEntidad = new DefaultComboBoxModel<String>(entidades);
 		entidad.addItemListener(new ItemListener() {
@@ -167,7 +168,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 		lblEstadoReclamo.setBounds(350, 10, 130, 20);
 		contentPane.add(lblEstadoReclamo);
 		
-		estado_reclamo = new JComboBox();
+		estado_reclamo = new JComboBox<String>();
 		estado_reclamo.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cmbEstado_reclamo = new DefaultComboBoxModel<String>(estados_reclamo);
 		estado_reclamo.addItemListener(new ItemListener() {

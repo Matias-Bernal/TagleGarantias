@@ -41,6 +41,7 @@ import cliente.Recursos.util.JPanel_Whit_Image;
 import cliente.Recursos.util.Theme;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.EntidadDTO;
 import common.DTOs.OrdenDTO;
 import common.DTOs.ReclamanteDTO;
@@ -314,6 +315,7 @@ public class GUIAltaReclamoEntidad extends JFrame{
 		tfNumeroOrden.setText(orden.getNumero_orden()+" [ID: "+orden.getId()+"]");
 	}
 	
+	@SuppressWarnings("unused")
 	protected void nuevoReclamoEntidad() {
 		if (entidad == null || reclamante == null || vehiculo==null || orden==null || dp_fecha_reclamo.getDate()==null){
 			JOptionPane.showMessageDialog(contentPane,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);

@@ -47,6 +47,7 @@ import cliente.Recursos.util.Theme;
 import cliente.Recursos.util.TransparentPanel;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.BdgDTO;
 import common.DTOs.Devolucion_PiezaDTO;
 import common.DTOs.Mano_ObraDTO;
@@ -88,11 +89,11 @@ public class GUIModificarPedidoEntidad extends JFrame {
 	private JCheckBox cbxPropio;
 	private JCheckBox cbxStrock;
 	
-	private JComboBox cbPiezas;
+	private JComboBox<String> cbPiezas;
 	private DefaultComboBoxModel<String> cmbPiezas;
 	private Vector<String> numeros_piezas;
 
-	private JComboBox cbProveedor;
+	private JComboBox<String> cbProveedor;
 	private DefaultComboBoxModel<String> cmbProveedor;
 	private Vector<String> proveedores;
 
@@ -234,7 +235,7 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		panel_piezas.add(lblPiezas);
 		lblPiezas.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		cbPiezas = new JComboBox();
+		cbPiezas = new JComboBox<String>();
 		cbPiezas.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cbPiezas.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
@@ -305,7 +306,7 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		tfNum_Pieza.setBounds(140, 70, 160, 20);
 		panel_piezas.add(tfNum_Pieza);
 		
-		cbProveedor = new JComboBox();
+		cbProveedor = new JComboBox<String>();
 		cbProveedor.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cmbProveedor = new DefaultComboBoxModel<String>(proveedores);
 		cbProveedor.setModel(cmbProveedor);
@@ -682,6 +683,7 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		contentPane.setVisible(true);	
 	}
 
+	@SuppressWarnings("unused")
 	protected void modificarPieza() {
 		if (tfNum_Pieza.getText().isEmpty() || cbProveedor.getSelectedItem()==null){
 			JOptionPane.showMessageDialog(this,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);

@@ -263,7 +263,6 @@ public class MediadoReclamoRapido {
 		boolean res = false;
 		RegistranteDTO registrante = new RegistranteDTO();
 		ReclamanteDTO reclamante = new ReclamanteDTO();
-		MTelefonoDTO mTelefono = new MTelefonoDTO();
 		VehiculoDTO vehiculo = new VehiculoDTO();
 		MarcaDTO marca = new MarcaDTO();
 		ModeloDTO modelo = new ModeloDTO();

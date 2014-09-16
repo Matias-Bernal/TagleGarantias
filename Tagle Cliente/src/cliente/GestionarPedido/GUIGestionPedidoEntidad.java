@@ -59,6 +59,7 @@ import cliente.Recursos.util.TransparentPanel;
 import cliente.excellexport.ExportarExcel;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.EntidadDTO;
 import common.DTOs.Pedido_PiezaDTO;
 
@@ -96,13 +97,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 	private JTextField tfRemito;
 	private JTextField tfVin;
 	private JDateChooser dc_fReclamo;
-	private JComboBox cBEstadoPedido;
+	private JComboBox<String> cBEstadoPedido;
 	private JDateChooser dc_fsp;
 	private JDateChooser dc_fturno;
 	private JDateChooser dCFSF;
 	private JDateChooser dCFRF;
 	private JDateChooser dcFEF;
-	private JComboBox cbentidad;
+	private JComboBox<String> cbentidad;
 
 	private Vector<String> estados_pedidos;
 
@@ -322,7 +323,7 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		dc_fturno.setBounds(135, 110, 128, 20);
 		primer_panel.add(dc_fturno);
 		
-		cBEstadoPedido = new JComboBox();
+		cBEstadoPedido = new JComboBox<String>();
 		cBEstadoPedido.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cmbEstadoPedido = new DefaultComboBoxModel<String>(estados_pedidos);
 		cBEstadoPedido.addItemListener(new ItemListener() {
@@ -356,7 +357,7 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		primer_panel.add(lbl_nom_registrante);
 		lbl_nom_registrante.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		cbentidad = new JComboBox();
+		cbentidad = new JComboBox<String>();
 		cbentidad.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cmbcbentidad = new DefaultComboBoxModel<String>(entidades);
 		cbentidad.setModel(cmbcbentidad);

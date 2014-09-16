@@ -37,7 +37,6 @@ import cliente.GestionarVehiculo.MediadorVehiculo;
 import cliente.ReclamoPiezas.MediadorReclamoPiezas;
 import cliente.ReclamoRapido.MediadoReclamoRapido;
 import cliente.Reportes.MediadorReportes;
-
 import common.RootAndIp;
 import common.DTOs.MTelefonoDTO;
 import common.DTOs.NotificacionDTO;
@@ -51,6 +50,7 @@ import common.GestionarPedido_Pieza.IControlPedido_Pieza;
 import common.GestionarUsuario.IControlUsuario;
 
 
+@SuppressWarnings("unused")
 public class MediadorPrincipal{
 
 	protected GUIMenu_Principal gui_menu_Principal;
@@ -344,8 +344,6 @@ public class MediadorPrincipal{
 	private Vector<Notificacion_ReclamoDTO> cargarNotificaciones(Date hoy) {
 		Vector<Notificacion_ReclamoDTO> notificaciones = new Vector<Notificacion_ReclamoDTO>();
 		Vector<Notificacion_ReclamoDTO> notificacionesGuardadas = new Vector<Notificacion_ReclamoDTO>();
-		Vector<Pedido_PiezaDTO> pedidos_piezas = new Vector<Pedido_PiezaDTO>();
-		IControlNotificacion iControlNotificacion = MediadorAccionesIniciarPrograma.getControlNotificacion();
 		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();
 		IControlNotificacion_Reclamo iControlNotificacion_Reclamo = MediadorAccionesIniciarPrograma.getControlNotificacion_Reclamo();
 		IControlMTelefono iControlMTelefono = MediadorAccionesIniciarPrograma.getControlMTelefono();

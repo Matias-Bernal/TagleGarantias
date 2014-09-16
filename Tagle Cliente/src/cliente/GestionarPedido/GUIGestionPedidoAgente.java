@@ -107,11 +107,11 @@ public class GUIGestionPedidoAgente extends JFrame{
 	private JDateChooser dCFRA;
 	private JDateChooser dCFR;
 
-	private JComboBox cBAgentes;
+	private JComboBox<String> cBAgentes;
 	private Vector<String> agentes;
 	private DefaultComboBoxModel<String> cmbAgentes;
 
-	private JComboBox cBEstadoPedido;
+	private JComboBox<String> cBEstadoPedido;
 	private Vector<String> estados_pedidos;
 	private DefaultComboBoxModel<String> cmbEstadoPedido;
 	private JButton btnExportarTabla;
@@ -316,7 +316,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 		primer_panel.add(lblEstadoPedido);
 		lblEstadoPedido.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		cBEstadoPedido = new JComboBox();
+		cBEstadoPedido = new JComboBox<String>();
 		cBEstadoPedido.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cmbEstadoPedido = new DefaultComboBoxModel<String>(estados_pedidos);
 		cBEstadoPedido.addItemListener(new ItemListener() {
@@ -334,7 +334,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 		label.setBounds(0, 85, 135, 20);
 		primer_panel.add(label);
 		
-		cBAgentes = new JComboBox();
+		cBAgentes = new JComboBox<String>();
 		cBAgentes.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cmbAgentes = new DefaultComboBoxModel<String>(agentes);
 		cBAgentes.addItemListener(new ItemListener() {

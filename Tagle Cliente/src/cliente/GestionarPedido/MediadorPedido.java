@@ -19,6 +19,7 @@ import java.util.Vector;
 
 import cliente.MediadorAccionesIniciarPrograma;
 import cliente.MediadorPrincipal;
+
 import common.RootAndIp;
 import common.DTOs.AgenteDTO;
 import common.DTOs.BdgDTO;
@@ -47,7 +48,6 @@ import common.GestionarPedido.IControlPedido;
 import common.GestionarPedido_Pieza.IControlPedido_Pieza;
 import common.GestionarPieza.IControlPieza;
 import common.GestionarProveedor.IControlProveedor;
-import common.GestionarReclamante.IControlReclamante;
 import common.GestionarReclamo.IControlReclamo;
 import common.GestionarRegistrante.IControlRegistrante;
 
@@ -432,7 +432,6 @@ public class MediadorPedido {
 
 	public void verRegistrante(String id_pedido) {
 		IControlPedido iControlPedido = MediadorAccionesIniciarPrograma.getControlPedido();
-		IControlReclamante iControlReclamante = MediadorAccionesIniciarPrograma.getControlReclamante();
 		try {
 			PedidoDTO pedido = iControlPedido.buscarPedido(new Long(id_pedido));
 			if (pedido!=null && pedido.getReclamo()!=null && pedido.getReclamo().getReclamante()!=null){

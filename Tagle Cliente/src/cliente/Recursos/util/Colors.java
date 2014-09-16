@@ -55,6 +55,7 @@ public class Colors {
 	 *            end point of the color
 	 * @return list of standard colors
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List getStandardColor(int theme, int startPoint, int endPoint) {
 		List colors = new ArrayList();
 		GradientPaint bgColor = null;
@@ -298,6 +299,7 @@ public class Colors {
 	 *            end point of the color
 	 * @return list of gradient colors
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List getGradientColor(int theme, int startPoint, int endPoint) {
 		List colors = new ArrayList();
 		GradientPaint bgColor = null;
@@ -543,6 +545,7 @@ public class Colors {
 	 *            end point of gradient
 	 * @return list of glossy colors
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List getGlossyColor(int theme, int startPoint, int endpoint) {
 		List glossyColors = new ArrayList();
 		switch (theme) {

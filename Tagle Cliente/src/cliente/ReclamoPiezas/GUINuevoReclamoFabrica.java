@@ -42,7 +42,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import common.RootAndIp;
 import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.UsuarioDTO;
+
 import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 
 public class GUINuevoReclamoFabrica extends JFrame {
@@ -218,6 +220,7 @@ public class GUINuevoReclamoFabrica extends JFrame {
 		}
 		
 	}
+	@SuppressWarnings("unused")
 	protected void llenarFormulario() {
         String archivo="Formulario_SRC.xls";
         Date hoy = new Date();
