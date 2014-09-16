@@ -2,3 +2,7 @@
 .metadata
 .gitignore
 .gitattributes
+Tagle Cliente/bin/
+Tagle Common/bin/
+Tagle Servidor/bin/
+Tagle Servidor/datanucleus.log
