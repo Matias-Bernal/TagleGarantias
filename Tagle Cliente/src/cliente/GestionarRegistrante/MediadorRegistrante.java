@@ -184,7 +184,6 @@ public class MediadorRegistrante {
 			System.out.println("Error al modificar entidad en la clase MediadorRegistrante");
 			e.printStackTrace();
 		}
-		//actualizarDatosGestion();
 		return result;
 	}
 
@@ -194,7 +193,6 @@ public class MediadorRegistrante {
 		try {
 			res =  iControlAgente.existeAgente(new Long(id));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return res;

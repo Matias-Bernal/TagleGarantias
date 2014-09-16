@@ -690,7 +690,7 @@ public class GUIMenu_Principal extends JFrame{
 	}
 
 	public void actualizarTabla(Vector<Notificacion_ReclamoDTO> notificaciones) {
-		datosTabla = new Vector<>();
+		datosTabla = new Vector<Vector<String>>();
 		for(int i =0; i<notificaciones.size();i++){
 			Vector<String> row = new Vector<String> ();
 			

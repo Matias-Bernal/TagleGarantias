@@ -3,12 +3,18 @@ package servidor.GestionarAgente;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Vector;
+
+import javax.jdo.Extent;
+import javax.jdo.Query;
 
 import servidor.assembler.AgenteAssembler;
 import servidor.persistencia.AccesoBD;
 import servidor.persistencia.dominio.Agente;
-
+import servidor.persistencia.dominio.Entidad;
+import servidor.persistencia.dominio.Pedido_Pieza;
+import servidor.persistencia.dominio.Registrante;
 import common.DTOs.AgenteDTO;
 import common.GestionarAgente.IControlAgente;
 
@@ -56,11 +62,18 @@ public class ControlAgente extends UnicastRemoteObject implements IControlAgente
 		AccesoBD accesoBD = new AccesoBD();
 		try {
 			accesoBD.iniciarTransaccion();
-			AgenteAssembler agenteAssemb = new AgenteAssembler(accesoBD);
-			Agente agente = agenteAssemb.getAgente(buscarAgente(id));
 			
-			agente.setNombre_registrante(modificado.getNombre_registrante());
-
+			String filtro = "id == "+modificado.getId().toString();
+			Extent e0 = accesoBD.getPersistencia().getExtent(Agente.class, true);
+			Query q0 = accesoBD.getPersistencia().newQuery(e0, filtro);
+			Collection agentes = (Collection) q0.execute();
+			Iterator iter = agentes.iterator();
+			while (iter.hasNext()){
+				Registrante registrante = (Registrante) iter.next();
+				registrante.setId(registrante.getId());
+				registrante.setNombre_registrante(modificado.getNombre_registrante());	
+				break;
+			}
 			accesoBD.concretarTransaccion();
 		} catch (Exception e) {
 			accesoBD.rollbackTransaccion();
@@ -73,15 +86,16 @@ public class ControlAgente extends UnicastRemoteObject implements IControlAgente
 		Vector<AgenteDTO> agentesDTO = new Vector<AgenteDTO>();
 		try {
 			accesoBD.iniciarTransaccion();
-			@SuppressWarnings("unchecked")
-			Vector<Agente> agentes = new Vector<Agente> (accesoBD.buscarPorFiltro(Agente.class, ""));
-			for (int i = 0; i < agentes.size(); i++) {
-				AgenteDTO agenteDTO = new AgenteDTO();
-				
-				agenteDTO.setId(agentes.elementAt(i).getId());
-				agenteDTO.setNombre_registrante(agentes.elementAt(i).getNombre_registrante());
-				
-				agentesDTO.add(agenteDTO);
+			Extent e0 = accesoBD.getPersistencia().getExtent(Agente.class, true);
+			Query q0 = accesoBD.getPersistencia().newQuery(e0, "");
+			Collection agentes = (Collection) q0.execute();
+			Iterator iter = agentes.iterator();
+			while (iter.hasNext()){
+				Registrante registrante = (Registrante) iter.next();
+				AgenteDTO current = new AgenteDTO(); 
+				current.setId(registrante.getId());
+				current.setNombre_registrante(registrante.getNombre_registrante());
+				agentesDTO.add(current);
 			}
 			accesoBD.concretarTransaccion();
 		} catch (Exception e) {
@@ -93,15 +107,21 @@ public class ControlAgente extends UnicastRemoteObject implements IControlAgente
 	@Override
 	public boolean existeAgente(Long id) throws Exception {
 		AccesoBD accesoBD = new AccesoBD();
-		boolean existe = false;
+		@SuppressWarnings("rawtypes")
+		Collection movCol = null;
 		try {
 			accesoBD.iniciarTransaccion();
-			existe = ((Agente) accesoBD.buscarPorId(Agente.class, id) != null);
+			String filtro = "id == "+id.toString();
+			
+			Extent e0 = accesoBD.getPersistencia().getExtent(Agente.class, true);
+			Query q0 = accesoBD.getPersistencia().newQuery(e0, filtro);
+			movCol = (Collection) q0.execute();
+						
 			accesoBD.concretarTransaccion();
 		} catch (Exception e) {
 			accesoBD.rollbackTransaccion();
 		}
-		return existe;
+		return (movCol != null && movCol.size()>=1);
 	}
 
 	@Override
@@ -112,7 +132,11 @@ public class ControlAgente extends UnicastRemoteObject implements IControlAgente
 		try {
 			accesoBD.iniciarTransaccion();
 			String filtro = "nombre_registrante.equals(\""+nombre_registrante+"\")";
-			movCol = accesoBD.buscarPorFiltro(Agente.class, filtro);
+			
+			Extent e0 = accesoBD.getPersistencia().getExtent(Agente.class, true);
+			Query q0 = accesoBD.getPersistencia().newQuery(e0, filtro);
+			movCol = (Collection) q0.execute();
+						
 			accesoBD.concretarTransaccion();
 		} catch (Exception e) {
 			accesoBD.rollbackTransaccion();
@@ -126,8 +150,18 @@ public class ControlAgente extends UnicastRemoteObject implements IControlAgente
 		AgenteDTO agenteDTO = null;
 		try {
 			accesoBD.iniciarTransaccion();
-			AgenteAssembler agenteAssemb = new AgenteAssembler(accesoBD);
-			agenteDTO = agenteAssemb.getAgenteDTO((Agente) accesoBD.buscarPorId(Agente.class, id));
+			String filtro = "id == "+id.toString();
+			Extent e0 = accesoBD.getPersistencia().getExtent(Agente.class, true);
+			Query q0 = accesoBD.getPersistencia().newQuery(e0, filtro);
+			Collection agentes = (Collection) q0.execute();
+			Iterator iter = agentes.iterator();
+			while (iter.hasNext()){
+				Registrante registrante = (Registrante) iter.next();
+				agenteDTO = new AgenteDTO();
+				agenteDTO.setId(registrante.getId());
+				agenteDTO.setNombre_registrante(registrante.getNombre_registrante());
+				break;
+			}
 			accesoBD.concretarTransaccion();
 		} catch (Exception e) {
 			accesoBD.rollbackTransaccion();
@@ -142,11 +176,16 @@ public class ControlAgente extends UnicastRemoteObject implements IControlAgente
 		try {
 			accesoBD.iniciarTransaccion();
 			String filtro = "nombre_registrante.equals(\""+nombre_registrante+"\")";
-			@SuppressWarnings("rawtypes")
-			Collection movCol = accesoBD.buscarPorFiltro(Agente.class, filtro);
-			AgenteAssembler agenteAssemb = new AgenteAssembler(accesoBD);
-			if (movCol.size()>=1){
-				agenteDTO = agenteAssemb.getAgenteDTO((Agente)(movCol.toArray())[0]);
+			Extent e0 = accesoBD.getPersistencia().getExtent(Agente.class, true);
+			Query q0 = accesoBD.getPersistencia().newQuery(e0, filtro);
+			Collection agentes = (Collection) q0.execute();
+			Iterator iter = agentes.iterator();
+			while (iter.hasNext()){
+				Registrante registrante = (Registrante) iter.next();
+				agenteDTO = new AgenteDTO();
+				agenteDTO.setId(registrante.getId());
+				agenteDTO.setNombre_registrante(registrante.getNombre_registrante());
+				break;
 			}
 			accesoBD.concretarTransaccion();
 		} catch (Exception e) {
