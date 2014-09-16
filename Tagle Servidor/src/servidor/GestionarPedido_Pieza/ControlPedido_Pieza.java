@@ -3767,5 +3767,65 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 		return monto;
 	}
 
+	
+	@Override
+	public Vector<Pedido_PiezaDTO> pedidos_piezas_reclamos_fabrica() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<Pedido_PiezaDTO> pedidos_PiezaDTO = new Vector<Pedido_PiezaDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+			String filtro = "fecha_solicitud_fabrica!=null";
+			Vector<Pedido_Pieza> pedidos_Pieza = new Vector<Pedido_Pieza>();
+			
+			Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
+			Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
+			
+			Collection c = (Collection) q1.execute();
+			Iterator iter = c.iterator();
+			
+			Pedido_PiezaAssembler pedido_PiezaAssemb = new Pedido_PiezaAssembler(accesoBD);
+			while (iter.hasNext()){
+				Pedido_PiezaDTO pedido_PiezaDTO = pedido_PiezaAssemb.getPedido_PiezaDTO((Pedido_Pieza)iter.next());
+				pedidos_PiezaDTO.add(pedido_PiezaDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return pedidos_PiezaDTO;
+	}
+
+	@Override
+	public Vector<Pedido_PiezaDTO> pedidos_piezas_reclamos_agente() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<Pedido_PiezaDTO> pedidos_PiezaDTO = new Vector<Pedido_PiezaDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+			Extent e0 = accesoBD.getPersistencia().getExtent(Agente.class, true);
+			Query q0 = accesoBD.getPersistencia().newQuery(e0, "");
+			Collection agentes = (Collection) q0.execute();
+			String filtro_ = "agentes.contains(pedido.reclamo.registrante) && fecha_solicitud_fabrica!=null && fecha_recepcion_fabrica!=null && fecha_envio_agente!=null";
+			Vector<Pedido_Pieza> pedidos_Pieza = new Vector<Pedido_Pieza>();
+			
+			Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
+			Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro_);
+			q1.declareImports("import java.util.Collection;");
+			q1.declareParameters("Collection agentes");
+			Collection c = (Collection) q1.execute(agentes);
+
+			Iterator iter = c.iterator();
+			
+			Pedido_PiezaAssembler pedido_PiezaAssemb = new Pedido_PiezaAssembler(accesoBD);
+			while (iter.hasNext()){
+				Pedido_PiezaDTO pedido_PiezaDTO = pedido_PiezaAssemb.getPedido_PiezaDTO((Pedido_Pieza)iter.next());
+				pedidos_PiezaDTO.add(pedido_PiezaDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return pedidos_PiezaDTO;
+	}
+
 	// -------------------------------------------------------------------------------------------------- //
 }

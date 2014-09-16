@@ -98,4 +98,6 @@ public interface IControlPedido_Pieza extends Remote{
 	public Triple<Double,Double,Double> anticuacion_devueltas(Date desde, Date hasta) throws Exception;
 	public Cuadruple<Double,Double,Double,Double> monto_devueltas(Date desde, Date hasta) throws Exception;
 	
+	public Vector<Pedido_PiezaDTO> pedidos_piezas_reclamos_fabrica() throws Exception;
+	public Vector<Pedido_PiezaDTO> pedidos_piezas_reclamos_agente() throws Exception;
 }
