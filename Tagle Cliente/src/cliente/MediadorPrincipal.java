@@ -110,8 +110,6 @@ public class MediadorPrincipal{
 				UsuarioDTO usuarioDTO = iControlUsuario.buscarUsuario(usuario);
 				iniciarMenuPrincipal(usuarioDTO);
 				result = true;
-			}else{
-				JOptionPane.showMessageDialog(gui_login,"Usuario o contraseña invalidos.","Error",JOptionPane.ERROR_MESSAGE);
 			}
 		}catch (Exception e){
 			JOptionPane.showMessageDialog(gui_login,"Error de conexion.","Error",JOptionPane.ERROR_MESSAGE);
@@ -126,11 +124,11 @@ public class MediadorPrincipal{
 			notificacionesContencion = true;
 			notificacionesTurnos = true;
 		}else{
-			if(usuario.getTipo().equals("Encargado Repuesto")){
+			//if(usuario.getTipo().equals("Encargado Repuesto")){
 				notificacionesReclamosAgentes = true;
 				notificacionesReclamosFabrica = true;
 				notificacionesSugerencias = true;
-			}
+			//}
 		}
 		gui_menu_Principal = new GUIMenu_Principal(this);
 		gui_menu_Principal.setVisible(true);
