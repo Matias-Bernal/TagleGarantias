@@ -79,7 +79,6 @@ public class GUIReporteDiasDesdeCierreOrdenYTurno extends JFrame{
 		initialize();
 	}
 
-	@SuppressWarnings("unused")
 	private void cargarDatos() {
 		Vector<Pedido_PiezaDTO> pedidos_piezas = mediador.obtenerPedido_Piezas();
 		int chico = 100;

@@ -83,7 +83,7 @@ public class GUIReporteRecurso_CierreOrden extends JFrame{
 		initialize();
 	}
 
-	@SuppressWarnings("unused")
+
 	private void cargarDatos() {
 		int mediano = 150;
 		int grande = 230;

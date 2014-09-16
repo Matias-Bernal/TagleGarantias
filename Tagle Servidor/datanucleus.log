@@ -28018,3 +28018,240 @@ org.datanucleus.exceptions.NucleusUserException: La declaraciï¿½n del import no 
 00:07:29,096 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Vehiculo" is already enhanced.
 00:07:29,096 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Vehiculo
 00:07:29,097 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=563 ms, enhance=64 ms, total=627 ms. Consult the log for full details
+02:27:55,573 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer : Using ClassEnhancer "ASM" for API "JDO"
+02:27:55,872 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 2.1.0-release) : Enhancement of classes
+02:27:56,116 (main) WARN  [DataNucleus.MetaData] - Error en el analizo del archivo "file:/D:/DESARROLLO/IT10%20Cooperativa/Tagle/workspace/TagleGarantias/Tagle%20Servidor/bin/servidor/persistencia/dominio/package.jdo" a la linea 5, columna 6 : cvc-elt.1: No se ha encontrado la declaración del elemento 'jdo'. - Por favor compruebe el DTD y la validad de este MetaData.
+02:27:56,187 (main) WARN  [DataNucleus.MetaData] - Error en el analizo del archivo "file:/D:/DESARROLLO/IT10%20Cooperativa/Tagle/workspace/TagleGarantias/Tagle%20Servidor/src/servidor/persistencia/dominio/package.jdo" a la linea 5, columna 6 : cvc-elt.1: No se ha encontrado la declaración del elemento 'jdo'. - Por favor compruebe el DTD y la validad de este MetaData.
+02:27:56,341 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.CargaDatos.CargaDatos" no tiene MetaData o annotaciones.
+02:27:56,343 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.CargaDatos.TestClass" no tiene MetaData o annotaciones.
+02:27:56,345 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GUIServidor$1" no tiene MetaData o annotaciones.
+02:27:56,348 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GUIServidor$2" no tiene MetaData o annotaciones.
+02:27:56,353 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GUIServidor" no tiene MetaData o annotaciones.
+02:27:56,358 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarAgente.ControlAgente" no tiene MetaData o annotaciones.
+02:27:56,361 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarBdg.ControlBdg" no tiene MetaData o annotaciones.
+02:27:56,365 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarDevolucion_Pieza.ControlDevolucion_Pieza" no tiene MetaData o annotaciones.
+02:27:56,369 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarEntidad.ControlEntidad" no tiene MetaData o annotaciones.
+02:27:56,372 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarMTelefono.ControlMTelefono" no tiene MetaData o annotaciones.
+02:27:56,376 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarMano_Obra.ControlMano_Obra" no tiene MetaData o annotaciones.
+02:27:56,379 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarMarca.ControlMarca" no tiene MetaData o annotaciones.
+02:27:56,383 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarModelo.ControlModelo" no tiene MetaData o annotaciones.
+02:27:56,387 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarMuleto.ControlMuleto" no tiene MetaData o annotaciones.
+02:27:56,392 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarNotificacion.ControlNotificacion" no tiene MetaData o annotaciones.
+02:27:56,395 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarNotificacion_Reclamo.ControlNotificacion_Reclamo" no tiene MetaData o annotaciones.
+02:27:56,399 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarNotificacion_Usuario.ControlNotificacion_Usuario" no tiene MetaData o annotaciones.
+02:27:56,404 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarOrden.ControlOrden" no tiene MetaData o annotaciones.
+02:27:56,408 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarOrden_Reclamo.ControlOrden_Reclamo" no tiene MetaData o annotaciones.
+02:27:56,411 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarPedido.ControlPedido" no tiene MetaData o annotaciones.
+02:27:56,416 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarPedido_Pieza.ControlPedido_Pieza" no tiene MetaData o annotaciones.
+02:27:56,418 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarPedido_Pieza_Reclamo_Agente.ControlPedido_Pieza_Reclamo_Agente" no tiene MetaData o annotaciones.
+02:27:56,421 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarPedido_Pieza_Reclamo_Fabrica.ControlPedido_Pieza_Reclamo_Fabrica" no tiene MetaData o annotaciones.
+02:27:56,423 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarPieza.ControlPieza" no tiene MetaData o annotaciones.
+02:27:56,426 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarProveedor.ControlProveedor" no tiene MetaData o annotaciones.
+02:27:56,429 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarReclamante.ControlReclamante" no tiene MetaData o annotaciones.
+02:27:56,431 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarReclamante_Reclamo.ControlReclamante_Reclamo" no tiene MetaData o annotaciones.
+02:27:56,434 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarReclamo.ControlReclamo" no tiene MetaData o annotaciones.
+02:27:56,437 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarReclamo_Agente.ControlReclamo_Agente" no tiene MetaData o annotaciones.
+02:27:56,440 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarReclamo_Fabrica.ControlReclamo_Fabrica" no tiene MetaData o annotaciones.
+02:27:56,442 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarRecurso.ControlRecurso" no tiene MetaData o annotaciones.
+02:27:56,444 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarRegistrante.ControlRegistrante" no tiene MetaData o annotaciones.
+02:27:56,447 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarUsuario.ControlUsuario" no tiene MetaData o annotaciones.
+02:27:56,451 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarVehiculo.ControlVehiculo" no tiene MetaData o annotaciones.
+02:27:56,453 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.Main" no tiene MetaData o annotaciones.
+02:27:56,456 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.Servidor" no tiene MetaData o annotaciones.
+02:27:56,458 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.SingletonConexion" no tiene MetaData o annotaciones.
+02:27:56,461 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.AgenteAssembler" no tiene MetaData o annotaciones.
+02:27:56,464 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.BdgAssembler" no tiene MetaData o annotaciones.
+02:27:56,467 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Devolucion_PiezaAssembler" no tiene MetaData o annotaciones.
+02:27:56,470 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.EntidadAssembler" no tiene MetaData o annotaciones.
+02:27:56,472 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.MTelefonoAssembler" no tiene MetaData o annotaciones.
+02:27:56,475 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Mano_ObraAssembler" no tiene MetaData o annotaciones.
+02:27:56,477 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.MarcaAssembler" no tiene MetaData o annotaciones.
+02:27:56,480 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.ModeloAssembler" no tiene MetaData o annotaciones.
+02:27:56,483 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.MuletoAssembler" no tiene MetaData o annotaciones.
+02:27:56,486 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.NotificacionAssembler" no tiene MetaData o annotaciones.
+02:27:56,489 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Notificacion_ReclamoAssembler" no tiene MetaData o annotaciones.
+02:27:56,499 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Notificacion_UsuarioAssembler" no tiene MetaData o annotaciones.
+02:27:56,504 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.OrdenAssembler" no tiene MetaData o annotaciones.
+02:27:56,507 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Orden_ReclamoAssembler" no tiene MetaData o annotaciones.
+02:27:56,510 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.PedidoAssembler" no tiene MetaData o annotaciones.
+02:27:56,513 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Pedido_PiezaAssembler" no tiene MetaData o annotaciones.
+02:27:56,516 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Pedido_Pieza_Reclamo_AgenteAssembler" no tiene MetaData o annotaciones.
+02:27:56,519 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Pedido_Pieza_Reclamo_FabricaAssembler" no tiene MetaData o annotaciones.
+02:27:56,521 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.PiezaAssembler" no tiene MetaData o annotaciones.
+02:27:56,523 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.ProveedorAssembler" no tiene MetaData o annotaciones.
+02:27:56,525 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.ReclamanteAssembler" no tiene MetaData o annotaciones.
+02:27:56,528 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Reclamante_ReclamoAssembler" no tiene MetaData o annotaciones.
+02:27:56,530 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.ReclamoAssembler" no tiene MetaData o annotaciones.
+02:27:56,533 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Reclamo_AgenteAssembler" no tiene MetaData o annotaciones.
+02:27:56,536 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Reclamo_FabricaAssembler" no tiene MetaData o annotaciones.
+02:27:56,539 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.RecursoAssembler" no tiene MetaData o annotaciones.
+02:27:56,542 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.RegistranteAssembler" no tiene MetaData o annotaciones.
+02:27:56,545 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.UsuarioAssembler" no tiene MetaData o annotaciones.
+02:27:56,548 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.VehiculoAssembler" no tiene MetaData o annotaciones.
+02:27:56,550 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.persistencia.AccesoBD" no tiene MetaData o annotaciones.
+02:27:56,554 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.persistencia.ManipuladorPersistencia" no tiene MetaData o annotaciones.
+02:27:56,557 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.persistencia.Singleton$NewSingletonHolder" no tiene MetaData o annotaciones.
+02:27:56,561 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.persistencia.Singleton" no tiene MetaData o annotaciones.
+02:27:56,617 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Agente.class" with enhanced definition
+02:27:56,656 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Bdg.class" with enhanced definition
+02:27:56,666 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Devolucion_Pieza.class" with enhanced definition
+02:27:56,672 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Entidad.class" with enhanced definition
+02:27:56,682 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Mano_Obra.class" with enhanced definition
+02:27:56,690 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Marca.class" with enhanced definition
+02:27:56,702 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Modelo.class" with enhanced definition
+02:27:56,715 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\MTelefono.class" with enhanced definition
+02:27:56,729 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Muleto.class" with enhanced definition
+02:27:56,736 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Notificacion_Reclamo.class" with enhanced definition
+02:27:56,746 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Notificacion_Usuario.class" with enhanced definition
+02:27:56,755 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Notificacion.class" with enhanced definition
+02:27:56,761 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Orden_Reclamo.class" with enhanced definition
+02:27:56,767 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Orden.class" with enhanced definition
+02:27:56,774 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Pedido_Pieza_Reclamo_Agente.class" with enhanced definition
+02:27:56,784 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Pedido_Pieza_Reclamo_Fabrica.class" with enhanced definition
+02:27:56,794 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Pedido_Pieza.class" with enhanced definition
+02:27:56,800 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Pedido.class" with enhanced definition
+02:27:56,806 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Pieza.class" with enhanced definition
+02:27:56,814 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Proveedor.class" with enhanced definition
+02:27:56,821 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Reclamante_Reclamo.class" with enhanced definition
+02:27:56,826 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Reclamante.class" with enhanced definition
+02:27:56,834 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Reclamo_Agente.class" with enhanced definition
+02:27:56,843 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Reclamo_Fabrica.class" with enhanced definition
+02:27:56,852 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Reclamo.class" with enhanced definition
+02:27:56,861 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Recurso.class" with enhanced definition
+02:27:56,867 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Registrante.class" with enhanced definition
+02:27:56,873 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Usuario.class" with enhanced definition
+02:27:56,879 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\TagleGarantias\Tagle Servidor\bin\servidor\persistencia\dominio\Vehiculo.class" with enhanced definition
+02:27:56,883 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=691 ms, enhance=315 ms, total=1006 ms. Consult the log for full details
+02:29:38,830 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer : Using ClassEnhancer "ASM" for API "JDO"
+02:29:39,151 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 2.1.0-release) : Enhancement of classes
+02:29:39,428 (main) WARN  [DataNucleus.MetaData] - Error en el analizo del archivo "file:/D:/DESARROLLO/IT10%20Cooperativa/Tagle/workspace/TagleGarantias/Tagle%20Servidor/bin/servidor/persistencia/dominio/package.jdo" a la linea 5, columna 6 : cvc-elt.1: No se ha encontrado la declaración del elemento 'jdo'. - Por favor compruebe el DTD y la validad de este MetaData.
+02:29:39,504 (main) WARN  [DataNucleus.MetaData] - Error en el analizo del archivo "file:/D:/DESARROLLO/IT10%20Cooperativa/Tagle/workspace/TagleGarantias/Tagle%20Servidor/src/servidor/persistencia/dominio/package.jdo" a la linea 5, columna 6 : cvc-elt.1: No se ha encontrado la declaración del elemento 'jdo'. - Por favor compruebe el DTD y la validad de este MetaData.
+02:29:39,692 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.CargaDatos.CargaDatos" no tiene MetaData o annotaciones.
+02:29:39,696 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.CargaDatos.TestClass" no tiene MetaData o annotaciones.
+02:29:39,699 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GUIServidor$1" no tiene MetaData o annotaciones.
+02:29:39,701 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GUIServidor$2" no tiene MetaData o annotaciones.
+02:29:39,708 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GUIServidor" no tiene MetaData o annotaciones.
+02:29:39,713 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarAgente.ControlAgente" no tiene MetaData o annotaciones.
+02:29:39,716 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarBdg.ControlBdg" no tiene MetaData o annotaciones.
+02:29:39,719 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarDevolucion_Pieza.ControlDevolucion_Pieza" no tiene MetaData o annotaciones.
+02:29:39,721 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarEntidad.ControlEntidad" no tiene MetaData o annotaciones.
+02:29:39,724 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarMTelefono.ControlMTelefono" no tiene MetaData o annotaciones.
+02:29:39,726 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarMano_Obra.ControlMano_Obra" no tiene MetaData o annotaciones.
+02:29:39,729 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarMarca.ControlMarca" no tiene MetaData o annotaciones.
+02:29:39,731 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarModelo.ControlModelo" no tiene MetaData o annotaciones.
+02:29:39,734 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarMuleto.ControlMuleto" no tiene MetaData o annotaciones.
+02:29:39,736 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarNotificacion.ControlNotificacion" no tiene MetaData o annotaciones.
+02:29:39,738 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarNotificacion_Reclamo.ControlNotificacion_Reclamo" no tiene MetaData o annotaciones.
+02:29:39,741 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarNotificacion_Usuario.ControlNotificacion_Usuario" no tiene MetaData o annotaciones.
+02:29:39,744 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarOrden.ControlOrden" no tiene MetaData o annotaciones.
+02:29:39,746 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarOrden_Reclamo.ControlOrden_Reclamo" no tiene MetaData o annotaciones.
+02:29:39,748 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarPedido.ControlPedido" no tiene MetaData o annotaciones.
+02:29:39,751 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarPedido_Pieza.ControlPedido_Pieza" no tiene MetaData o annotaciones.
+02:29:39,754 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarPedido_Pieza_Reclamo_Agente.ControlPedido_Pieza_Reclamo_Agente" no tiene MetaData o annotaciones.
+02:29:39,756 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarPedido_Pieza_Reclamo_Fabrica.ControlPedido_Pieza_Reclamo_Fabrica" no tiene MetaData o annotaciones.
+02:29:39,758 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarPieza.ControlPieza" no tiene MetaData o annotaciones.
+02:29:39,761 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarProveedor.ControlProveedor" no tiene MetaData o annotaciones.
+02:29:39,763 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarReclamante.ControlReclamante" no tiene MetaData o annotaciones.
+02:29:39,765 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarReclamante_Reclamo.ControlReclamante_Reclamo" no tiene MetaData o annotaciones.
+02:29:39,768 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarReclamo.ControlReclamo" no tiene MetaData o annotaciones.
+02:29:39,770 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarReclamo_Agente.ControlReclamo_Agente" no tiene MetaData o annotaciones.
+02:29:39,772 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarReclamo_Fabrica.ControlReclamo_Fabrica" no tiene MetaData o annotaciones.
+02:29:39,775 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarRecurso.ControlRecurso" no tiene MetaData o annotaciones.
+02:29:39,778 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarRegistrante.ControlRegistrante" no tiene MetaData o annotaciones.
+02:29:39,781 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarUsuario.ControlUsuario" no tiene MetaData o annotaciones.
+02:29:39,792 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.GestionarVehiculo.ControlVehiculo" no tiene MetaData o annotaciones.
+02:29:39,794 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.Main" no tiene MetaData o annotaciones.
+02:29:39,797 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.Servidor" no tiene MetaData o annotaciones.
+02:29:39,799 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.SingletonConexion" no tiene MetaData o annotaciones.
+02:29:39,801 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.AgenteAssembler" no tiene MetaData o annotaciones.
+02:29:39,803 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.BdgAssembler" no tiene MetaData o annotaciones.
+02:29:39,805 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Devolucion_PiezaAssembler" no tiene MetaData o annotaciones.
+02:29:39,807 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.EntidadAssembler" no tiene MetaData o annotaciones.
+02:29:39,809 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.MTelefonoAssembler" no tiene MetaData o annotaciones.
+02:29:39,812 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Mano_ObraAssembler" no tiene MetaData o annotaciones.
+02:29:39,814 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.MarcaAssembler" no tiene MetaData o annotaciones.
+02:29:39,817 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.ModeloAssembler" no tiene MetaData o annotaciones.
+02:29:39,819 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.MuletoAssembler" no tiene MetaData o annotaciones.
+02:29:39,821 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.NotificacionAssembler" no tiene MetaData o annotaciones.
+02:29:39,823 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Notificacion_ReclamoAssembler" no tiene MetaData o annotaciones.
+02:29:39,826 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Notificacion_UsuarioAssembler" no tiene MetaData o annotaciones.
+02:29:39,828 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.OrdenAssembler" no tiene MetaData o annotaciones.
+02:29:39,831 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Orden_ReclamoAssembler" no tiene MetaData o annotaciones.
+02:29:39,834 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.PedidoAssembler" no tiene MetaData o annotaciones.
+02:29:39,836 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Pedido_PiezaAssembler" no tiene MetaData o annotaciones.
+02:29:39,839 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Pedido_Pieza_Reclamo_AgenteAssembler" no tiene MetaData o annotaciones.
+02:29:39,841 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Pedido_Pieza_Reclamo_FabricaAssembler" no tiene MetaData o annotaciones.
+02:29:39,843 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.PiezaAssembler" no tiene MetaData o annotaciones.
+02:29:39,846 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.ProveedorAssembler" no tiene MetaData o annotaciones.
+02:29:39,848 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.ReclamanteAssembler" no tiene MetaData o annotaciones.
+02:29:39,850 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Reclamante_ReclamoAssembler" no tiene MetaData o annotaciones.
+02:29:39,852 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.ReclamoAssembler" no tiene MetaData o annotaciones.
+02:29:39,855 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Reclamo_AgenteAssembler" no tiene MetaData o annotaciones.
+02:29:39,858 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.Reclamo_FabricaAssembler" no tiene MetaData o annotaciones.
+02:29:39,861 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.RecursoAssembler" no tiene MetaData o annotaciones.
+02:29:39,864 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.RegistranteAssembler" no tiene MetaData o annotaciones.
+02:29:39,867 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.UsuarioAssembler" no tiene MetaData o annotaciones.
+02:29:39,869 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.assembler.VehiculoAssembler" no tiene MetaData o annotaciones.
+02:29:39,873 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.persistencia.AccesoBD" no tiene MetaData o annotaciones.
+02:29:39,875 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.persistencia.ManipuladorPersistencia" no tiene MetaData o annotaciones.
+02:29:39,877 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.persistencia.Singleton$NewSingletonHolder" no tiene MetaData o annotaciones.
+02:29:39,880 (main) INFO  [DataNucleus.MetaData] - La clase "servidor.persistencia.Singleton" no tiene MetaData o annotaciones.
+02:29:39,908 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Agente" is already enhanced.
+02:29:39,908 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Agente
+02:29:39,926 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Bdg" is already enhanced.
+02:29:39,926 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Bdg
+02:29:39,928 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Devolucion_Pieza" is already enhanced.
+02:29:39,928 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Devolucion_Pieza
+02:29:39,929 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Entidad" is already enhanced.
+02:29:39,929 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Entidad
+02:29:39,930 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Mano_Obra" is already enhanced.
+02:29:39,930 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Mano_Obra
+02:29:39,932 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Marca" is already enhanced.
+02:29:39,932 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Marca
+02:29:39,933 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Modelo" is already enhanced.
+02:29:39,933 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Modelo
+02:29:39,935 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.MTelefono" is already enhanced.
+02:29:39,935 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.MTelefono
+02:29:39,936 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Muleto" is already enhanced.
+02:29:39,936 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Muleto
+02:29:39,937 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Notificacion_Reclamo" is already enhanced.
+02:29:39,937 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Notificacion_Reclamo
+02:29:39,939 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Notificacion_Usuario" is already enhanced.
+02:29:39,939 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Notificacion_Usuario
+02:29:39,940 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Notificacion" is already enhanced.
+02:29:39,941 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Notificacion
+02:29:39,942 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Orden_Reclamo" is already enhanced.
+02:29:39,942 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Orden_Reclamo
+02:29:39,943 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Orden" is already enhanced.
+02:29:39,944 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Orden
+02:29:39,944 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Pedido_Pieza_Reclamo_Agente" is already enhanced.
+02:29:39,944 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Pedido_Pieza_Reclamo_Agente
+02:29:39,946 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Pedido_Pieza_Reclamo_Fabrica" is already enhanced.
+02:29:39,946 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Pedido_Pieza_Reclamo_Fabrica
+02:29:39,947 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Pedido_Pieza" is already enhanced.
+02:29:39,947 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Pedido_Pieza
+02:29:39,948 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Pedido" is already enhanced.
+02:29:39,948 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Pedido
+02:29:39,949 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Pieza" is already enhanced.
+02:29:39,949 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Pieza
+02:29:39,950 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Proveedor" is already enhanced.
+02:29:39,950 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Proveedor
+02:29:39,951 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Reclamante_Reclamo" is already enhanced.
+02:29:39,951 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Reclamante_Reclamo
+02:29:39,951 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Reclamante" is already enhanced.
+02:29:39,951 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Reclamante
+02:29:39,952 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Reclamo_Agente" is already enhanced.
+02:29:39,952 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Reclamo_Agente
+02:29:39,953 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Reclamo_Fabrica" is already enhanced.
+02:29:39,953 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Reclamo_Fabrica
+02:29:39,954 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Reclamo" is already enhanced.
+02:29:39,955 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Reclamo
+02:29:39,956 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Recurso" is already enhanced.
+02:29:39,956 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Recurso
+02:29:39,957 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Registrante" is already enhanced.
+02:29:39,957 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Registrante
+02:29:39,958 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Usuario" is already enhanced.
+02:29:39,959 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Usuario
+02:29:39,961 (main) INFO  [DataNucleus.Enhancer] - Class "servidor.persistencia.dominio.Vehiculo" is already enhanced.
+02:29:39,961 (main) INFO  [DataNucleus.Enhancer] - ENHANCED (PersistenceCapable) : servidor.persistencia.dominio.Vehiculo
+02:29:39,963 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 29 classes. Timings : input=726 ms, enhance=79 ms, total=805 ms. Consult the log for full details

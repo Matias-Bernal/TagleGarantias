@@ -390,7 +390,7 @@ public class GUIModificarReclamoEntidad extends JFrame {
 		tfNumeroOrden.setText(orden.getNumero_orden()+" [ID: "+orden.getId()+"]");
 	}
 	
-	@SuppressWarnings("unused")
+
 	protected void modificarReclamoEntidad() {
 		if (entidad == null || reclamante == null || vehiculo==null || orden==null || fecha_reclamo.getDate()==null){
 			JOptionPane.showMessageDialog(contentPane,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);

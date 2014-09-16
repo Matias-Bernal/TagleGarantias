@@ -80,7 +80,7 @@ public class GUIReporteDiasDesdeRecepcionFabrica extends JFrame{
 		initialize();
 	}
 
-	@SuppressWarnings({ "unused", "deprecation" })
+	@SuppressWarnings({ "deprecation" })
 	private void cargarDatos() {
 		Vector<Pedido_PiezaDTO> pedidos_piezas = mediador.obtenerPedido_Piezas();
 		int chico = 100;

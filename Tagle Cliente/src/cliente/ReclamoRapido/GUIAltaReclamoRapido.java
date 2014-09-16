@@ -1430,7 +1430,6 @@ public class GUIAltaReclamoRapido extends JFrame{
 		return res;
 	}
 
-	@SuppressWarnings("unused")
 	protected void crearReclamoEntidad() {
 		if (chequearCamposEntidad()){
 			JOptionPane.showMessageDialog(this,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
@@ -1474,7 +1473,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 				);
 		return res;
 	}
-	@SuppressWarnings("unused")
+
 	protected void crearReclamoAgente() {
 		if (chequearCamposAgente()){
 			JOptionPane.showMessageDialog(this,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);

@@ -204,7 +204,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		completarCampos();
 	}
 
-	@SuppressWarnings({ "static-access", "unused" })
+	@SuppressWarnings({ "static-access" })
 	private void completarCampos() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -218,7 +218,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		dCHastaFDevolucion.setDate(d.getTime());
 	}
 
-	@SuppressWarnings({ "static-access", "unused" })
+	@SuppressWarnings({ "static-access" })
 	private void cargarDatos() {
 		agentes = new Vector<String>();
 		agentes.add("");
@@ -1835,7 +1835,6 @@ public class GUIReporteRapidoAgente extends JFrame {
 		actualizarTablas();
 	}
 
-	@SuppressWarnings("unused")
 	private void filtrar() {
 		String nombre_agente = cBAgentes.getSelectedItem().toString();
 		SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");

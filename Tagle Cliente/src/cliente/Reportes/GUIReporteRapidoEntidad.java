@@ -202,7 +202,7 @@ public class GUIReporteRapidoEntidad extends JFrame {
 		completarCampos();
 	}
 
-	@SuppressWarnings({ "static-access", "unused" })
+	@SuppressWarnings({ "static-access" })
 	private void completarCampos() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -216,7 +216,7 @@ public class GUIReporteRapidoEntidad extends JFrame {
 		dCHastaFDevolucion.setDate(d.getTime());
 	}
 
-	@SuppressWarnings({ "unused", "static-access" })
+	@SuppressWarnings({ "static-access" })
 	private void cargarDatos() {
 		anchos_tabla = new Vector<Integer>();
 		anchos_tabla.add(125);
@@ -1806,7 +1806,6 @@ public class GUIReporteRapidoEntidad extends JFrame {
 		actualizarTablas();
 	}
 
-	@SuppressWarnings("unused")
 	private void filtrar() {
 		SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
 		if(dCDesdeFReclamo.getDate()==null || dCHastaFDevolucion.getDate()==null){ 

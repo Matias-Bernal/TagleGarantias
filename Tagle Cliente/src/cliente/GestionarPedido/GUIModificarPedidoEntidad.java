@@ -683,7 +683,7 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		contentPane.setVisible(true);	
 	}
 
-	@SuppressWarnings("unused")
+
 	protected void modificarPieza() {
 		if (tfNum_Pieza.getText().isEmpty() || cbProveedor.getSelectedItem()==null){
 			JOptionPane.showMessageDialog(this,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);

@@ -655,7 +655,7 @@ public class GUIModificarPedidoAgente extends JFrame{
 			
 	}
 		
-	@SuppressWarnings("unused")
+
 	protected void modificar_pieza() {
 		if (tfNum_Pieza.getText().isEmpty() || cbProveedor.getSelectedItem()==null){
 			JOptionPane.showMessageDialog(this,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);

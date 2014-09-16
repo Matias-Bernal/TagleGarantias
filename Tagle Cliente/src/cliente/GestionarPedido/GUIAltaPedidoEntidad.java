@@ -255,7 +255,6 @@ public class GUIAltaPedidoEntidad extends JFrame {
 		contentPane.setVisible(true);
 	}
 		
-	@SuppressWarnings("unused")
 	protected void crear() {
 		if(tfNumero_Pedido.getText().isEmpty()||fecha_solicitud_pedido.getDate()==null||tfReclamo.getText().isEmpty()|| cbPiezas.getItemCount()<1){
 			JOptionPane.showMessageDialog(this,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);

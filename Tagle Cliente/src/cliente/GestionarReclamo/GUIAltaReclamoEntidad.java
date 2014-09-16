@@ -315,7 +315,6 @@ public class GUIAltaReclamoEntidad extends JFrame{
 		tfNumeroOrden.setText(orden.getNumero_orden()+" [ID: "+orden.getId()+"]");
 	}
 	
-	@SuppressWarnings("unused")
 	protected void nuevoReclamoEntidad() {
 		if (entidad == null || reclamante == null || vehiculo==null || orden==null || dp_fecha_reclamo.getDate()==null){
 			JOptionPane.showMessageDialog(contentPane,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
