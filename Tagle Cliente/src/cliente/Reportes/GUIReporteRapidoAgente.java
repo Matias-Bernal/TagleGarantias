@@ -66,18 +66,18 @@ public class GUIReporteRapidoAgente extends JFrame {
 	private Vector<Integer> anchos_tabla;
 	private Vector<String> nombreColumnas;
 	
-	private JTable tablaPiezasConOT;
-	private DefaultTableModel modelo_tabla_piezas_con_ot;
-	private Vector<Vector<String>> datosTabla_piezas_con_ot;
+	private JTable tablaPiezasPedidasAFabrica;
+	private DefaultTableModel modelo_tabla_piezas_pedidas_a_fabrica;
+	private Vector<Vector<String>> datosTabla_piezas_pedidas_a_fabrica;
 	private JButton btnVerCasosPiezasConOT;
-	private String cantidad_con_ot;
-	private String prom_anticuacion_con_ot;
-	private String max_anticuacion_con_ot;
-	private String min_anticuacion_con_ot;
-	private String monto_con_ot;
-	private String prom_monto_con_ot;
-	private String max_monto_con_ot;
-	private String min_monto_con_ot;
+	private String cantidad_pedidas_a_fabrica;
+	private String prom_anticuacion_pedidas_a_fabrica;
+	private String max_anticuacion_pedidas_a_fabrica;
+	private String min_anticuacion_pedidas_a_fabrica;
+	private String monto_pedidas_a_fabrica;
+	private String prom_monto_pedidas_a_fabrica;
+	private String max_monto_pedidas_a_fabrica;
+	private String min_monto_pedidas_a_fabrica;
 	
 	private JTable tablaPiezasEnTransito;
 	private DefaultTableModel modelo_tabla_piezas_en_transito;
@@ -184,7 +184,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 	private String min_monto_devueltas;
 	
 	private JButton btnVolver;
-	private JPanel panelPiezasConOT;
+	private JPanel panelPiezasPedidasAFabrica;
 	private JPanel panelPiezasEnviadasAgentes;
 	private JPanel panelPiezasEnTransito;
 	private JPanel panelPiezasConSDevolucion;
@@ -204,7 +204,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		completarCampos();
 	}
 
-	@SuppressWarnings({ "static-access" })
+	@SuppressWarnings({ "static-access", "unused" })
 	private void completarCampos() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -218,7 +218,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		dCHastaFDevolucion.setDate(d.getTime());
 	}
 
-	@SuppressWarnings({ "static-access" })
+	@SuppressWarnings({ "static-access", "unused" })
 	private void cargarDatos() {
 		agentes = new Vector<String>();
 		agentes.add("");
@@ -253,38 +253,38 @@ public class GUIReporteRapidoAgente extends JFrame {
 		hastaCalendar.set(hastaCalendar.DAY_OF_MONTH,hastaCalendar.getMaximum(hastaCalendar.DAY_OF_MONTH));		
 		java.sql.Date hasta = new java.sql.Date(hastaCalendar.getTime().getTime());
 							
-		cantidad_con_ot =  mediador.cantidad_con_ot_agente(desde, hasta, "");
-		Triple<Double,Double,Double> anticuacion_con_ot = mediador.anticuacion_con_ot_agente(desde, hasta, "");
-		if(anticuacion_con_ot.first()!=null)
-			prom_anticuacion_con_ot = anticuacion_con_ot.first().toString();
+		cantidad_pedidas_a_fabrica =  mediador.cantidad_pedida_a_fabrica_agente(desde, hasta, "");
+		Triple<Double,Double,Double> anticuacion_pedidas_a_fabrica = mediador.anticuacion_pedidas_a_fabrica_agente(desde, hasta, "");
+		if(anticuacion_pedidas_a_fabrica.first()!=null)
+			prom_anticuacion_pedidas_a_fabrica = anticuacion_pedidas_a_fabrica.first().toString();
 		else
-			prom_anticuacion_con_ot = "";
-		if(anticuacion_con_ot.second()!=null)
-			max_anticuacion_con_ot = anticuacion_con_ot.second().toString();
+			prom_anticuacion_pedidas_a_fabrica = "";
+		if(anticuacion_pedidas_a_fabrica.second()!=null)
+			max_anticuacion_pedidas_a_fabrica = anticuacion_pedidas_a_fabrica.second().toString();
 		else
-			max_anticuacion_con_ot = "";
-		if(anticuacion_con_ot.third()!=null)
-			min_anticuacion_con_ot = anticuacion_con_ot.third().toString();
+			max_anticuacion_pedidas_a_fabrica = "";
+		if(anticuacion_pedidas_a_fabrica.third()!=null)
+			min_anticuacion_pedidas_a_fabrica = anticuacion_pedidas_a_fabrica.third().toString();
 		else
-			min_anticuacion_con_ot = "";
+			min_anticuacion_pedidas_a_fabrica = "";
 		
-		Cuadruple<Double,Double,Double,Double> _monto_con_ot = mediador.monto_con_ot_agente(desde, hasta, "");
-		if(_monto_con_ot.first()!=null)
-			monto_con_ot = "$"+df_pesos.format(_monto_con_ot.first());
+		Cuadruple<Double,Double,Double,Double> _monto_pedidas_a_fabrica = mediador.monto_pedidas_a_fabrica_agente(desde, hasta, "");
+		if(_monto_pedidas_a_fabrica.first()!=null)
+			monto_pedidas_a_fabrica = "$"+df_pesos.format(_monto_pedidas_a_fabrica.first());
 		else
-			monto_con_ot = "";
-		if(_monto_con_ot.second()!=null)
-			prom_monto_con_ot = "$"+df_pesos.format(_monto_con_ot.second());
+			monto_pedidas_a_fabrica = "";
+		if(_monto_pedidas_a_fabrica.second()!=null)
+			prom_monto_pedidas_a_fabrica = "$"+df_pesos.format(_monto_pedidas_a_fabrica.second());
 		else
-			prom_monto_con_ot = "";
-		if(_monto_con_ot.third()!=null)
-			max_monto_con_ot = "$"+df_pesos.format(_monto_con_ot.third());
+			prom_monto_pedidas_a_fabrica = "";
+		if(_monto_pedidas_a_fabrica.third()!=null)
+			max_monto_pedidas_a_fabrica = "$"+df_pesos.format(_monto_pedidas_a_fabrica.third());
 		else
-			max_monto_con_ot = "";
-		if(_monto_con_ot.fourth()!=null)
-			min_monto_con_ot = "$"+df_pesos.format(_monto_con_ot.fourth());
+			max_monto_pedidas_a_fabrica = "";
+		if(_monto_pedidas_a_fabrica.fourth()!=null)
+			min_monto_pedidas_a_fabrica = "$"+df_pesos.format(_monto_pedidas_a_fabrica.fourth());
 		else
-			min_monto_con_ot = "";
+			min_monto_pedidas_a_fabrica = "";
 		
 		cantidad_en_tranisto =  mediador.cantidad_en_transito_agente(desde, hasta, "");
 		Triple<Double,Double,Double> anticuacion_en_transito = mediador.anticuacion_en_transito_agente(desde, hasta, "");
@@ -549,44 +549,44 @@ public class GUIReporteRapidoAgente extends JFrame {
 			min_monto_devueltas = "$"+df_pesos.format(_monto_devueltas.fourth());
 		else
 			min_monto_devueltas = "";
-//		Tabla Piezas Con OT		//
-		modelo_tabla_piezas_con_ot = new DefaultTableModel();
-		datosTabla_piezas_con_ot = new Vector<Vector<String>>();
+//		Tabla Piezas Pedidas a Fabrica	//
+		modelo_tabla_piezas_pedidas_a_fabrica = new DefaultTableModel();
+		datosTabla_piezas_pedidas_a_fabrica = new Vector<Vector<String>>();
 		row_cantidad= new Vector<String> ();
 		row_cantidad.add("Cantidad");
-		row_cantidad.add(cantidad_con_ot);//Q
-		datosTabla_piezas_con_ot.add(row_cantidad);
+		row_cantidad.add(cantidad_pedidas_a_fabrica);//Q
+		datosTabla_piezas_pedidas_a_fabrica.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
 		row_prom_anticuacion.add("Anticuacion Prom");
-		row_prom_anticuacion.add(prom_anticuacion_con_ot);//X
-		datosTabla_piezas_con_ot.add(row_prom_anticuacion);
+		row_prom_anticuacion.add(prom_anticuacion_pedidas_a_fabrica);//X
+		datosTabla_piezas_pedidas_a_fabrica.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
 		row_max_anticuacion.add("Max Anticuacion");
-		row_max_anticuacion.add(max_anticuacion_con_ot);//MX
-		datosTabla_piezas_con_ot.add(row_max_anticuacion);
+		row_max_anticuacion.add(max_anticuacion_pedidas_a_fabrica);//MX
+		datosTabla_piezas_pedidas_a_fabrica.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
 		row_min_anticuacion.add("Min Anticuacion");
-		row_min_anticuacion.add(min_anticuacion_con_ot);//mX
-		datosTabla_piezas_con_ot.add(row_min_anticuacion);
+		row_min_anticuacion.add(min_anticuacion_pedidas_a_fabrica);//mX
+		datosTabla_piezas_pedidas_a_fabrica.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
 		row_monto.add("Monto Total");
-		row_monto.add(monto_con_ot);//R
-		datosTabla_piezas_con_ot.add(row_monto);
+		row_monto.add(monto_pedidas_a_fabrica);//R
+		datosTabla_piezas_pedidas_a_fabrica.add(row_monto);
 		row_prom_monto= new Vector<String> ();
 		row_prom_monto.add("Monto Prom");
-		row_prom_monto.add(prom_monto_con_ot);//XR
-		datosTabla_piezas_con_ot.add(row_prom_monto);
+		row_prom_monto.add(prom_monto_pedidas_a_fabrica);//XR
+		datosTabla_piezas_pedidas_a_fabrica.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
 		row_max_monto.add("Max Monto");
-		row_max_monto.add(max_monto_con_ot);//MR
-		datosTabla_piezas_con_ot.add(row_max_monto);
+		row_max_monto.add(max_monto_pedidas_a_fabrica);//MR
+		datosTabla_piezas_pedidas_a_fabrica.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
 		row_min_monto.add("Min Monto");
-		row_min_monto.add(min_monto_con_ot);//mR
-		datosTabla_piezas_con_ot.add(row_min_monto);
-		modelo_tabla_piezas_con_ot.setDataVector(datosTabla_piezas_con_ot, nombreColumnas);
-		modelo_tabla_piezas_con_ot.fireTableStructureChanged();
-		//		Fin Tabla Piezas Con OT		//
+		row_min_monto.add(min_monto_pedidas_a_fabrica);//mR
+		datosTabla_piezas_pedidas_a_fabrica.add(row_min_monto);
+		modelo_tabla_piezas_pedidas_a_fabrica.setDataVector(datosTabla_piezas_pedidas_a_fabrica, nombreColumnas);
+		modelo_tabla_piezas_pedidas_a_fabrica.fireTableStructureChanged();
+		//		Fin Tabla Piezas Pedidas a Fabrica	//
 		//		Tabla Piezas En Transito		//
 		modelo_tabla_piezas_en_transito = new DefaultTableModel();
 		datosTabla_piezas_en_transito = new Vector<Vector<String>>();
@@ -969,20 +969,13 @@ public class GUIReporteRapidoAgente extends JFrame {
 		panelReportes.setBounds(0, 40, 1294, 610);
 		contentPane.add(panelReportes);
 		
-		panelPiezasConOT = new TransparentPanel();
-		panelPiezasConOT.setLayout(null);
-		panelPiezasConOT.setBounds(98, 35, 300, 180);
-		panelReportes.add(panelPiezasConOT);
+		panelPiezasPedidasAFabrica = new TransparentPanel();
+		panelPiezasPedidasAFabrica.setLayout(null);
+		panelPiezasPedidasAFabrica.setBounds(98, 35, 300, 180);
+		panelReportes.add(panelPiezasPedidasAFabrica);
 		
-		JLabel lblFechaOt = new JLabel("Fecha O.T.");
-		lblFechaOt.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblFechaOt.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFechaOt.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblFechaOt.setBounds(0, 0, 100, 20);
-		panelPiezasConOT.add(lblFechaOt);
-		
-		modelo_tabla_piezas_con_ot = new DefaultTableModel(datosTabla_piezas_con_ot, nombreColumnas);
-		tablaPiezasConOT = new JTable(modelo_tabla_piezas_con_ot) {
+		modelo_tabla_piezas_pedidas_a_fabrica = new DefaultTableModel(datosTabla_piezas_pedidas_a_fabrica, nombreColumnas);
+		tablaPiezasPedidasAFabrica = new JTable(modelo_tabla_piezas_pedidas_a_fabrica) {
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 					false, false
@@ -991,31 +984,31 @@ public class GUIReporteRapidoAgente extends JFrame {
 				return columnEditables[column];
 			}
 		};
-		tablaPiezasConOT.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tablaPiezasConOT.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tablaPiezasConOT.setBounds(100, 20, 200, 130);
-		panelPiezasConOT.add(tablaPiezasConOT);
-		for(int i = 0; i < tablaPiezasConOT.getColumnCount(); i++) {
-			tablaPiezasConOT.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla.elementAt(i));
-			tablaPiezasConOT.getColumnModel().getColumn(i).setMinWidth(anchos_tabla.elementAt(i));
+		tablaPiezasPedidasAFabrica.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tablaPiezasPedidasAFabrica.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tablaPiezasPedidasAFabrica.setBounds(100, 20, 200, 130);
+		panelPiezasPedidasAFabrica.add(tablaPiezasPedidasAFabrica);
+		for(int i = 0; i < tablaPiezasPedidasAFabrica.getColumnCount(); i++) {
+			tablaPiezasPedidasAFabrica.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla.elementAt(i));
+			tablaPiezasPedidasAFabrica.getColumnModel().getColumn(i).setMinWidth(anchos_tabla.elementAt(i));
 		}
 		
-		JLabel lblPiezasConOt_1 = new JLabel("Stock Con O.T.");
-		lblPiezasConOt_1.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblPiezasConOt_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPiezasConOt_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblPiezasConOt_1.setBounds(100, 0, 200, 20);
-		panelPiezasConOT.add(lblPiezasConOt_1);
+		JLabel lblPiezasPedidasAFabricas = new JLabel("Stock Pedido a Fabrica");
+		lblPiezasPedidasAFabricas.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblPiezasPedidasAFabricas.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPiezasPedidasAFabricas.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		lblPiezasPedidasAFabricas.setBounds(100, 0, 200, 20);
+		panelPiezasPedidasAFabrica.add(lblPiezasPedidasAFabricas);
 		
 		btnVerCasosPiezasConOT = new GlossyButton("VER CASOS",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_BLUE_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
 		btnVerCasosPiezasConOT.setText("Ver Casos");
 		btnVerCasosPiezasConOT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				verCasosOT();
+				verCasosPedidas_a_Fabrica();
 			}
 		});
 		btnVerCasosPiezasConOT.setBounds(100, 155, 200, 20);
-		panelPiezasConOT.add(btnVerCasosPiezasConOT);
+		panelPiezasPedidasAFabrica.add(btnVerCasosPiezasConOT);
 		
 		panelPiezasEnTransito = new TransparentPanel();
 		panelPiezasEnTransito.setLayout(null);
@@ -1434,7 +1427,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 	}
 
 
-	protected void verCasosOT() {
+	protected void verCasosPedidas_a_Fabrica() {
 		java.sql.Date desde = null;
 		String nombre_agente = cBAgentes.getSelectedItem().toString();
 		if(dCDesdeFReclamo.getDate()!=null)
@@ -1442,7 +1435,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		java.sql.Date hasta = null;
 		if(dCHastaFDevolucion.getDate()!=null)
 			hasta = new java.sql.Date(dCHastaFDevolucion.getDate().getTime());
-		mediador.verCasosOTAgente(desde, hasta, nombre_agente);
+		mediador.verCasosPedidas_a_FabricaAgente(desde, hasta, nombre_agente);
 	}
 
 	protected void verCasosRecibidasDeAgente() {
@@ -1535,38 +1528,38 @@ public class GUIReporteRapidoAgente extends JFrame {
 	
 	private void actualizarDatos(java.sql.Date desde, java.sql.Date hasta, String filtro_agente){
 		DecimalFormat df_pesos = new DecimalFormat("0.00"); 
-		cantidad_con_ot =  mediador.cantidad_con_ot_agente(desde,hasta,filtro_agente);
-		Triple<Double,Double,Double> anticuacion_con_ot = mediador.anticuacion_con_ot_agente(desde, hasta, filtro_agente);
+		cantidad_pedidas_a_fabrica =  mediador.cantidad_pedida_a_fabrica_agente(desde,hasta,filtro_agente);
+		Triple<Double,Double,Double> anticuacion_con_ot = mediador.anticuacion_pedidas_a_fabrica_agente(desde, hasta, filtro_agente);
 		if(anticuacion_con_ot.first()!=null)
-			prom_anticuacion_con_ot = anticuacion_con_ot.first().toString();
+			prom_anticuacion_pedidas_a_fabrica = anticuacion_con_ot.first().toString();
 		else
-			prom_anticuacion_con_ot = "";
+			prom_anticuacion_pedidas_a_fabrica = "";
 		if(anticuacion_con_ot.second()!=null)
-			max_anticuacion_con_ot = anticuacion_con_ot.second().toString();
+			max_anticuacion_pedidas_a_fabrica = anticuacion_con_ot.second().toString();
 		else
-			max_anticuacion_con_ot = "";
+			max_anticuacion_pedidas_a_fabrica = "";
 		if(anticuacion_con_ot.third()!=null)
-			min_anticuacion_con_ot = anticuacion_con_ot.third().toString();
+			min_anticuacion_pedidas_a_fabrica = anticuacion_con_ot.third().toString();
 		else
-			min_anticuacion_con_ot = "";
+			min_anticuacion_pedidas_a_fabrica = "";
 		
-		Cuadruple<Double,Double,Double,Double> _monto_con_ot = mediador.monto_con_ot_agente(desde, hasta, filtro_agente);
+		Cuadruple<Double,Double,Double,Double> _monto_con_ot = mediador.monto_pedidas_a_fabrica_agente(desde, hasta, filtro_agente);
 		if(_monto_con_ot.first()!=null)
-			monto_con_ot = "$"+df_pesos.format(_monto_con_ot.first());
+			monto_pedidas_a_fabrica = "$"+df_pesos.format(_monto_con_ot.first());
 		else
-			monto_con_ot = "";
+			monto_pedidas_a_fabrica = "";
 		if(_monto_con_ot.second()!=null)
-			prom_monto_con_ot = "$"+df_pesos.format(_monto_con_ot.second());
+			prom_monto_pedidas_a_fabrica = "$"+df_pesos.format(_monto_con_ot.second());
 		else
-			prom_monto_con_ot = "";
+			prom_monto_pedidas_a_fabrica = "";
 		if(_monto_con_ot.third()!=null)
-			max_monto_con_ot = "$"+df_pesos.format(_monto_con_ot.third());
+			max_monto_pedidas_a_fabrica = "$"+df_pesos.format(_monto_con_ot.third());
 		else
-			max_monto_con_ot = "";
+			max_monto_pedidas_a_fabrica = "";
 		if(_monto_con_ot.fourth()!=null)
-			min_monto_con_ot = "$"+df_pesos.format(_monto_con_ot.fourth());
+			min_monto_pedidas_a_fabrica = "$"+df_pesos.format(_monto_con_ot.fourth());
 		else
-			min_monto_con_ot = "";
+			min_monto_pedidas_a_fabrica = "";
 		
 		cantidad_en_tranisto =  mediador.cantidad_en_transito_agente(desde, hasta, filtro_agente);
 		Triple<Double,Double,Double> anticuacion_en_transito = mediador.anticuacion_en_transito_agente(desde, hasta, filtro_agente);
@@ -1835,6 +1828,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		actualizarTablas();
 	}
 
+	@SuppressWarnings("unused")
 	private void filtrar() {
 		String nombre_agente = cBAgentes.getSelectedItem().toString();
 		SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
@@ -1872,46 +1866,46 @@ public class GUIReporteRapidoAgente extends JFrame {
 		nombreColumnas.add("DATO");
 		nombreColumnas.add("VALOR");
 		//		Tabla Piezas Con OT		//
-		modelo_tabla_piezas_con_ot = new DefaultTableModel();
-		datosTabla_piezas_con_ot = new Vector<Vector<String>>();
+		modelo_tabla_piezas_pedidas_a_fabrica = new DefaultTableModel();
+		datosTabla_piezas_pedidas_a_fabrica = new Vector<Vector<String>>();
 		row_cantidad= new Vector<String> ();
 		row_cantidad.add("Cantidad");
-		row_cantidad.add(cantidad_con_ot);//Q
-		datosTabla_piezas_con_ot.add(row_cantidad);
+		row_cantidad.add(cantidad_pedidas_a_fabrica);//Q
+		datosTabla_piezas_pedidas_a_fabrica.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
 		row_prom_anticuacion.add("Anticuacion Prom");
-		row_prom_anticuacion.add(prom_anticuacion_con_ot);//X
-		datosTabla_piezas_con_ot.add(row_prom_anticuacion);
+		row_prom_anticuacion.add(prom_anticuacion_pedidas_a_fabrica);//X
+		datosTabla_piezas_pedidas_a_fabrica.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
 		row_max_anticuacion.add("Max Anticuacion");
-		row_max_anticuacion.add(max_anticuacion_con_ot);//MX
-		datosTabla_piezas_con_ot.add(row_max_anticuacion);
+		row_max_anticuacion.add(max_anticuacion_pedidas_a_fabrica);//MX
+		datosTabla_piezas_pedidas_a_fabrica.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
 		row_min_anticuacion.add("Min Anticuacion");
-		row_min_anticuacion.add(min_anticuacion_con_ot);//mX
-		datosTabla_piezas_con_ot.add(row_min_anticuacion);
+		row_min_anticuacion.add(min_anticuacion_pedidas_a_fabrica);//mX
+		datosTabla_piezas_pedidas_a_fabrica.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
 		row_monto.add("Monto Total");
-		row_monto.add(monto_con_ot);//R
-		datosTabla_piezas_con_ot.add(row_monto);
+		row_monto.add(monto_pedidas_a_fabrica);//R
+		datosTabla_piezas_pedidas_a_fabrica.add(row_monto);
 		row_prom_monto= new Vector<String> ();
 		row_prom_monto.add("Monto Prom");
-		row_prom_monto.add(prom_monto_con_ot);//XR
-		datosTabla_piezas_con_ot.add(row_prom_monto);
+		row_prom_monto.add(prom_monto_pedidas_a_fabrica);//XR
+		datosTabla_piezas_pedidas_a_fabrica.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
 		row_max_monto.add("Max Monto");
-		row_max_monto.add(max_monto_con_ot);//MR
-		datosTabla_piezas_con_ot.add(row_max_monto);
+		row_max_monto.add(max_monto_pedidas_a_fabrica);//MR
+		datosTabla_piezas_pedidas_a_fabrica.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
 		row_min_monto.add("Min Monto");
-		row_min_monto.add(min_monto_con_ot);//mR
-		datosTabla_piezas_con_ot.add(row_min_monto);
-		modelo_tabla_piezas_con_ot.setDataVector(datosTabla_piezas_con_ot, nombreColumnas);
-		modelo_tabla_piezas_con_ot.fireTableStructureChanged();
-		tablaPiezasConOT.setModel(modelo_tabla_piezas_con_ot);
-		for(int i = 0; i < tablaPiezasConOT.getColumnCount(); i++) {
-			tablaPiezasConOT.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla.elementAt(i));
-			tablaPiezasConOT.getColumnModel().getColumn(i).setMinWidth(anchos_tabla.elementAt(i));
+		row_min_monto.add(min_monto_pedidas_a_fabrica);//mR
+		datosTabla_piezas_pedidas_a_fabrica.add(row_min_monto);
+		modelo_tabla_piezas_pedidas_a_fabrica.setDataVector(datosTabla_piezas_pedidas_a_fabrica, nombreColumnas);
+		modelo_tabla_piezas_pedidas_a_fabrica.fireTableStructureChanged();
+		tablaPiezasPedidasAFabrica.setModel(modelo_tabla_piezas_pedidas_a_fabrica);
+		for(int i = 0; i < tablaPiezasPedidasAFabrica.getColumnCount(); i++) {
+			tablaPiezasPedidasAFabrica.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla.elementAt(i));
+			tablaPiezasPedidasAFabrica.getColumnModel().getColumn(i).setMinWidth(anchos_tabla.elementAt(i));
 		}
 		//		Fin Tabla Piezas Con OT		//
 		//		Tabla Piezas En Transito		//

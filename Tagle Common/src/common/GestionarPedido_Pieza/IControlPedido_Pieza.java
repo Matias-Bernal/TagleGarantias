@@ -48,10 +48,10 @@ public interface IControlPedido_Pieza extends Remote{
 	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaEntidad(Long id_pedido)throws Exception;
 	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaAgente(Long id_pedido)throws Exception;
 
-	public Long piezas_con_ot_entidad(Date desde, Date hasta) throws Exception;
-	public Vector<Pedido_PiezaDTO> obtener_piezas_con_ot_entidad(Date desde, Date hasta) throws Exception;
-	public Triple<Double,Double,Double> anticuacion_con_ot_entidad(Date desde, Date hasta) throws Exception;
-	public Cuadruple<Double,Double,Double,Double> monto_con_ot_entidad(Date desde, Date hasta) throws Exception;
+	public Long piezas_pedidas_a_fabrica_entidad(Date desde, Date hasta) throws Exception;
+	public Vector<Pedido_PiezaDTO> obtener_piezas_pedidas_a_fabrica_entidad(Date desde, Date hasta) throws Exception;
+	public Triple<Double,Double,Double> anticuacion_pedidas_a_fabrica_entidad(Date desde, Date hasta) throws Exception;
+	public Cuadruple<Double,Double,Double,Double> monto_pedidas_a_fabrica_entidad(Date desde, Date hasta) throws Exception;
 	
 	public Long cantidad_piezas_agente(Date desde, Date hasta , AgenteDTO agente, String filtro) throws Exception;
 	public Vector<Pedido_PiezaDTO> obtener_piezas_agente(Date desde, Date hasta, AgenteDTO agente, String filtro) throws Exception;

@@ -797,7 +797,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 	// -------------------------------------------------------------------------------------------------- //
 	
 	@Override
-	public Long piezas_con_ot_entidad(Date desde, Date hasta) throws Exception {
+	public Long piezas_pedidas_a_fabrica_entidad(Date desde, Date hasta) throws Exception {
 		AccesoBD accesoBD = new AccesoBD();
 		Long cantidad = new Long(0);
 		try {
@@ -805,7 +805,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			Extent e0 = accesoBD.getPersistencia().getExtent(Entidad.class, true);
 			Query q0 = accesoBD.getPersistencia().newQuery(e0, "");
 			Collection entidad = (Collection) q0.execute();
-			String filtro = "entidad.contains(pedido.reclamo.registrante) && fecha_solicitud_fabrica==null";
+			String filtro = "entidad.contains(pedido.reclamo.registrante) && fecha_solicitud_fabrica!=null";
 			if(desde==null){
 				if(hasta!=null){ //desde sin fecha hasta con fecha
 					filtro += " && (devolucion_pieza==null || devolucion_pieza.fecha_devolucion <= hasta)";
@@ -825,7 +825,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -833,7 +833,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 					q1.setResult("count(this)");
 					cantidad = (Long)q1.execute(entidad,desde,hasta);
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo==null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -850,7 +850,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 	}
 	
 	@Override
-	public Vector<Pedido_PiezaDTO> obtener_piezas_con_ot_entidad(Date desde, Date hasta) throws Exception {
+	public Vector<Pedido_PiezaDTO> obtener_piezas_pedidas_a_fabrica_entidad(Date desde, Date hasta) throws Exception {
 		AccesoBD accesoBD = new AccesoBD();
 		Vector<Pedido_PiezaDTO> pedidos_PiezaDTO = new Vector<Pedido_PiezaDTO>();
 		try {
@@ -858,7 +858,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			Extent e0 = accesoBD.getPersistencia().getExtent(Entidad.class, true);
 			Query q0 = accesoBD.getPersistencia().newQuery(e0, "");
 			Collection entidad = (Collection) q0.execute();
-			String filtro = "entidad.contains(pedido.reclamo.registrante) && fecha_solicitud_fabrica==null";
+			String filtro = "entidad.contains(pedido.reclamo.registrante) && fecha_solicitud_fabrica!=null";
 			Vector<Pedido_Pieza> pedidos_Pieza = new Vector<Pedido_Pieza>();
 			if(desde==null){
 				if(hasta!=null){ //desde sin fecha hasta con fecha
@@ -877,14 +877,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					pedidos_Pieza = new Vector<Pedido_Pieza>((Collection) q1.execute(entidad,desde,hasta));
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -905,7 +905,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 	}	
 
 	@Override
-	public Triple<Double,Double,Double> anticuacion_con_ot_entidad(Date desde, Date hasta) throws Exception {
+	public Triple<Double,Double,Double> anticuacion_pedidas_a_fabrica_entidad(Date desde, Date hasta) throws Exception {
 		AccesoBD accesoBD = new AccesoBD();
 		Triple<Double,Double,Double> anticuacion = new Triple<Double,Double,Double>(null, null, null);
 		final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día
@@ -914,7 +914,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			Extent e0 = accesoBD.getPersistencia().getExtent(Entidad.class, true);
 			Query q0 = accesoBD.getPersistencia().newQuery(e0, "");
 			Collection entidad = (Collection) q0.execute();
-			String filtro = "entidad.contains(pedido.reclamo.registrante) && fecha_solicitud_fabrica==null";
+			String filtro = "entidad.contains(pedido.reclamo.registrante) && fecha_solicitud_fabrica!=null";
 			Collection c = null;
 			if(desde==null){//desde sin fecha hasta con fecha
 				if(hasta!=null){
@@ -933,14 +933,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -998,7 +998,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 	}
 
 	@Override
-	public Cuadruple<Double,Double,Double,Double> monto_con_ot_entidad(Date desde, Date hasta) throws Exception {
+	public Cuadruple<Double,Double,Double,Double> monto_pedidas_a_fabrica_entidad(Date desde, Date hasta) throws Exception {
 		AccesoBD accesoBD = new AccesoBD();
 		Cuadruple<Double,Double,Double,Double> monto = new Cuadruple<Double,Double,Double,Double>(null, null, null, null);
 		final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día
@@ -1007,7 +1007,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			Extent e0 = accesoBD.getPersistencia().getExtent(Entidad.class, true);
 			Query q0 = accesoBD.getPersistencia().newQuery(e0, "");
 			Collection entidad = (Collection) q0.execute();
-			String filtro = "entidad.contains(pedido.reclamo.registrante) && fecha_solicitud_fabrica==null";
+			String filtro = "entidad.contains(pedido.reclamo.registrante) && fecha_solicitud_fabrica!=null";
 			Collection c = null;
 			if(desde==null){//desde sin fecha hasta con fecha
 				if(hasta!=null){
@@ -1026,14 +1026,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1123,7 +1123,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro_ += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro_ += " && fecha_solicitud_fabrica != null && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro_);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1131,7 +1131,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 					q1.setResult("count(this)");
 					cantidad = (Long)q1.execute(agentes,desde,hasta);
 				}else{ //desde con fecha hasta sin fecha
-					filtro_ += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo==null)";
+					filtro_ += " && fecha_solicitud_fabrica != null && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro_);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1179,14 +1179,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro_ += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro_ += " && fecha_solicitud_fabrica != null && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro_);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection agentes, Date desde, Date hasta");
 					pedidos_Pieza = new Vector<Pedido_Pieza>((Collection) q1.execute(agentes,desde,hasta));
 				}else{ //desde con fecha hasta sin fecha
-					filtro_ += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro_ += " && fecha_solicitud_fabrica != null && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro_);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1239,14 +1239,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro_ += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro_ += " && fecha_solicitud_fabrica != null && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro_);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection agentes, Date desde, Date hasta");
 					c = (Collection) q1.execute(agentes,desde,hasta);
 				}else{
-					filtro_ += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro_ += " && fecha_solicitud_fabrica != null && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro_);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1336,14 +1336,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro_ += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro_ += " && fecha_solicitud_fabrica != null && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro_);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection agentes, Date desde, Date hasta");
 					c = (Collection) q1.execute(agentes,desde,hasta);
 				}else{
-					filtro_ += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro_ += " && fecha_solicitud_fabrica != null && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro_);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1430,7 +1430,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1438,7 +1438,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 					q1.setResult("count(this)");
 					cantidad = (Long)q1.execute(entidad,desde,hasta);
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo==null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1482,14 +1482,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					pedidos_Pieza = new Vector<Pedido_Pieza>((Collection) q1.execute(entidad,desde,hasta));
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1538,14 +1538,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1631,14 +1631,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1726,7 +1726,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1734,7 +1734,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 					q1.setResult("count(this)");
 					cantidad = (Long)q1.execute(entidad,desde,hasta);
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo==null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1778,14 +1778,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					pedidos_Pieza = new Vector<Pedido_Pieza>((Collection) q1.execute(entidad,desde,hasta));
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1835,14 +1835,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -1928,14 +1928,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2023,7 +2023,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2031,7 +2031,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 					q1.setResult("count(this)");
 					cantidad = (Long)q1.execute(entidad,desde,hasta);
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo==null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2075,14 +2075,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					pedidos_Pieza = new Vector<Pedido_Pieza>((Collection) q1.execute(entidad,desde,hasta));
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2131,14 +2131,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2224,14 +2224,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2318,7 +2318,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2326,7 +2326,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 					q1.setResult("count(this)");
 					cantidad = (Long)q1.execute(entidad,desde,hasta);
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo==null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2370,14 +2370,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					pedidos_Pieza = new Vector<Pedido_Pieza>((Collection) q1.execute(entidad,desde,hasta));
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2426,14 +2426,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2519,14 +2519,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2614,7 +2614,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2622,7 +2622,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 					q1.setResult("count(this)");
 					cantidad = (Long)q1.execute(entidad,desde,hasta);
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo==null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2666,14 +2666,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					pedidos_Pieza = new Vector<Pedido_Pieza>((Collection) q1.execute(entidad,desde,hasta));
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2722,14 +2722,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2815,14 +2815,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2910,7 +2910,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2918,7 +2918,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 					q1.setResult("count(this)");
 					cantidad = (Long)q1.execute(entidad,desde,hasta);
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo==null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -2962,14 +2962,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					pedidos_Pieza = new Vector<Pedido_Pieza>((Collection) q1.execute(entidad,desde,hasta));
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -3018,14 +3018,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -3111,14 +3111,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -3206,7 +3206,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -3214,7 +3214,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 					q1.setResult("count(this)");
 					cantidad = (Long)q1.execute(entidad,desde,hasta);
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo==null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -3258,14 +3258,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					pedidos_Pieza = new Vector<Pedido_Pieza>((Collection) q1.execute(entidad,desde,hasta));
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -3314,14 +3314,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -3407,14 +3407,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -3502,7 +3502,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -3510,7 +3510,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 					q1.setResult("count(this)");
 					cantidad = (Long)q1.execute(entidad,desde,hasta);
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo==null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -3554,14 +3554,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){ //desde con fecha hasta con fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					pedidos_Pieza = new Vector<Pedido_Pieza>((Collection) q1.execute(entidad,desde,hasta));
 				}else{ //desde con fecha hasta sin fecha
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -3610,14 +3610,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");
@@ -3703,14 +3703,14 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 				}
 			}else{
 				if(hasta!=null){
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null) && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde && (devolucion_pieza.fecha_devolucion <= hasta || devolucion_pieza == null)";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection; import java.sql.Date;");
 					q1.declareParameters("Collection entidad, Date desde, Date hasta");
 					c = (Collection) q1.execute(entidad,desde,hasta);
 				}else{
-					filtro += " && (pedido.reclamo.fecha_reclamo >= desde || pedido.reclamo.fecha_reclamo == null)";
+					filtro += " && fecha_solicitud_fabrica >= desde";
 					Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 					Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro);
 					q1.declareImports("import java.util.Collection;import java.sql.Date;");

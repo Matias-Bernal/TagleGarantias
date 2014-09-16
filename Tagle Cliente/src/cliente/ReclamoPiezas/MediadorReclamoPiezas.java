@@ -65,7 +65,7 @@ public class MediadorReclamoPiezas {
 		Vector<Pedido_PiezaDTO> pedios_piezas = new Vector<Pedido_PiezaDTO>();
 		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();
 		try {
-			pedios_piezas = iControlPedido_Pieza.obtenerPedido_PiezaAgente();
+			pedios_piezas = iControlPedido_Pieza.obtenerPedido_PiezaReclamoAgente();
 		} catch (Exception e) {
 			System.out.println("Error al cargar los pedidos_piezas de agentes");
 			e.printStackTrace();
@@ -77,7 +77,7 @@ public class MediadorReclamoPiezas {
 		Vector<Pedido_PiezaDTO> pedios_piezas = new Vector<Pedido_PiezaDTO>();
 		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();
 		try {
-			pedios_piezas = iControlPedido_Pieza.obtenerPedido_Pieza();
+			pedios_piezas = iControlPedido_Pieza.obtenerPedido_PiezaReclamoFabrica();
 		} catch (Exception e) {
 			System.out.println("Error al cargar los pedidos_piezas");
 			e.printStackTrace();

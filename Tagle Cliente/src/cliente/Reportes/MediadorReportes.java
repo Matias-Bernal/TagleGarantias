@@ -287,10 +287,10 @@ public class MediadorReportes {
 	}
 
 	/*---------------------------------------------------------------*/
-	public String cantidad_con_ot_entidad(Date desde, Date hasta) {
+	public String cantidad_pedidas_a_fabrica_entidad(Date desde, Date hasta) {
 		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();		
 		try {
-			Long cantidad = iControlPedido_Pieza.piezas_con_ot_entidad(desde,hasta);
+			Long cantidad = iControlPedido_Pieza.piezas_pedidas_a_fabrica_entidad(desde,hasta);
 			return cantidad.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -298,34 +298,34 @@ public class MediadorReportes {
 		}
 	}
 	
-	public Triple<Double,Double,Double> anticuacion_con_ot_entidad(Date desde, Date hasta) {
+	public Triple<Double,Double,Double> anticuacion_pedidas_a_fabrica_entidad(Date desde, Date hasta) {
 		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();		
 		Triple<Double,Double,Double> anticuacion = null;
 		try {
-			return iControlPedido_Pieza.anticuacion_con_ot_entidad(desde, hasta);
+			return iControlPedido_Pieza.anticuacion_pedidas_a_fabrica_entidad(desde, hasta);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return anticuacion;
 	}
 
-	public Cuadruple<Double,Double,Double,Double> monto_con_ot_entidad(Date desde, Date hasta) {
+	public Cuadruple<Double,Double,Double,Double> monto_pedidas_a_fabrica_entidad(Date desde, Date hasta) {
 		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();		
 		Cuadruple<Double,Double,Double,Double> monto = null;
 		try {
-			return iControlPedido_Pieza.monto_con_ot_entidad(desde,hasta);
+			return iControlPedido_Pieza.monto_pedidas_a_fabrica_entidad(desde,hasta);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return monto;
 	}
 	
-	public String cantidad_con_ot_agente(Date desde, Date hasta, String nombre_agente) {
+	public String cantidad_pedida_a_fabrica_agente(Date desde, Date hasta, String nombre_agente) {
 		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();		
 		IControlAgente iControlAgente = MediadorAccionesIniciarPrograma.getControlAgente();
 		try {
 			AgenteDTO agente = iControlAgente.buscarAgente(nombre_agente);
-			Long cantidad = iControlPedido_Pieza.cantidad_piezas_agente(desde, hasta, agente, "fecha_solicitud_fabrica==null");
+			Long cantidad = iControlPedido_Pieza.cantidad_piezas_agente(desde, hasta, agente, "fecha_solicitud_fabrica!=null");
 			return cantidad.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -333,26 +333,26 @@ public class MediadorReportes {
 		}
 	}
 	
-	public Triple<Double,Double,Double> anticuacion_con_ot_agente(Date desde, Date hasta, String nombre_agente) {
+	public Triple<Double,Double,Double> anticuacion_pedidas_a_fabrica_agente(Date desde, Date hasta, String nombre_agente) {
 		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();		
 		IControlAgente iControlAgente = MediadorAccionesIniciarPrograma.getControlAgente();		
 		Triple<Double,Double,Double> anticuacion = null;
 		try {
 			AgenteDTO agente = iControlAgente.buscarAgente(nombre_agente);
-			return iControlPedido_Pieza.anticuacion_agente(desde, hasta, agente, "fecha_solicitud_fabrica==null");
+			return iControlPedido_Pieza.anticuacion_agente(desde, hasta, agente, "fecha_solicitud_fabrica!=null");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return anticuacion;
 	}
 	
-	public Cuadruple<Double,Double,Double,Double> monto_con_ot_agente(Date desde, Date hasta, String nombre_agente) {
+	public Cuadruple<Double,Double,Double,Double> monto_pedidas_a_fabrica_agente(Date desde, Date hasta, String nombre_agente) {
 		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();
 		IControlAgente iControlAgente = MediadorAccionesIniciarPrograma.getControlAgente();		
 		Cuadruple<Double,Double,Double,Double> monto = null;
 		try {
 			AgenteDTO agente = iControlAgente.buscarAgente(nombre_agente);
-			return iControlPedido_Pieza.monto_agente(desde, hasta, agente, "fecha_solicitud_fabrica==null");
+			return iControlPedido_Pieza.monto_agente(desde, hasta, agente, "fecha_solicitud_fabrica!=null");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -959,26 +959,26 @@ public class MediadorReportes {
 
 	/*---------------------------------------------------------------*/
 	
-	public void verCasosOTEntidad(Date desde, Date hasta) {
+	public void verCasosPedidas_a_FabricaEntidad(Date desde, Date hasta) {
 		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();
 		Vector<Pedido_PiezaDTO> pedidos_piezas = new Vector<Pedido_PiezaDTO>();
 		try {
-			pedidos_piezas = iControlPedido_Pieza.obtener_piezas_con_ot_entidad(desde, hasta);
-			GUIVerCasosEntidad guiVerCasos = new GUIVerCasosEntidad(this, pedidos_piezas, "STOCK CON ORDEN DE TRABAJO", desde, hasta);
+			pedidos_piezas = iControlPedido_Pieza.obtener_piezas_pedidas_a_fabrica_entidad(desde, hasta);
+			GUIVerCasosEntidad guiVerCasos = new GUIVerCasosEntidad(this, pedidos_piezas, "STOCK PEDIDO A FABRICA", desde, hasta);
 			guiVerCasos.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void verCasosOTAgente(Date desde, Date hasta, String nombre_agente) {
+	public void verCasosPedidas_a_FabricaAgente(Date desde, Date hasta, String nombre_agente) {
 		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();
 		IControlAgente iControlAgente = MediadorAccionesIniciarPrograma.getControlAgente();		
 		Vector<Pedido_PiezaDTO> pedidos_piezas = new Vector<Pedido_PiezaDTO>();
 		try {
 			AgenteDTO agente = iControlAgente.buscarAgente(nombre_agente);
-			pedidos_piezas = iControlPedido_Pieza.obtener_piezas_agente(desde, hasta, agente, "fecha_solicitud_fabrica==null");
-			GUIVerCasosAgente guiVerCasos = new GUIVerCasosAgente(this, pedidos_piezas, "STOCK CON ORDEN DE TRABAJO", desde, hasta,nombre_agente);
+			pedidos_piezas = iControlPedido_Pieza.obtener_piezas_agente(desde, hasta, agente, "fecha_solicitud_fabrica!=null");
+			GUIVerCasosAgente guiVerCasos = new GUIVerCasosAgente(this, pedidos_piezas, "STOCK PEDIDO A FABRICA", desde, hasta,nombre_agente);
 			guiVerCasos.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
