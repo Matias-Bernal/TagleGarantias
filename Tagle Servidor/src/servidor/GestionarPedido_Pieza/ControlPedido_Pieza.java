@@ -1158,7 +1158,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			Collection agentes = (Collection) q0.execute();
 			String filtro_ = filtro;
 			if(agente!=null)
-				filtro_ += " && pedido.reclamo.registrante.id == "+agente.getId().toString()+" && ";
+				filtro_ += " && pedido.reclamo.registrante.id == "+agente.getId().toString();
 			else
 				filtro_ += " && agentes.contains(pedido.reclamo.registrante)";
 			Vector<Pedido_Pieza> pedidos_Pieza = new Vector<Pedido_Pieza>();
