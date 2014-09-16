@@ -73,7 +73,7 @@ public class MediadorReclamoPiezas {
 		return pedios_piezas;
 	}
 
-	public Vector<Pedido_PiezaDTO> obtenerPedido_Pieza() {
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaFabrica() {
 		Vector<Pedido_PiezaDTO> pedios_piezas = new Vector<Pedido_PiezaDTO>();
 		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();
 		try {
@@ -143,6 +143,7 @@ public class MediadorReclamoPiezas {
 		return res;
 	}
 	
+	@SuppressWarnings("unused")
 	public Date obtenerUltimoReclamoFabrica(Pedido_PiezaDTO pedido_pieza) {
 		Date fecha_ultimo_reclamoFabrica = null;
 		IControlReclamo_Fabrica iControlReclamo_Fabrica = MediadorAccionesIniciarPrograma.getControlReclamo_Fabrica();
@@ -162,6 +163,7 @@ public class MediadorReclamoPiezas {
 		return fecha_ultimo_reclamoFabrica;
 	}
 	
+	@SuppressWarnings("unused")
 	public Date obtenerUltimoReclamoAgente(Pedido_PiezaDTO pedido_pieza) {
 		Date fecha_ultimo_reclamoAgente = null;
 		IControlReclamo_Agente iControlReclamo_Agente = MediadorAccionesIniciarPrograma.getControlReclamo_Agente();

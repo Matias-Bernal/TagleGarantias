@@ -14,7 +14,9 @@
  *********************************************************/
 package cliente.ReclamoPiezas;
 
+import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -25,6 +27,7 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.LinkedList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
@@ -32,20 +35,20 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.EtchedBorder;
+import javax.swing.border.MatteBorder;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
+import cliente.Recursos.Botones.ButtonType;
+import cliente.Recursos.Botones.GlossyButton;
+import cliente.Recursos.util.JPanel_Whit_Image;
+import cliente.Recursos.util.Theme;
 import common.RootAndIp;
 import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.UsuarioDTO;
-
-import java.awt.Toolkit;
-
-import javax.swing.ImageIcon;
 
 public class GUINuevoReclamoFabrica extends JFrame {
 
@@ -72,33 +75,35 @@ public class GUINuevoReclamoFabrica extends JFrame {
 	
 	
 	public GUINuevoReclamoFabrica(MediadorReclamoPiezas mediador, Pedido_PiezaDTO pedido_pieza, UsuarioDTO usuario) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(GUINuevoReclamoFabrica.class.getResource("/cliente/Resources/Icons/entidad.png")));
-		setResizable(false);
 		this.mediador = mediador;
 		this.pedido_pieza = pedido_pieza;
 		this.usuario = usuario;
 		inicialize();
 	}
 	public void inicialize(){
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUINuevoReclamoFabrica.class.getResource("/cliente/Resources/Icons/entidad.png")));
+		setResizable(false);
 		setTitle("NUEVO RECLAMO A FABRICA");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 700, 459);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		contentPane = new JPanel_Whit_Image("/cliente/Recursos/Imagenes/background.jpg");
+		contentPane.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		btnCrearFormulario = new JButton("Crear Formulario");
+		btnCrearFormulario = new GlossyButton("CREAR FORMULARIO",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_METALIC_BLUE_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnCrearFormulario.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btnCrearFormulario.setIcon(new ImageIcon(GUINuevoReclamoFabrica.class.getResource("/cliente/Resources/Icons/formulario.png")));
 		btnCrearFormulario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				llenarFormulario();
 			}
 		});
-		btnCrearFormulario.setBounds(15, 375, 165, 23);
+		btnCrearFormulario.setBounds(10, 397, 165, 20);
 		contentPane.add(btnCrearFormulario);
 		
-		btnEnviarFormulario = new JButton("Enviar Formulario");
+		btnEnviarFormulario = new GlossyButton("ENVIAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_GREEN_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnEnviarFormulario.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btnEnviarFormulario.setIcon(new ImageIcon(GUINuevoReclamoFabrica.class.getResource("/cliente/Resources/Icons/1_mail_fabrica.png")));
 		btnEnviarFormulario.setEnabled(false);
 		btnEnviarFormulario.addActionListener(new ActionListener() {
@@ -106,75 +111,83 @@ public class GUINuevoReclamoFabrica extends JFrame {
 				enviarFormulario();
 			}
 		});
-		btnEnviarFormulario.setBounds(529, 375, 155, 23);
+		btnEnviarFormulario.setBounds(525, 397, 155, 20);
 		contentPane.add(btnEnviarFormulario);
 		
 		ePMotivo = new JEditorPane();
-		ePMotivo.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		ePMotivo.setBounds(15, 205, 669, 159);
+		ePMotivo.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		ePMotivo.setBounds(10, 205, 674, 181);
 		contentPane.add(ePMotivo);
 		
 		JLabel lblMotivoReclamo = new JLabel("MOTIVO DEL RECLAMO");
+		lblMotivoReclamo.setBorder(null);
 		lblMotivoReclamo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMotivoReclamo.setBounds(269, 171, 135, 25);
 		contentPane.add(lblMotivoReclamo);
 		
 		JLabel lblNewLabel = new JLabel("PEDIDO- PIEZA");
+		lblNewLabel.setBorder(null);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(269, 0, 135, 25);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNumeroPedido = new JLabel("NUMERO PEDIDO");
+		lblNumeroPedido.setBorder(null);
 		lblNumeroPedido.setBounds(10, 35, 170, 25);
 		contentPane.add(lblNumeroPedido);
 		
 		JLabel lblNumeroPieza = new JLabel("NUMERO PIEZA");
+		lblNumeroPieza.setBorder(null);
 		lblNumeroPieza.setBounds(10, 65, 170, 25);
 		contentPane.add(lblNumeroPieza);
 		
 		JLabel lblDescripcion = new JLabel("DESCRIPCION PIEZA");
+		lblDescripcion.setBorder(null);
 		lblDescripcion.setBounds(386, 34, 170, 23);
 		contentPane.add(lblDescripcion);
 		
 		JLabel lblNumeroOrden = new JLabel("NUMERO ORDEN");
+		lblNumeroOrden.setBorder(null);
 		lblNumeroOrden.setBounds(10, 95, 170, 25);
 		contentPane.add(lblNumeroOrden);
 		
 		JLabel lblFechaSolicitudFabrica = new JLabel("FECHA SOLICITUD FABRICA");
+		lblFechaSolicitudFabrica.setBorder(null);
 		lblFechaSolicitudFabrica.setBounds(10, 125, 170, 25);
 		contentPane.add(lblFechaSolicitudFabrica);
 		
 		lbl_num_pedido = new JLabel("");
 		lbl_num_pedido.setText(pedido_pieza.getNumero_pedido());
-		lbl_num_pedido.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		lbl_num_pedido.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		lbl_num_pedido.setBounds(190, 35, 170, 25);
 		contentPane.add(lbl_num_pedido);
 		
 		lbl_num_Pieza = new JLabel("");
 		lbl_num_Pieza.setText(pedido_pieza.getPieza().getNumero_pieza());
-		lbl_num_Pieza.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		lbl_num_Pieza.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		lbl_num_Pieza.setBounds(190, 65, 170, 25);
 		contentPane.add(lbl_num_Pieza);
 		
 		lbl_desc_pieza = new JLabel("");
 		lbl_desc_pieza.setText(pedido_pieza.getPieza().getDescripcion());
-		lbl_desc_pieza.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		lbl_desc_pieza.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		lbl_desc_pieza.setBounds(386, 68, 298, 82);
 		contentPane.add(lbl_desc_pieza);
 		
 		lbl_num_ot = new JLabel("");
 		lbl_num_ot.setText(pedido_pieza.getPedido().getReclamo().getOrden().getNumero_orden());
-		lbl_num_ot.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		lbl_num_ot.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		lbl_num_ot.setBounds(190, 95, 170, 25);
 		contentPane.add(lbl_num_ot);
 		
 		lbl_fsf = new JLabel("");
 		lbl_fsf.setText(pedido_pieza.getPedido().getFecha_solicitud_pedido().toString());
-		lbl_fsf.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		lbl_fsf.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		lbl_fsf.setBounds(190, 125, 170, 25);
 		contentPane.add(lbl_fsf);
 		
-		btnVerFormulario = new JButton("Ver Formulario");
+		btnVerFormulario = new GlossyButton("VER FORMULARIO",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_LIME_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnVerFormulario.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btnVerFormulario.setIcon(new ImageIcon(GUINuevoReclamoFabrica.class.getResource("/cliente/Resources/Icons/ver_formulario.png")));
     	btnVerFormulario.setEnabled(false);
 		btnVerFormulario.addActionListener(new ActionListener() {
@@ -191,10 +204,11 @@ public class GUINuevoReclamoFabrica extends JFrame {
 				}
 			}
 		});
-		btnVerFormulario.setBounds(189, 375, 155, 23);
+		btnVerFormulario.setBounds(185, 397, 155, 20);
 		contentPane.add(btnVerFormulario);
 		
-		btnNewButton = new JButton("Guardar Sin Enviar");
+		btnNewButton = new GlossyButton("GUARDAR SIN ENVIAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_BLUEGREEN_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnNewButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btnNewButton.setIcon(new ImageIcon(GUINuevoReclamoFabrica.class.getResource("/cliente/Resources/Icons/save.png")));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -207,7 +221,7 @@ public class GUINuevoReclamoFabrica extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setBounds(354, 375, 165, 23);
+		btnNewButton.setBounds(350, 397, 165, 20);
 		contentPane.add(btnNewButton);
 	}
 
@@ -221,6 +235,7 @@ public class GUINuevoReclamoFabrica extends JFrame {
 		
 	}
 
+	@SuppressWarnings("unused")
 	protected void llenarFormulario() {
         String archivo="Formulario_SRC.xls";
         Date hoy = new Date();

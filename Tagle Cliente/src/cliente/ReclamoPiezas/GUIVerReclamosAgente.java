@@ -14,6 +14,8 @@
  *********************************************************/
 package cliente.ReclamoPiezas;
 
+import java.awt.Color;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,6 +23,7 @@ import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -28,19 +31,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import cliente.Recursos.Botones.ButtonType;
+import cliente.Recursos.Botones.GlossyButton;
+import cliente.Recursos.util.JPanel_Whit_Image;
+import cliente.Recursos.util.Theme;
 import cliente.excellexport.ExportarExcel;
+
 import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.Pedido_Pieza_Reclamo_AgenteDTO;
 import common.DTOs.Reclamo_AgenteDTO;
-
-import javax.swing.ImageIcon;
-
-import java.awt.Toolkit;
 
 public class GUIVerReclamosAgente extends JFrame {
 
@@ -60,9 +64,6 @@ public class GUIVerReclamosAgente extends JFrame {
 
 
 	public GUIVerReclamosAgente(MediadorReclamoPiezas mediador, Pedido_PiezaDTO pedido_pieza) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIVerReclamosAgente.class.getResource("/cliente/Resources/Icons/registrante_solo.png")));
-		setResizable(false);
-		setTitle("RECLAMOS A AGENTE");
 		this.mediador = mediador;
 		this.pedido_pieza = pedido_pieza;
 		cargarDatos();
@@ -122,10 +123,13 @@ public class GUIVerReclamosAgente extends JFrame {
 
 	}
 	public void initialize(){
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIVerReclamosAgente.class.getResource("/cliente/Resources/Icons/registrante_solo.png")));
+		setResizable(false);
+		setTitle("RECLAMOS A AGENTE");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 700, 501);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane = new JPanel_Whit_Image("/cliente/Recursos/Imagenes/background.jpg");
+		contentPane.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
@@ -140,6 +144,7 @@ public class GUIVerReclamosAgente extends JFrame {
 				return columnEditables[column];
 			}
 		};
+		tabla_reclamos.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tabla_reclamos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -162,40 +167,44 @@ public class GUIVerReclamosAgente extends JFrame {
 		tabla_reclamos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		JScrollPane scrollPaneTabla_reclamos_fabrica = new JScrollPane(tabla_reclamos);
+		scrollPaneTabla_reclamos_fabrica.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		scrollPaneTabla_reclamos_fabrica.setViewportView(tabla_reclamos);
 		tabla_reclamos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
-		scrollPaneTabla_reclamos_fabrica.setBounds(10, 50, 660, 375);
+		scrollPaneTabla_reclamos_fabrica.setBounds(10, 50, 674, 375);
 		contentPane.add(scrollPaneTabla_reclamos_fabrica);
 				
-		btnVerReclamo = new JButton("Ver Reclamo");
+		btnVerReclamo = new GlossyButton("",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_LIME_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnVerReclamo.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btnVerReclamo.setIcon(new ImageIcon(GUIVerReclamosAgente.class.getResource("/cliente/Resources/Icons/find_reclamo.png")));
 		btnVerReclamo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				verReclamo();
 			}
 		});
-		btnVerReclamo.setBounds(180, 430, 130, 25);
+		btnVerReclamo.setBounds(610, 7, 32, 32);
 		contentPane.add(btnVerReclamo);
 		
-		btnVolver = new JButton("Volver");
+		btnVolver = new GlossyButton("VOLVER",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_BLUEGREEN_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnVolver.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btnVolver.setIcon(new ImageIcon(GUIVerReclamosAgente.class.getResource("/cliente/Resources/Icons/back.png")));
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 			}
 		});
-		btnVolver.setBounds(400, 430, 130, 25);
+		btnVolver.setBounds(282, 430, 130, 25);
 		contentPane.add(btnVolver);
 		
-		btnExportarTabla = new JButton("");
+		btnExportarTabla = new GlossyButton("",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_METALIC_BLUE_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnExportarTabla.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btnExportarTabla.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				exportarTablas();
 			}
 		});
 		btnExportarTabla.setIcon(new ImageIcon(GUIVerReclamosAgente.class.getResource("/cliente/Resources/Icons/formulario.png")));
-		btnExportarTabla.setBounds(642, 11, 32, 32);
+		btnExportarTabla.setBounds(652, 7, 32, 32);
 		contentPane.add(btnExportarTabla);
 	}
 	protected void exportarTablas() {

@@ -123,7 +123,7 @@ public class GUIReclamoPiezas extends JFrame{
 		
 		modelo_reclamos_fabrica = new DefaultTableModel();
 		datosTabla_reclamos_fabrica = new Vector<Vector<String>>();
-		pedidos_piezas_reclamo_fabrica = mediador.obtenerPedido_Pieza();
+		pedidos_piezas_reclamo_fabrica = mediador.obtenerPedido_PiezaFabrica();
 		
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 
@@ -546,7 +546,7 @@ public class GUIReclamoPiezas extends JFrame{
 
 	protected void actualizarReclamosFabrica() {
 		datosTabla_reclamos_fabrica = new Vector<Vector<String>>();
-		pedidos_piezas_reclamo_fabrica = mediador.obtenerPedido_Pieza();
+		pedidos_piezas_reclamo_fabrica = mediador.obtenerPedido_PiezaFabrica();
 		
 		for (int i=0; i< pedidos_piezas_reclamo_fabrica.size();i++){
 			Vector<String> row = new Vector<String> ();

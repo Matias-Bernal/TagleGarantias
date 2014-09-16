@@ -124,6 +124,7 @@ public class GUIAltaOrden extends JFrame {
 		
 	}
 		
+	@SuppressWarnings("unused")
 	protected void nuevaOrden() {
 		if (tfNumero_Orden.getText().isEmpty()){
 			JOptionPane.showMessageDialog(contentPane,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);

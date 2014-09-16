@@ -14,6 +14,8 @@
  *********************************************************/
 package cliente.ReclamoPiezas;
 
+import java.awt.Color;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Properties;
@@ -28,6 +30,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
@@ -37,12 +40,15 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
+
+import cliente.Recursos.Botones.ButtonType;
+import cliente.Recursos.Botones.GlossyButton;
+import cliente.Recursos.util.JPanel_Whit_Image;
+import cliente.Recursos.util.Theme;
 
 import common.RootAndIp;
 import common.DTOs.UsuarioDTO;
-import javax.swing.ImageIcon;
-import java.awt.Toolkit;
 
 public class GUIMailAgente extends JFrame {
 
@@ -60,8 +66,6 @@ public class GUIMailAgente extends JFrame {
 	private JButton btnEnviar;
 
 	public GUIMailAgente (GUINuevoReclamoAgente reclamo, UsuarioDTO usuario) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIMailAgente.class.getResource("/cliente/Resources/Icons/mail_agente.png")));
-		setResizable(false);
 		this.reclamo = reclamo;
 		this.setUsuario(usuario);
 		initialize();
@@ -70,62 +74,75 @@ public class GUIMailAgente extends JFrame {
 	}
 	
 	public void initialize(){
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIMailAgente.class.getResource("/cliente/Resources/Icons/mail_agente.png")));
+		setResizable(false);
 		setTitle("ENVIAR RECLAMO AGENTE");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 547, 382);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane = new JPanel_Whit_Image("/cliente/Recursos/Imagenes/background.jpg");
+		contentPane.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblContrasea = new JLabel("Contrase\u00F1a");
+		lblContrasea.setBorder(null);
 		lblContrasea.setBounds(260, 10, 90, 20);
 		contentPane.add(lblContrasea);
 		
 		pw_email = new JPasswordField();
+		pw_email.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		pw_email.setBounds(360, 10, 140, 20);
 		contentPane.add(pw_email);
 	
 		epCuerpo = new JEditorPane();
+		epCuerpo.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		epCuerpo.setText("");
 		//TODO aca agregar el cuerpo del mensaje
 		epCuerpo.setBounds(0, 0, 106, 20);
 		
 		JScrollPane scrollPane = new JScrollPane(epCuerpo);
-		scrollPane.setBounds(10, 138, 511, 159);
+		scrollPane.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		scrollPane.setBounds(10, 138, 521, 174);
 		contentPane.add(scrollPane);
 		
 		JLabel lblDe = new JLabel("De:");
+		lblDe.setBorder(null);
 		lblDe.setBounds(10, 10, 60, 20);
 		contentPane.add(lblDe);
 		
 		JLabel lblA = new JLabel("A:");
+		lblA.setBorder(null);
 		lblA.setBounds(10, 35, 60, 20);
 		contentPane.add(lblA);
 		
 		JLabel lblAsunto = new JLabel("Asunto:");
+		lblAsunto.setBorder(null);
 		lblAsunto.setBounds(10, 60, 60, 20);
 		contentPane.add(lblAsunto);
 		
 		tfFrom = new JTextField();
+		tfFrom.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tfFrom.setBounds(80, 10, 140, 20);
 		contentPane.add(tfFrom);
 		tfFrom.setColumns(10);
 		
 		tfTo = new JTextField();
+		tfTo.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tfTo.setText("");
 		tfTo.setBounds(80, 35, 180, 20);
 		contentPane.add(tfTo);
 		tfTo.setColumns(10);
 		
 		tfAsunto = new JTextField();
+		tfAsunto.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tfAsunto.setText("");
 		//TODO aca agregar el asunto del mensaje
 		tfAsunto.setBounds(80, 60, 250, 20);
 		contentPane.add(tfAsunto);
 		tfAsunto.setColumns(10);
 		
-		btnEnviar = new JButton("Enviar");
+		btnEnviar = new GlossyButton("ENVIAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_GREEN_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnEnviar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btnEnviar.setIcon(new ImageIcon(GUIMailAgente.class.getResource("/cliente/Resources/Icons/mail.png")));
 		btnEnviar.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
@@ -143,17 +160,18 @@ public class GUIMailAgente extends JFrame {
 				}
 			}
 		});
-		btnEnviar.setBounds(330, 305, 110, 25);
+		btnEnviar.setBounds(320, 323, 120, 20);
 		contentPane.add(btnEnviar);
 		
-		btnCancelar = new JButton("Cancelar");
+		btnCancelar = new GlossyButton("CANCELAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_RED_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnCancelar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btnCancelar.setIcon(new ImageIcon(GUIMailAgente.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(100, 305, 110, 25);
+		btnCancelar.setBounds(100, 323, 120, 20);
 		contentPane.add(btnCancelar);
 	}
 

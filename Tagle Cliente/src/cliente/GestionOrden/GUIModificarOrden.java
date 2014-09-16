@@ -225,6 +225,7 @@ public class GUIModificarOrden extends JFrame {
 	}
 		
 
+	@SuppressWarnings("unused")
 	protected void modificarOrden(){
 		if (tfNumero_Orden.getText().isEmpty() || fecha_apertura.getDate()==null){
 			JOptionPane.showMessageDialog(contentPane,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
