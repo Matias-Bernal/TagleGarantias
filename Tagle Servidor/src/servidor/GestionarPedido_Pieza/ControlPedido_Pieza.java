@@ -959,29 +959,27 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			    java.sql.Date hoy = new java.sql.Date(fechaHoy.getTime());
 				while (iter.hasNext()){
 					Pedido_Pieza current = (Pedido_Pieza)iter.next();
-					if(current.getFecha_recepcion_fabrica()!=null){
-						Double diferencia = new Double(0);
-						cantidad+=1;
-						diferencia = new Double ((hoy.getTime() - current.getFecha_recepcion_fabrica().getTime())/MILLSECS_PER_DAY);
-						if(diferencia>=0){
-							if(sum!=null)
-								sum+=diferencia;
-							else
-								sum=diferencia;
-							if(anticuacion.second()!=null){
-								if(anticuacion.second()<diferencia){
-									anticuacion.setSecond(diferencia);
-								}
-							}else{
+					Double diferencia = new Double(0);
+					cantidad+=1;
+					diferencia = new Double ((hoy.getTime() - current.getFecha_solicitud_fabrica().getTime())/MILLSECS_PER_DAY);
+					if(diferencia>=0){
+						if(sum!=null)
+							sum+=diferencia;
+						else
+							sum=diferencia;
+						if(anticuacion.second()!=null){
+							if(anticuacion.second()<diferencia){
 								anticuacion.setSecond(diferencia);
 							}
-							if(anticuacion.third()!=null){
-								if(anticuacion.third()>diferencia){
-									anticuacion.setThird(diferencia);
-								}							
-							}else{
+						}else{
+							anticuacion.setSecond(diferencia);
+						}
+						if(anticuacion.third()!=null){
+							if(anticuacion.third()>diferencia){
 								anticuacion.setThird(diferencia);
-							}
+							}							
+						}else{
+							anticuacion.setThird(diferencia);
 						}
 					}
 				}
@@ -1218,7 +1216,7 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			Collection agentes = (Collection) q0.execute();
 			String filtro_ = filtro;
 			if(agente!=null)
-				filtro_ += " && pedido.reclamo.registrante.id == "+agente.getId();
+				filtro_ += " && pedido.reclamo.registrante.id == "+agente.getId().toString();
 			else
 				filtro_ += " && agentes.contains(pedido.reclamo.registrante)";
 			Collection c = null;
@@ -1265,29 +1263,27 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			    java.sql.Date hoy = new java.sql.Date(fechaHoy.getTime());
 				while (iter.hasNext()){
 					Pedido_Pieza current = (Pedido_Pieza)iter.next();
-					if(current.getFecha_recepcion_fabrica()!=null){
-						Double diferencia = new Double(0);
-						cantidad+=1;
-						diferencia = new Double ((hoy.getTime() - current.getFecha_recepcion_fabrica().getTime())/MILLSECS_PER_DAY);
-						if(diferencia>=0){
-							if(sum!=null)
-								sum+=diferencia;
-							else
-								sum=diferencia;
-							if(anticuacion.second()!=null){
-								if(anticuacion.second()<diferencia){
-									anticuacion.setSecond(diferencia);
-								}
-							}else{
+					Double diferencia = new Double(0);
+					cantidad+=1;
+					diferencia = new Double ((hoy.getTime() - current.getFecha_solicitud_fabrica().getTime())/MILLSECS_PER_DAY);
+					if(diferencia>=0){
+						if(sum!=null)
+							sum+=diferencia;
+						else
+							sum=diferencia;
+						if(anticuacion.second()!=null){
+							if(anticuacion.second()<diferencia){
 								anticuacion.setSecond(diferencia);
 							}
-							if(anticuacion.third()!=null){
-								if(anticuacion.third()>diferencia){
-									anticuacion.setThird(diferencia);
-								}							
-							}else{
+						}else{
+							anticuacion.setSecond(diferencia);
+						}
+						if(anticuacion.third()!=null){
+							if(anticuacion.third()>diferencia){
 								anticuacion.setThird(diferencia);
-							}
+							}							
+						}else{
+							anticuacion.setThird(diferencia);
 						}
 					}
 				}
@@ -1564,29 +1560,27 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			    java.sql.Date hoy = new java.sql.Date(fechaHoy.getTime());
 				while (iter.hasNext()){
 					Pedido_Pieza current = (Pedido_Pieza)iter.next();
-					if(current.getFecha_recepcion_fabrica()!=null){
-						Double diferencia = new Double(0);
-						cantidad+=1;
-						diferencia = new Double ((hoy.getTime() - current.getFecha_recepcion_fabrica().getTime())/MILLSECS_PER_DAY);
-						if(diferencia>=0){
-							if(sum!=null)
-								sum+=diferencia;
-							else
-								sum=diferencia;
-							if(anticuacion.second()!=null){
-								if(anticuacion.second()<diferencia){
-									anticuacion.setSecond(diferencia);
-								}
-							}else{
+					Double diferencia = new Double(0);
+					cantidad+=1;
+					diferencia = new Double ((hoy.getTime() - current.getFecha_solicitud_fabrica().getTime())/MILLSECS_PER_DAY);
+					if(diferencia>=0){
+						if(sum!=null)
+							sum+=diferencia;
+						else
+							sum=diferencia;
+						if(anticuacion.second()!=null){
+							if(anticuacion.second()<diferencia){
 								anticuacion.setSecond(diferencia);
 							}
-							if(anticuacion.third()!=null){
-								if(anticuacion.third()>diferencia){
-									anticuacion.setThird(diferencia);
-								}							
-							}else{
+						}else{
+							anticuacion.setSecond(diferencia);
+						}
+						if(anticuacion.third()!=null){
+							if(anticuacion.third()>diferencia){
 								anticuacion.setThird(diferencia);
-							}
+							}							
+						}else{
+							anticuacion.setThird(diferencia);
 						}
 					}
 				}
@@ -1861,29 +1855,27 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			    java.sql.Date hoy = new java.sql.Date(fechaHoy.getTime());
 				while (iter.hasNext()){
 					Pedido_Pieza current = (Pedido_Pieza)iter.next();
-					if(current.getFecha_recepcion_fabrica()!=null){
-						Double diferencia = new Double(0);
-						cantidad+=1;
-						diferencia = new Double ((hoy.getTime() - current.getFecha_recepcion_fabrica().getTime())/MILLSECS_PER_DAY);
-						if(diferencia>=0){
-							if(sum!=null)
-								sum+=diferencia;
-							else
-								sum=diferencia;
-							if(anticuacion.second()!=null){
-								if(anticuacion.second()<diferencia){
-									anticuacion.setSecond(diferencia);
-								}
-							}else{
+					Double diferencia = new Double(0);
+					cantidad+=1;
+					diferencia = new Double ((hoy.getTime() - current.getFecha_solicitud_fabrica().getTime())/MILLSECS_PER_DAY);
+					if(diferencia>=0){
+						if(sum!=null)
+							sum+=diferencia;
+						else
+							sum=diferencia;
+						if(anticuacion.second()!=null){
+							if(anticuacion.second()<diferencia){
 								anticuacion.setSecond(diferencia);
 							}
-							if(anticuacion.third()!=null){
-								if(anticuacion.third()>diferencia){
-									anticuacion.setThird(diferencia);
-								}							
-							}else{
+						}else{
+							anticuacion.setSecond(diferencia);
+						}
+						if(anticuacion.third()!=null){
+							if(anticuacion.third()>diferencia){
 								anticuacion.setThird(diferencia);
-							}
+							}							
+						}else{
+							anticuacion.setThird(diferencia);
 						}
 					}
 				}
@@ -2157,29 +2149,27 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			    java.sql.Date hoy = new java.sql.Date(fechaHoy.getTime());
 				while (iter.hasNext()){
 					Pedido_Pieza current = (Pedido_Pieza)iter.next();
-					if(current.getFecha_recepcion_fabrica()!=null){
-						Double diferencia = new Double(0);
-						cantidad+=1;
-						diferencia = new Double ((hoy.getTime() - current.getFecha_recepcion_fabrica().getTime())/MILLSECS_PER_DAY);
-						if(diferencia>=0){
-							if(sum!=null)
-								sum+=diferencia;
-							else
-								sum=diferencia;
-							if(anticuacion.second()!=null){
-								if(anticuacion.second()<diferencia){
-									anticuacion.setSecond(diferencia);
-								}
-							}else{
+					Double diferencia = new Double(0);
+					cantidad+=1;
+					diferencia = new Double ((hoy.getTime() - current.getFecha_solicitud_fabrica().getTime())/MILLSECS_PER_DAY);
+					if(diferencia>=0){
+						if(sum!=null)
+							sum+=diferencia;
+						else
+							sum=diferencia;
+						if(anticuacion.second()!=null){
+							if(anticuacion.second()<diferencia){
 								anticuacion.setSecond(diferencia);
 							}
-							if(anticuacion.third()!=null){
-								if(anticuacion.third()>diferencia){
-									anticuacion.setThird(diferencia);
-								}							
-							}else{
+						}else{
+							anticuacion.setSecond(diferencia);
+						}
+						if(anticuacion.third()!=null){
+							if(anticuacion.third()>diferencia){
 								anticuacion.setThird(diferencia);
-							}
+							}							
+						}else{
+							anticuacion.setThird(diferencia);
 						}
 					}
 				}
@@ -2452,29 +2442,27 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			    java.sql.Date hoy = new java.sql.Date(fechaHoy.getTime());
 				while (iter.hasNext()){
 					Pedido_Pieza current = (Pedido_Pieza)iter.next();
-					if(current.getFecha_recepcion_fabrica()!=null){
-						Double diferencia = new Double(0);
-						cantidad+=1;
-						diferencia = new Double ((hoy.getTime() - current.getFecha_recepcion_fabrica().getTime())/MILLSECS_PER_DAY);
-						if(diferencia>=0){
-							if(sum!=null)
-								sum+=diferencia;
-							else
-								sum=diferencia;
-							if(anticuacion.second()!=null){
-								if(anticuacion.second()<diferencia){
-									anticuacion.setSecond(diferencia);
-								}
-							}else{
+					Double diferencia = new Double(0);
+					cantidad+=1;
+					diferencia = new Double ((hoy.getTime() - current.getFecha_solicitud_fabrica().getTime())/MILLSECS_PER_DAY);
+					if(diferencia>=0){
+						if(sum!=null)
+							sum+=diferencia;
+						else
+							sum=diferencia;
+						if(anticuacion.second()!=null){
+							if(anticuacion.second()<diferencia){
 								anticuacion.setSecond(diferencia);
 							}
-							if(anticuacion.third()!=null){
-								if(anticuacion.third()>diferencia){
-									anticuacion.setThird(diferencia);
-								}							
-							}else{
+						}else{
+							anticuacion.setSecond(diferencia);
+						}
+						if(anticuacion.third()!=null){
+							if(anticuacion.third()>diferencia){
 								anticuacion.setThird(diferencia);
-							}
+							}							
+						}else{
+							anticuacion.setThird(diferencia);
 						}
 					}
 				}
@@ -2748,29 +2736,27 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			    java.sql.Date hoy = new java.sql.Date(fechaHoy.getTime());
 				while (iter.hasNext()){
 					Pedido_Pieza current = (Pedido_Pieza)iter.next();
-					if(current.getFecha_recepcion_fabrica()!=null){
-						Double diferencia = new Double(0);
-						cantidad+=1;
-						diferencia = new Double ((hoy.getTime() - current.getFecha_recepcion_fabrica().getTime())/MILLSECS_PER_DAY);
-						if(diferencia>=0){
-							if(sum!=null)
-								sum+=diferencia;
-							else
-								sum=diferencia;
-							if(anticuacion.second()!=null){
-								if(anticuacion.second()<diferencia){
-									anticuacion.setSecond(diferencia);
-								}
-							}else{
+					Double diferencia = new Double(0);
+					cantidad+=1;
+					diferencia = new Double ((hoy.getTime() - current.getFecha_solicitud_fabrica().getTime())/MILLSECS_PER_DAY);
+					if(diferencia>=0){
+						if(sum!=null)
+							sum+=diferencia;
+						else
+							sum=diferencia;
+						if(anticuacion.second()!=null){
+							if(anticuacion.second()<diferencia){
 								anticuacion.setSecond(diferencia);
 							}
-							if(anticuacion.third()!=null){
-								if(anticuacion.third()>diferencia){
-									anticuacion.setThird(diferencia);
-								}							
-							}else{
+						}else{
+							anticuacion.setSecond(diferencia);
+						}
+						if(anticuacion.third()!=null){
+							if(anticuacion.third()>diferencia){
 								anticuacion.setThird(diferencia);
-							}
+							}							
+						}else{
+							anticuacion.setThird(diferencia);
 						}
 					}
 				}
@@ -3044,29 +3030,27 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			    java.sql.Date hoy = new java.sql.Date(fechaHoy.getTime());
 				while (iter.hasNext()){
 					Pedido_Pieza current = (Pedido_Pieza)iter.next();
-					if(current.getFecha_recepcion_fabrica()!=null){
-						Double diferencia = new Double(0);
-						cantidad+=1;
-						diferencia = new Double ((hoy.getTime() - current.getFecha_recepcion_fabrica().getTime())/MILLSECS_PER_DAY);
-						if(diferencia>=0){
-							if(sum!=null)
-								sum+=diferencia;
-							else
-								sum=diferencia;
-							if(anticuacion.second()!=null){
-								if(anticuacion.second()<diferencia){
-									anticuacion.setSecond(diferencia);
-								}
-							}else{
+					Double diferencia = new Double(0);
+					cantidad+=1;
+					diferencia = new Double ((hoy.getTime() - current.getFecha_solicitud_fabrica().getTime())/MILLSECS_PER_DAY);
+					if(diferencia>=0){
+						if(sum!=null)
+							sum+=diferencia;
+						else
+							sum=diferencia;
+						if(anticuacion.second()!=null){
+							if(anticuacion.second()<diferencia){
 								anticuacion.setSecond(diferencia);
 							}
-							if(anticuacion.third()!=null){
-								if(anticuacion.third()>diferencia){
-									anticuacion.setThird(diferencia);
-								}							
-							}else{
+						}else{
+							anticuacion.setSecond(diferencia);
+						}
+						if(anticuacion.third()!=null){
+							if(anticuacion.third()>diferencia){
 								anticuacion.setThird(diferencia);
-							}
+							}							
+						}else{
+							anticuacion.setThird(diferencia);
 						}
 					}
 				}
@@ -3340,29 +3324,27 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			    java.sql.Date hoy = new java.sql.Date(fechaHoy.getTime());
 				while (iter.hasNext()){
 					Pedido_Pieza current = (Pedido_Pieza)iter.next();
-					if(current.getFecha_recepcion_fabrica()!=null){
-						Double diferencia = new Double(0);
-						cantidad+=1;
-						diferencia = new Double ((hoy.getTime() - current.getFecha_recepcion_fabrica().getTime())/MILLSECS_PER_DAY);
-						if(diferencia>=0){
-							if(sum!=null)
-								sum+=diferencia;
-							else
-								sum=diferencia;
-							if(anticuacion.second()!=null){
-								if(anticuacion.second()<diferencia){
-									anticuacion.setSecond(diferencia);
-								}
-							}else{
+					Double diferencia = new Double(0);
+					cantidad+=1;
+					diferencia = new Double ((hoy.getTime() - current.getFecha_solicitud_fabrica().getTime())/MILLSECS_PER_DAY);
+					if(diferencia>=0){
+						if(sum!=null)
+							sum+=diferencia;
+						else
+							sum=diferencia;
+						if(anticuacion.second()!=null){
+							if(anticuacion.second()<diferencia){
 								anticuacion.setSecond(diferencia);
 							}
-							if(anticuacion.third()!=null){
-								if(anticuacion.third()>diferencia){
-									anticuacion.setThird(diferencia);
-								}							
-							}else{
+						}else{
+							anticuacion.setSecond(diferencia);
+						}
+						if(anticuacion.third()!=null){
+							if(anticuacion.third()>diferencia){
 								anticuacion.setThird(diferencia);
-							}
+							}							
+						}else{
+							anticuacion.setThird(diferencia);
 						}
 					}
 				}
@@ -3636,29 +3618,27 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			    java.sql.Date hoy = new java.sql.Date(fechaHoy.getTime());
 				while (iter.hasNext()){
 					Pedido_Pieza current = (Pedido_Pieza)iter.next();
-					if(current.getFecha_recepcion_fabrica()!=null){
-						Double diferencia = new Double(0);
-						cantidad+=1;
-						diferencia = new Double ((hoy.getTime() - current.getFecha_recepcion_fabrica().getTime())/MILLSECS_PER_DAY);
-						if(diferencia>=0){
-							if(sum!=null)
-								sum+=diferencia;
-							else
-								sum=diferencia;
-							if(anticuacion.second()!=null){
-								if(anticuacion.second()<diferencia){
-									anticuacion.setSecond(diferencia);
-								}
-							}else{
+					Double diferencia = new Double(0);
+					cantidad+=1;
+					diferencia = new Double ((hoy.getTime() - current.getFecha_solicitud_fabrica().getTime())/MILLSECS_PER_DAY);
+					if(diferencia>=0){
+						if(sum!=null)
+							sum+=diferencia;
+						else
+							sum=diferencia;
+						if(anticuacion.second()!=null){
+							if(anticuacion.second()<diferencia){
 								anticuacion.setSecond(diferencia);
 							}
-							if(anticuacion.third()!=null){
-								if(anticuacion.third()>diferencia){
-									anticuacion.setThird(diferencia);
-								}							
-							}else{
+						}else{
+							anticuacion.setSecond(diferencia);
+						}
+						if(anticuacion.third()!=null){
+							if(anticuacion.third()>diferencia){
 								anticuacion.setThird(diferencia);
-							}
+							}							
+						}else{
+							anticuacion.setThird(diferencia);
 						}
 					}
 				}
@@ -3805,7 +3785,6 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			Query q0 = accesoBD.getPersistencia().newQuery(e0, "");
 			Collection agentes = (Collection) q0.execute();
 			String filtro_ = "agentes.contains(pedido.reclamo.registrante) && fecha_solicitud_fabrica!=null && fecha_recepcion_fabrica!=null && fecha_envio_agente!=null";
-			Vector<Pedido_Pieza> pedidos_Pieza = new Vector<Pedido_Pieza>();
 			
 			Extent e1 = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, true);
 			Query q1 = accesoBD.getPersistencia().newQuery(e1, filtro_);

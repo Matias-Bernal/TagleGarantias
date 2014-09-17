@@ -121,6 +121,18 @@ public class GUIModificarOrden extends JFrame {
 		btn_clear_FR.setIcon(new ImageIcon(GUIModificarOrden.class.getResource("/cliente/Resources/Icons/clear.png")));
 		btn_clear_FR.setBounds(340, 164, 25, 20);
 		contentPane.add(btn_clear_FR);
+
+		tfNumeroRecurso = new JTextField();
+		tfNumeroRecurso.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tfNumeroRecurso.setColumns(10);
+		tfNumeroRecurso.setBounds(167, 133, 256, 20);
+		contentPane.add(tfNumeroRecurso);
+		
+		fecha_recurso = new JDateChooser();
+		fecha_recurso.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		fecha_recurso.setBounds(167, 164, 163, 20);
+		contentPane.add(fecha_recurso);
+
 		if (orden.getRecurso()!=null){
 			tfNumeroRecurso.setText(orden.getRecurso().getNumero_recurso());
 			if(orden.getRecurso().getFecha_recurso()!=null)
@@ -196,16 +208,7 @@ public class GUIModificarOrden extends JFrame {
 		label.setBounds(0, 133, 159, 20);
 		contentPane.add(label);
 		
-		tfNumeroRecurso = new JTextField();
-		tfNumeroRecurso.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tfNumeroRecurso.setColumns(10);
-		tfNumeroRecurso.setBounds(167, 133, 256, 20);
-		contentPane.add(tfNumeroRecurso);
 		
-		fecha_recurso = new JDateChooser();
-		fecha_recurso.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		fecha_recurso.setBounds(167, 164, 163, 20);
-		contentPane.add(fecha_recurso);
 		
 		JLabel label_1 = new JLabel("Fecha Recurso");
 		label_1.setBorder(null);
