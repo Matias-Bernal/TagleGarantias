@@ -204,7 +204,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		completarCampos();
 	}
 
-	@SuppressWarnings({ "static-access", "unused" })
+	@SuppressWarnings({ "static-access"})
 	private void completarCampos() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
@@ -217,16 +217,24 @@ public class GUIReporteRapidoAgente extends JFrame {
 		d.set(d.DAY_OF_MONTH,d.getMaximum(d.DAY_OF_MONTH));
 		dCHastaFDevolucion.setDate(d.getTime());
 	}
+	
+	
+	private String roundUp(Double a){
+		if(a >= (Double.valueOf(a.intValue()+".5")))
+			return String.valueOf(a.intValue()+1);
+		else
+			return String.valueOf(a.intValue());
+	}
 
-	@SuppressWarnings({ "static-access", "unused" })
+	@SuppressWarnings({ "static-access"})
 	private void cargarDatos() {
 		agentes = new Vector<String>();
 		agentes.add("");
 		agentes.addAll(mediador.obtenerNombresAgentes());
 
 		anchos_tabla = new Vector<Integer>();
-		anchos_tabla.add(125);
-		anchos_tabla.add(50);
+		anchos_tabla.add(115);
+		anchos_tabla.add(60);
 		Vector<String> row_cantidad= new Vector<String> ();
 		Vector<String> row_prom_anticuacion= new Vector<String> ();
 		Vector<String> row_max_anticuacion= new Vector<String> ();
@@ -239,7 +247,8 @@ public class GUIReporteRapidoAgente extends JFrame {
 		nombreColumnas.add("DATO");
 		nombreColumnas.add("VALOR");
 		
-		DecimalFormat df_pesos = new DecimalFormat("0.00"); 
+		DecimalFormat df_pesos = new DecimalFormat("0.00");
+
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		
 		Calendar desdeCalendar = Calendar.getInstance();
@@ -256,15 +265,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_pedidas_a_fabrica =  mediador.cantidad_pedida_a_fabrica_agente(desde, hasta, "");
 		Triple<Double,Double,Double> anticuacion_pedidas_a_fabrica = mediador.anticuacion_pedidas_a_fabrica_agente(desde, hasta, "");
 		if(anticuacion_pedidas_a_fabrica.first()!=null)
-			prom_anticuacion_pedidas_a_fabrica = anticuacion_pedidas_a_fabrica.first().toString();
+			prom_anticuacion_pedidas_a_fabrica = roundUp(anticuacion_pedidas_a_fabrica.first());
 		else
 			prom_anticuacion_pedidas_a_fabrica = "";
 		if(anticuacion_pedidas_a_fabrica.second()!=null)
-			max_anticuacion_pedidas_a_fabrica = anticuacion_pedidas_a_fabrica.second().toString();
+			max_anticuacion_pedidas_a_fabrica = roundUp(anticuacion_pedidas_a_fabrica.second());
 		else
 			max_anticuacion_pedidas_a_fabrica = "";
 		if(anticuacion_pedidas_a_fabrica.third()!=null)
-			min_anticuacion_pedidas_a_fabrica = anticuacion_pedidas_a_fabrica.third().toString();
+			min_anticuacion_pedidas_a_fabrica = roundUp(anticuacion_pedidas_a_fabrica.third());
 		else
 			min_anticuacion_pedidas_a_fabrica = "";
 		
@@ -289,15 +298,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_en_tranisto =  mediador.cantidad_en_transito_agente(desde, hasta, "");
 		Triple<Double,Double,Double> anticuacion_en_transito = mediador.anticuacion_en_transito_agente(desde, hasta, "");
 		if(anticuacion_en_transito.first()!=null)
-			prom_anticuacion_en_transito = anticuacion_en_transito.first().toString();
+			prom_anticuacion_en_transito = roundUp(anticuacion_en_transito.first());
 		else
 			prom_anticuacion_en_transito = "";
 		if(anticuacion_en_transito.second()!=null)
-			max_anticuacion_en_transito = anticuacion_en_transito.second().toString();
+			max_anticuacion_en_transito = roundUp(anticuacion_en_transito.second());
 		else
 			max_anticuacion_en_transito = "";
 		if(anticuacion_en_transito.third()!=null)
-			min_anticuacion_en_transito = anticuacion_en_transito.third().toString();
+			min_anticuacion_en_transito = roundUp(anticuacion_en_transito.third());
 		else
 			min_anticuacion_en_transito = "";
 		
@@ -322,15 +331,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_sin_enviar_agentes =  mediador.cantidad_sin_enviar_agente(desde, hasta, "");
 		Triple<Double,Double,Double> anticuacion_sin_enviar_agentes = mediador.anticuacion_sin_enviar_agente(desde, hasta, "");
 		if(anticuacion_sin_enviar_agentes.first()!=null)
-			prom_anticuacion_sin_enviar_agentes = anticuacion_sin_enviar_agentes.first().toString();
+			prom_anticuacion_sin_enviar_agentes = roundUp(anticuacion_sin_enviar_agentes.first());
 		else
 			prom_anticuacion_sin_enviar_agentes = "";
 		if(anticuacion_sin_enviar_agentes.second()!=null)
-			max_anticuacion_sin_enviar_agentes = anticuacion_sin_enviar_agentes.second().toString();
+			max_anticuacion_sin_enviar_agentes = roundUp(anticuacion_sin_enviar_agentes.second());
 		else
 			max_anticuacion_sin_enviar_agentes = "";
 		if(anticuacion_sin_enviar_agentes.third()!=null)
-			min_anticuacion_sin_enviar_agentes = anticuacion_sin_enviar_agentes.third().toString();
+			min_anticuacion_sin_enviar_agentes = roundUp(anticuacion_sin_enviar_agentes.third());
 		else
 			min_anticuacion_sin_enviar_agentes = "";
 		
@@ -355,15 +364,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_enviadas_agentes =  mediador.cantidad_enviado_a_agente(desde, hasta, "");
 		Triple<Double,Double,Double> anticuacion_enviado_a_agente = mediador.anticuacion_enviado_a_agente(desde, hasta, "");
 		if(anticuacion_enviado_a_agente.first()!=null)
-			prom_anticuacion_enviadas_agentes = anticuacion_enviado_a_agente.first().toString();
+			prom_anticuacion_enviadas_agentes = roundUp(anticuacion_enviado_a_agente.first());
 		else
 			prom_anticuacion_enviadas_agentes = "";
 		if(anticuacion_enviado_a_agente.second()!=null)
-			max_anticuacion_enviadas_agentes = anticuacion_enviado_a_agente.second().toString();
+			max_anticuacion_enviadas_agentes = roundUp(anticuacion_enviado_a_agente.second());
 		else
 			max_anticuacion_enviadas_agentes = "";
 		if(anticuacion_enviado_a_agente.third()!=null)
-			min_anticuacion_enviadas_agentes = anticuacion_enviado_a_agente.third().toString();
+			min_anticuacion_enviadas_agentes = roundUp(anticuacion_enviado_a_agente.third());
 		else
 			min_anticuacion_enviadas_agentes = "";
 		
@@ -388,15 +397,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_recibiadas_agentes =  mediador.cantidad_recibidas_de_agente(desde, hasta, "");
 		Triple<Double,Double,Double> anticuacion_recibidas_de_agente = mediador.anticuacion_recibidas_de_agente(desde, hasta, "");
 		if(anticuacion_recibidas_de_agente.first()!=null)
-			prom_anticuacion_recibiadas_agentes = anticuacion_recibidas_de_agente.first().toString();
+			prom_anticuacion_recibiadas_agentes = roundUp(anticuacion_recibidas_de_agente.first());
 		else
 			prom_anticuacion_recibiadas_agentes = "";
 		if(anticuacion_recibidas_de_agente.second()!=null)
-			max_anticuacion_recibiadas_agentes = anticuacion_recibidas_de_agente.second().toString();
+			max_anticuacion_recibiadas_agentes = roundUp(anticuacion_recibidas_de_agente.second());
 		else
 			max_anticuacion_recibiadas_agentes = "";
 		if(anticuacion_recibidas_de_agente.third()!=null)
-			min_anticuacion_recibiadas_agentes = anticuacion_recibidas_de_agente.third().toString();
+			min_anticuacion_recibiadas_agentes = roundUp(anticuacion_recibidas_de_agente.third());
 		else
 			min_anticuacion_recibiadas_agentes = "";
 		
@@ -421,15 +430,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_recursadas =  mediador.cantidad_recursadas_agente(desde, hasta, "");
 		Triple<Double,Double,Double> anticuacion_recursadas = mediador.anticuacion_recursadas_agente(desde, hasta, "");
 		if(anticuacion_recursadas.first()!=null)
-			prom_anticuacion_recursadas = anticuacion_recursadas.first().toString();
+			prom_anticuacion_recursadas = roundUp(anticuacion_recursadas.first());
 		else
 			prom_anticuacion_recursadas = "";
 		if(anticuacion_recursadas.second()!=null)
-			max_anticuacion_recursadas = anticuacion_recursadas.second().toString();
+			max_anticuacion_recursadas = roundUp(anticuacion_recursadas.second());
 		else
 			max_anticuacion_recursadas = "";
 		if(anticuacion_recursadas.third()!=null)
-			min_anticuacion_recursadas = anticuacion_recursadas.third().toString();
+			min_anticuacion_recursadas = roundUp(anticuacion_recursadas.third());
 		else
 			min_anticuacion_recursadas = "";
 		
@@ -454,15 +463,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_con_sdevolucion =  mediador.cantidad_con_sdevolucion_agente(desde, hasta, "");
 		Triple<Double,Double,Double> anticuacion_con_sdevolucion = mediador.anticuacion_con_sdevolucion_agente(desde, hasta, "");
 		if(anticuacion_con_sdevolucion.first()!=null)
-			prom_anticuacion_con_sdevolucion = anticuacion_con_sdevolucion.first().toString();
+			prom_anticuacion_con_sdevolucion = roundUp(anticuacion_con_sdevolucion.first());
 		else
 			prom_anticuacion_con_sdevolucion = "";
 		if(anticuacion_con_sdevolucion.second()!=null)
-			max_anticuacion_con_sdevolucion = anticuacion_con_sdevolucion.second().toString();
+			max_anticuacion_con_sdevolucion = roundUp(anticuacion_con_sdevolucion.second());
 		else
 			max_anticuacion_con_sdevolucion = "";
 		if(anticuacion_con_sdevolucion.third()!=null)
-			min_anticuacion_con_sdevolucion = anticuacion_con_sdevolucion.third().toString();
+			min_anticuacion_con_sdevolucion = roundUp(anticuacion_con_sdevolucion.third());
 		else
 			min_anticuacion_con_sdevolucion = "";
 		
@@ -487,15 +496,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_aprobadas_devolucion =  mediador.cantidad_aprobada_devolucion_agente(desde, hasta, "");
 		Triple<Double,Double,Double> anticuacion_aprobadas_devolucion = mediador.anticuacion_aprobada_devolucion_agente(desde, hasta, "");
 		if(anticuacion_aprobadas_devolucion.first()!=null)
-			prom_anticuacion_aprobadas_devolucion = anticuacion_aprobadas_devolucion.first().toString();
+			prom_anticuacion_aprobadas_devolucion = roundUp(anticuacion_aprobadas_devolucion.first());
 		else
 			prom_anticuacion_aprobadas_devolucion = "";
 		if(anticuacion_aprobadas_devolucion.second()!=null)
-			max_anticuacion_aprobadas_devolucion = anticuacion_aprobadas_devolucion.second().toString();
+			max_anticuacion_aprobadas_devolucion = roundUp(anticuacion_aprobadas_devolucion.second());
 		else
 			max_anticuacion_aprobadas_devolucion = "";
 		if(anticuacion_aprobadas_devolucion.third()!=null)
-			min_anticuacion_aprobadas_devolucion = anticuacion_aprobadas_devolucion.third().toString();
+			min_anticuacion_aprobadas_devolucion = roundUp(anticuacion_aprobadas_devolucion.third());
 		else
 			min_anticuacion_aprobadas_devolucion = "";
 		
@@ -520,15 +529,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_devueltas =  mediador.cantidad_devueltas_agente(desde, hasta, "");
 		Triple<Double,Double,Double> anticuacion_devueltas = mediador.anticuacion_devueltas_agente(desde, hasta, "");
 		if(anticuacion_devueltas.first()!=null)
-			prom_anticuacion_devueltas = anticuacion_devueltas.first().toString();
+			prom_anticuacion_devueltas = roundUp(anticuacion_devueltas.first());
 		else
 			prom_anticuacion_devueltas = "";
 		if(anticuacion_devueltas.second()!=null)
-			max_anticuacion_devueltas = anticuacion_devueltas.second().toString();
+			max_anticuacion_devueltas = roundUp(anticuacion_devueltas.second());
 		else
 			max_anticuacion_devueltas = "";
 		if(anticuacion_devueltas.third()!=null)
-			min_anticuacion_devueltas = anticuacion_devueltas.third().toString();
+			min_anticuacion_devueltas = roundUp(anticuacion_devueltas.third());
 		else
 			min_anticuacion_devueltas = "";
 		
@@ -557,7 +566,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_pedidas_a_fabrica);//Q
 		datosTabla_piezas_pedidas_a_fabrica.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_pedidas_a_fabrica);//X
 		datosTabla_piezas_pedidas_a_fabrica.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -573,7 +582,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_pedidas_a_fabrica);//R
 		datosTabla_piezas_pedidas_a_fabrica.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_pedidas_a_fabrica);//XR
 		datosTabla_piezas_pedidas_a_fabrica.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -595,7 +604,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_en_tranisto);//Q
 		datosTabla_piezas_en_transito.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_en_transito);//X
 		datosTabla_piezas_en_transito.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -611,7 +620,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_en_transito);//R
 		datosTabla_piezas_en_transito.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_en_transito);//XR
 		datosTabla_piezas_en_transito.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -633,7 +642,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_sin_enviar_agentes);//Q
 		datosTabla_piezas_sin_enviar_agentes.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_sin_enviar_agentes);//X
 		datosTabla_piezas_sin_enviar_agentes.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -649,7 +658,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_sin_enviar_agentes);//R
 		datosTabla_piezas_sin_enviar_agentes.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_sin_enviar_agentes);//XR
 		datosTabla_piezas_sin_enviar_agentes.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -671,7 +680,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_enviadas_agentes);//Q
 		datosTabla_piezas_enviadas_agentes.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_enviadas_agentes);//X
 		datosTabla_piezas_enviadas_agentes.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -687,7 +696,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_enviadas_agentes);//R
 		datosTabla_piezas_enviadas_agentes.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_enviadas_agentes);//XR
 		datosTabla_piezas_enviadas_agentes.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -709,7 +718,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_recibiadas_agentes);//Q
 		datosTabla_piezas_recibiadas_agentes.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_recibiadas_agentes);//X
 		datosTabla_piezas_recibiadas_agentes.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -725,7 +734,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_recibiadas_agentes);//R
 		datosTabla_piezas_recibiadas_agentes.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_recibiadas_agentes);//XR
 		datosTabla_piezas_recibiadas_agentes.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -747,7 +756,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_recursadas);//Q
 		datosTabla_piezas_recursadas.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_recursadas);//X
 		datosTabla_piezas_recursadas.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -763,7 +772,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_recursadas);//R
 		datosTabla_piezas_recursadas.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_recursadas);//XR
 		datosTabla_piezas_recursadas.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -785,7 +794,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_con_sdevolucion);//Q
 		datosTabla_piezas_con_sdevolucion.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_con_sdevolucion);//X
 		datosTabla_piezas_con_sdevolucion.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -801,7 +810,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_con_sdevolucion);//R
 		datosTabla_piezas_con_sdevolucion.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_con_sdevolucion);//XR
 		datosTabla_piezas_con_sdevolucion.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -823,7 +832,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_aprobadas_devolucion);//Q
 		datosTabla_piezas_aprobacion_devolucion.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_aprobadas_devolucion);//X
 		datosTabla_piezas_aprobacion_devolucion.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -839,7 +848,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_aprobadas_devolucion);//R
 		datosTabla_piezas_aprobacion_devolucion.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_aprobadas_devolucion);//XR
 		datosTabla_piezas_aprobacion_devolucion.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -861,7 +870,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_devueltas);//Q
 		datosTabla_piezas_devueltas.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_devueltas);//X
 		datosTabla_piezas_devueltas.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -877,7 +886,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_devueltas);//R
 		datosTabla_piezas_devueltas.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_devueltas);//XR
 		datosTabla_piezas_devueltas.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -1531,15 +1540,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_pedidas_a_fabrica =  mediador.cantidad_pedida_a_fabrica_agente(desde,hasta,filtro_agente);
 		Triple<Double,Double,Double> anticuacion_con_ot = mediador.anticuacion_pedidas_a_fabrica_agente(desde, hasta, filtro_agente);
 		if(anticuacion_con_ot.first()!=null)
-			prom_anticuacion_pedidas_a_fabrica = anticuacion_con_ot.first().toString();
+			prom_anticuacion_pedidas_a_fabrica = roundUp(anticuacion_con_ot.first());
 		else
 			prom_anticuacion_pedidas_a_fabrica = "";
 		if(anticuacion_con_ot.second()!=null)
-			max_anticuacion_pedidas_a_fabrica = anticuacion_con_ot.second().toString();
+			max_anticuacion_pedidas_a_fabrica = roundUp(anticuacion_con_ot.second());
 		else
 			max_anticuacion_pedidas_a_fabrica = "";
 		if(anticuacion_con_ot.third()!=null)
-			min_anticuacion_pedidas_a_fabrica = anticuacion_con_ot.third().toString();
+			min_anticuacion_pedidas_a_fabrica = roundUp(anticuacion_con_ot.third());
 		else
 			min_anticuacion_pedidas_a_fabrica = "";
 		
@@ -1564,15 +1573,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_en_tranisto =  mediador.cantidad_en_transito_agente(desde, hasta, filtro_agente);
 		Triple<Double,Double,Double> anticuacion_en_transito = mediador.anticuacion_en_transito_agente(desde, hasta, filtro_agente);
 		if(anticuacion_en_transito.first()!=null)
-			prom_anticuacion_en_transito = anticuacion_en_transito.first().toString();
+			prom_anticuacion_en_transito = roundUp(anticuacion_en_transito.first());
 		else
 			prom_anticuacion_en_transito = "";
 		if(anticuacion_en_transito.second()!=null)
-			max_anticuacion_en_transito = anticuacion_en_transito.second().toString();
+			max_anticuacion_en_transito = roundUp(anticuacion_en_transito.second());
 		else
 			max_anticuacion_en_transito = "";
 		if(anticuacion_en_transito.third()!=null)
-			min_anticuacion_en_transito = anticuacion_en_transito.third().toString();
+			min_anticuacion_en_transito = roundUp(anticuacion_en_transito.third());
 		else
 			min_anticuacion_en_transito = "";
 		
@@ -1597,15 +1606,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_sin_enviar_agentes =  mediador.cantidad_sin_enviar_agente(desde, hasta, filtro_agente);
 		Triple<Double,Double,Double> anticuacion_sin_enviar_agentes = mediador.anticuacion_sin_enviar_agente(desde, hasta, filtro_agente);
 		if(anticuacion_sin_enviar_agentes.first()!=null)
-			prom_anticuacion_sin_enviar_agentes = anticuacion_sin_enviar_agentes.first().toString();
+			prom_anticuacion_sin_enviar_agentes = roundUp(anticuacion_sin_enviar_agentes.first());
 		else
 			prom_anticuacion_sin_enviar_agentes = "";
 		if(anticuacion_sin_enviar_agentes.second()!=null)
-			max_anticuacion_sin_enviar_agentes = anticuacion_sin_enviar_agentes.second().toString();
+			max_anticuacion_sin_enviar_agentes = roundUp(anticuacion_sin_enviar_agentes.second());
 		else
 			max_anticuacion_sin_enviar_agentes = "";
 		if(anticuacion_sin_enviar_agentes.third()!=null)
-			min_anticuacion_sin_enviar_agentes = anticuacion_sin_enviar_agentes.third().toString();
+			min_anticuacion_sin_enviar_agentes =roundUp( anticuacion_sin_enviar_agentes.third());
 		else
 			min_anticuacion_sin_enviar_agentes = "";
 		
@@ -1630,15 +1639,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_enviadas_agentes =  mediador.cantidad_enviado_a_agente(desde, hasta, filtro_agente);
 		Triple<Double,Double,Double> anticuacion_enviadas_agentes = mediador.anticuacion_enviado_a_agente(desde, hasta, filtro_agente);
 		if(anticuacion_enviadas_agentes.first()!=null)
-			prom_anticuacion_enviadas_agentes = anticuacion_enviadas_agentes.first().toString();
+			prom_anticuacion_enviadas_agentes = roundUp(anticuacion_enviadas_agentes.first());
 		else
 			prom_anticuacion_enviadas_agentes = "";
 		if(anticuacion_enviadas_agentes.second()!=null)
-			max_anticuacion_enviadas_agentes = anticuacion_enviadas_agentes.second().toString();
+			max_anticuacion_enviadas_agentes = roundUp(anticuacion_enviadas_agentes.second());
 		else
 			max_anticuacion_enviadas_agentes = "";
 		if(anticuacion_enviadas_agentes.third()!=null)
-			min_anticuacion_enviadas_agentes = anticuacion_enviadas_agentes.third().toString();
+			min_anticuacion_enviadas_agentes = roundUp(anticuacion_enviadas_agentes.third());
 		else
 			min_anticuacion_enviadas_agentes = "";
 		
@@ -1663,15 +1672,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_recibiadas_agentes =  mediador.cantidad_recibidas_de_agente(desde, hasta, filtro_agente);
 		Triple<Double,Double,Double> anticuacion_recibidas_agentes = mediador.anticuacion_recibidas_de_agente(desde, hasta, filtro_agente);
 		if(anticuacion_recibidas_agentes.first()!=null)
-			prom_anticuacion_recibiadas_agentes = anticuacion_recibidas_agentes.first().toString();
+			prom_anticuacion_recibiadas_agentes = roundUp(anticuacion_recibidas_agentes.first());
 		else
 			prom_anticuacion_recibiadas_agentes = "";
 		if(anticuacion_recibidas_agentes.second()!=null)
-			max_anticuacion_recibiadas_agentes = anticuacion_recibidas_agentes.second().toString();
+			max_anticuacion_recibiadas_agentes = roundUp(anticuacion_recibidas_agentes.second());
 		else
 			max_anticuacion_recibiadas_agentes = "";
 		if(anticuacion_recibidas_agentes.third()!=null)
-			min_anticuacion_recibiadas_agentes = anticuacion_recibidas_agentes.third().toString();
+			min_anticuacion_recibiadas_agentes = roundUp(anticuacion_recibidas_agentes.third());
 		else
 			min_anticuacion_recibiadas_agentes = "";
 		
@@ -1696,15 +1705,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_recursadas =  mediador.cantidad_recursadas_agente(desde, hasta, filtro_agente);
 		Triple<Double,Double,Double> anticuacion_recursadas = mediador.anticuacion_recursadas_agente(desde, hasta, filtro_agente);
 		if(anticuacion_recursadas.first()!=null)
-			prom_anticuacion_recursadas = anticuacion_recursadas.first().toString();
+			prom_anticuacion_recursadas = roundUp(anticuacion_recursadas.first());
 		else
 			prom_anticuacion_recursadas = "";
 		if(anticuacion_recursadas.second()!=null)
-			max_anticuacion_recursadas = anticuacion_recursadas.second().toString();
+			max_anticuacion_recursadas = roundUp(anticuacion_recursadas.second());
 		else
 			max_anticuacion_recursadas = "";
 		if(anticuacion_recursadas.third()!=null)
-			min_anticuacion_recursadas = anticuacion_recursadas.third().toString();
+			min_anticuacion_recursadas = roundUp(anticuacion_recursadas.third());
 		else
 			min_anticuacion_recursadas = "";
 		
@@ -1729,15 +1738,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_con_sdevolucion =  mediador.cantidad_con_sdevolucion_agente(desde, hasta, filtro_agente);
 		Triple<Double,Double,Double> anticuacion_con_sdevolucion = mediador.anticuacion_con_sdevolucion_agente(desde, hasta, filtro_agente);
 		if(anticuacion_con_sdevolucion.first()!=null)
-			prom_anticuacion_con_sdevolucion = anticuacion_con_sdevolucion.first().toString();
+			prom_anticuacion_con_sdevolucion = roundUp(anticuacion_con_sdevolucion.first());
 		else
 			prom_anticuacion_con_sdevolucion = "";
 		if(anticuacion_con_sdevolucion.second()!=null)
-			max_anticuacion_con_sdevolucion = anticuacion_con_sdevolucion.second().toString();
+			max_anticuacion_con_sdevolucion = roundUp(anticuacion_con_sdevolucion.second());
 		else
 			max_anticuacion_con_sdevolucion = "";
 		if(anticuacion_con_sdevolucion.third()!=null)
-			min_anticuacion_con_sdevolucion = anticuacion_con_sdevolucion.third().toString();
+			min_anticuacion_con_sdevolucion = roundUp(anticuacion_con_sdevolucion.third());
 		else
 			min_anticuacion_con_sdevolucion = "";
 		
@@ -1762,15 +1771,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_aprobadas_devolucion =  mediador.cantidad_aprobada_devolucion_agente(desde, hasta, filtro_agente);
 		Triple<Double,Double,Double> anticuacion_aprobadas_devolucion = mediador.anticuacion_aprobada_devolucion_agente(desde, hasta, filtro_agente);
 		if(anticuacion_aprobadas_devolucion.first()!=null)
-			prom_anticuacion_aprobadas_devolucion = anticuacion_aprobadas_devolucion.first().toString();
+			prom_anticuacion_aprobadas_devolucion = roundUp(anticuacion_aprobadas_devolucion.first());
 		else
 			prom_anticuacion_aprobadas_devolucion = "";
 		if(anticuacion_aprobadas_devolucion.second()!=null)
-			max_anticuacion_aprobadas_devolucion = anticuacion_aprobadas_devolucion.second().toString();
+			max_anticuacion_aprobadas_devolucion = roundUp(anticuacion_aprobadas_devolucion.second());
 		else
 			max_anticuacion_aprobadas_devolucion = "";
 		if(anticuacion_aprobadas_devolucion.third()!=null)
-			min_anticuacion_aprobadas_devolucion = anticuacion_aprobadas_devolucion.third().toString();
+			min_anticuacion_aprobadas_devolucion = roundUp(anticuacion_aprobadas_devolucion.third());
 		else
 			min_anticuacion_aprobadas_devolucion = "";
 		
@@ -1795,15 +1804,15 @@ public class GUIReporteRapidoAgente extends JFrame {
 		cantidad_devueltas =  mediador.cantidad_devueltas_agente(desde, hasta, filtro_agente);
 		Triple<Double,Double,Double> anticuacion_devueltas = mediador.anticuacion_devueltas_agente(desde, hasta, filtro_agente);
 		if(anticuacion_devueltas.first()!=null)
-			prom_anticuacion_devueltas = anticuacion_devueltas.first().toString();
+			prom_anticuacion_devueltas = roundUp(anticuacion_devueltas.first());
 		else
 			prom_anticuacion_devueltas = "";
 		if(anticuacion_devueltas.second()!=null)
-			max_anticuacion_devueltas = anticuacion_devueltas.second().toString();
+			max_anticuacion_devueltas = roundUp(anticuacion_devueltas.second());
 		else
 			max_anticuacion_devueltas = "";
 		if(anticuacion_devueltas.third()!=null)
-			min_anticuacion_devueltas = anticuacion_devueltas.third().toString();
+			min_anticuacion_devueltas = roundUp(anticuacion_devueltas.third());
 		else
 			min_anticuacion_devueltas = "";
 		
@@ -1828,7 +1837,6 @@ public class GUIReporteRapidoAgente extends JFrame {
 		actualizarTablas();
 	}
 
-	@SuppressWarnings("unused")
 	private void filtrar() {
 		String nombre_agente = cBAgentes.getSelectedItem().toString();
 		SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
@@ -1873,7 +1881,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_pedidas_a_fabrica);//Q
 		datosTabla_piezas_pedidas_a_fabrica.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_pedidas_a_fabrica);//X
 		datosTabla_piezas_pedidas_a_fabrica.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -1889,7 +1897,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_pedidas_a_fabrica);//R
 		datosTabla_piezas_pedidas_a_fabrica.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_pedidas_a_fabrica);//XR
 		datosTabla_piezas_pedidas_a_fabrica.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -1916,7 +1924,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_en_tranisto);//Q
 		datosTabla_piezas_en_transito.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_en_transito);//X
 		datosTabla_piezas_en_transito.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -1932,7 +1940,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_en_transito);//R
 		datosTabla_piezas_en_transito.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_en_transito);//XR
 		datosTabla_piezas_en_transito.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -1959,7 +1967,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_sin_enviar_agentes);//Q
 		datosTabla_piezas_sin_enviar_agentes.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_sin_enviar_agentes);//X
 		datosTabla_piezas_sin_enviar_agentes.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -1975,7 +1983,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_sin_enviar_agentes);//R
 		datosTabla_piezas_sin_enviar_agentes.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_sin_enviar_agentes);//XR
 		datosTabla_piezas_sin_enviar_agentes.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -2002,7 +2010,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_enviadas_agentes);//Q
 		datosTabla_piezas_enviadas_agentes.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_enviadas_agentes);//X
 		datosTabla_piezas_enviadas_agentes.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -2018,7 +2026,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_enviadas_agentes);//R
 		datosTabla_piezas_enviadas_agentes.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_enviadas_agentes);//XR
 		datosTabla_piezas_enviadas_agentes.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -2045,7 +2053,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_recibiadas_agentes);//Q
 		datosTabla_piezas_recibiadas_agentes.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_recibiadas_agentes);//X
 		datosTabla_piezas_recibiadas_agentes.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -2061,7 +2069,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_recibiadas_agentes);//R
 		datosTabla_piezas_recibiadas_agentes.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_recibiadas_agentes);//XR
 		datosTabla_piezas_recibiadas_agentes.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -2088,7 +2096,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_recursadas);//Q
 		datosTabla_piezas_recursadas.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_recursadas);//X
 		datosTabla_piezas_recursadas.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -2104,7 +2112,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_recursadas);//R
 		datosTabla_piezas_recursadas.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_recursadas);//XR
 		datosTabla_piezas_recursadas.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -2131,7 +2139,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_con_sdevolucion);//Q
 		datosTabla_piezas_con_sdevolucion.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_con_sdevolucion);//X
 		datosTabla_piezas_con_sdevolucion.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -2147,7 +2155,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_con_sdevolucion);//R
 		datosTabla_piezas_con_sdevolucion.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_con_sdevolucion);//XR
 		datosTabla_piezas_con_sdevolucion.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -2174,7 +2182,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_aprobadas_devolucion);//Q
 		datosTabla_piezas_aprobacion_devolucion.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_aprobadas_devolucion);//X
 		datosTabla_piezas_aprobacion_devolucion.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -2190,7 +2198,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_aprobadas_devolucion);//R
 		datosTabla_piezas_aprobacion_devolucion.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_aprobadas_devolucion);//XR
 		datosTabla_piezas_aprobacion_devolucion.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
@@ -2217,7 +2225,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_devueltas);//Q
 		datosTabla_piezas_devueltas.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Prom");
+		row_prom_anticuacion.add("Anticuacion Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_devueltas);//X
 		datosTabla_piezas_devueltas.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
@@ -2233,7 +2241,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_monto.add(monto_devueltas);//R
 		datosTabla_piezas_devueltas.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Prom");
+		row_prom_monto.add("Monto Promedio");
 		row_prom_monto.add(prom_monto_devueltas);//XR
 		datosTabla_piezas_devueltas.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();

@@ -235,7 +235,6 @@ public class GUINuevoReclamoFabrica extends JFrame {
 		
 	}
 
-	@SuppressWarnings("unused")
 	protected void llenarFormulario() {
         String archivo="Formulario_SRC.xls";
         Date hoy = new Date();
