@@ -18,6 +18,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,11 +53,8 @@ import cliente.Recursos.Botones.GlossyButton;
 import cliente.Recursos.util.JPanel_Whit_Image;
 import cliente.Recursos.util.Theme;
 import cliente.Recursos.util.TransparentPanel;
+
 import common.DTOs.Notificacion_ReclamoDTO;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Frame;
 
 public class GUIMenu_Principal extends JFrame{
 
@@ -71,7 +72,7 @@ public class GUIMenu_Principal extends JFrame{
 	private Vector<String> nombreColumnas;
 
 	private JButton btnReclamos_Piezas;
-	private JButton btnReclamos;
+	private JButton btnReclamoRapidoEntidad;
 	private JButton glsbtnReporteRapidoEntidad;
 	private JButton glsbtnReporteRapidoAgente;
 	private JButton btnPedidosAgentes;
@@ -95,14 +96,16 @@ public class GUIMenu_Principal extends JFrame{
 
 	private void initialize() {
 		setTitle("USUARIO: "+mediadorPrincipal.getUsuario().getNombre_usuario().toString() +" [ID: "+mediadorPrincipal.getUsuario().getId().toString()+" ]");
+		setBounds(0, 0,1382,768);
 		setLocationRelativeTo(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/tagle.ico")));
 		setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(0, 0, 1366, 750);
-		setExtendedState(Frame.MAXIMIZED_BOTH);
+		//setExtendedState(Frame.MAXIMIZED_BOTH);
 
 		contentPane =  new JPanel_Whit_Image("/cliente/Recursos/Imagenes/background.jpg");
+		contentPane.setBounds(new Rectangle(0, 0, 1366, 768));
 		setContentPane(contentPane);
+		getContentPane().setLayout(null);
 
 		addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent we){
@@ -523,13 +526,13 @@ public class GUIMenu_Principal extends JFrame{
 			}
 		});
 		
-		btnReclamos = new GlossyButton("RECLAMO RAPIDO",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_METALLICGRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
-		btnReclamos.setHorizontalAlignment(SwingConstants.LEADING);
-		btnReclamos.setFont(new Font("Arial Black", Font.BOLD, 14));
-		btnReclamos.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/reclamo_rapido.png")));
-		btnReclamos.addActionListener(new ActionListener() {
+		btnReclamoRapidoEntidad = new GlossyButton("RECLAMO RAPIDO ENTIDAD",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_METALLICGRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnReclamoRapidoEntidad.setHorizontalAlignment(SwingConstants.LEADING);
+		btnReclamoRapidoEntidad.setFont(new Font("Arial Black", Font.BOLD, 14));
+		btnReclamoRapidoEntidad.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/reclamo_rapido.png")));
+		btnReclamoRapidoEntidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				mediadorPrincipal.reclamos();
+				mediadorPrincipal.reclamoRapidoEntidad();
 			}
 		});
 		
@@ -552,7 +555,7 @@ public class GUIMenu_Principal extends JFrame{
 		gbc_btnReclamos.insets = new Insets(0, 0, 5, 5);
 		gbc_btnReclamos.gridx = 1;
 		gbc_btnReclamos.gridy = 1;
-		contentPane.add(btnReclamos, gbc_btnReclamos);
+		contentPane.add(btnReclamoRapidoEntidad, gbc_btnReclamos);
 		
 		btnReclamos_Piezas = new GlossyButton("RECLAMOS DE PIEZAS",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_METALLICGRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
 		btnReclamos_Piezas.setHorizontalAlignment(SwingConstants.LEADING);

@@ -19,13 +19,16 @@ import java.util.Vector;
 
 import cliente.MediadorAccionesIniciarPrograma;
 import cliente.MediadorPrincipal;
+import common.Cuadruple;
 import common.RootAndIp;
+import common.Tupla;
 import common.DTOs.AgenteDTO;
 import common.DTOs.EntidadDTO;
 import common.DTOs.MTelefonoDTO;
 import common.DTOs.Mano_ObraDTO;
 import common.DTOs.MarcaDTO;
 import common.DTOs.ModeloDTO;
+import common.DTOs.MuletoDTO;
 import common.DTOs.OrdenDTO;
 import common.DTOs.Orden_ReclamoDTO;
 import common.DTOs.PedidoDTO;
@@ -42,6 +45,7 @@ import common.GestionarMTelefono.IControlMTelefono;
 import common.GestionarMano_Obra.IControlMano_Obra;
 import common.GestionarMarca.IControlMarca;
 import common.GestionarModelo.IControlModelo;
+import common.GestionarMuleto.IControlMuleto;
 import common.GestionarOrden.IControlOrden;
 import common.GestionarOrden_Reclamo.IControlOrden_Reclamo;
 import common.GestionarPedido.IControlPedido;
@@ -58,6 +62,7 @@ public class MediadoReclamoRapido {
 	private MediadorPrincipal mediadorPrincipal;
 	
 	private GUIAltaReclamoRapido guiAltaReclamo;
+	private GUIAltaReclamoRapidoEntidad guiAltaReclamoRapidoEntidad;
 	
 	private GUIBuscarOrden guiBuscarOrden;
 	private GUIBuscarReclamante guiBuscarReclamante;
@@ -67,10 +72,9 @@ public class MediadoReclamoRapido {
 		this.setMediadorPrincipal(mediadorPrincipal);
 	}
 
-	public void altaReclamo() {
-		guiAltaReclamo = new GUIAltaReclamoRapido(this);
-		guiAltaReclamo.setVisible(true);
-		
+	public void altaReclamoRapidoEntidad() {
+		guiAltaReclamoRapidoEntidad = new GUIAltaReclamoRapidoEntidad(this);
+		guiAltaReclamoRapidoEntidad.setVisible(true);
 	}
 
 	public Vector<String> obtenerNombresEntidades() {
@@ -207,8 +211,8 @@ public class MediadoReclamoRapido {
 			IControlReclamante iControlReclamante = MediadorAccionesIniciarPrograma.getControlReclamante();
 			ReclamanteDTO reclamante;
 			reclamante = iControlReclamante.buscarReclamante(new Long(id_reclamante));
-			if(guiAltaReclamo.isReclamante_desdeEntidad()){
-				guiAltaReclamo.setReclamanteEntidad(reclamante);
+			if(guiAltaReclamoRapidoEntidad.isReclamante_desdeEntidad()){
+				guiAltaReclamoRapidoEntidad.setReclamanteEntidad(reclamante);
 			}else{
 				guiAltaReclamo.setReclamanteAgente(reclamante);
 			}
@@ -221,8 +225,8 @@ public class MediadoReclamoRapido {
 			IControlVehiculo iControlVehiculo = MediadorAccionesIniciarPrograma.getControlVehiculo();
 			VehiculoDTO vehiculo;
 			vehiculo = iControlVehiculo.buscarVehiculo(new Long(id_vehiculo));
-			if(guiAltaReclamo.isVehiculo_desdeEntidad()){
-				guiAltaReclamo.setVehiculoEntidad(vehiculo);
+			if(guiAltaReclamoRapidoEntidad.isVehiculo_desdeEntidad()){
+				guiAltaReclamoRapidoEntidad.setVehiculoEntidad(vehiculo);
 			}else{
 				guiAltaReclamo.setVehiculoAgente(vehiculo);
 			}
@@ -257,7 +261,7 @@ public class MediadoReclamoRapido {
 			String dni_reclamante,String email_registrante,  Vector<String> telefonos_reclamante, String nombre_titular,
 			String dominio, String vin, String nombre_marca, String nombre_modelo,
 			String numero_orden, java.sql.Date fechaApertura,
-			java.sql.Date fechaReclamo, String descipcion, Vector<PiezaDTO> piezas, String numero_pedido, Date fecha_solicitud_pedido, Boolean peligroso,
+			java.sql.Date fechaReclamo, String descipcion, Vector<Cuadruple<PiezaDTO, MuletoDTO, String, Tupla<Boolean, Boolean>>> piezas_R, String numero_pedido, Date fecha_solicitud_pedido, Boolean peligroso,
 			Boolean inmovilizado) {
 		
 		boolean res = false;
@@ -273,6 +277,7 @@ public class MediadoReclamoRapido {
 		PiezaDTO pieza = new PiezaDTO();
 		Pedido_PiezaDTO pedido_pieza = new Pedido_PiezaDTO();
 		Mano_ObraDTO mano_obra = new Mano_ObraDTO();
+		MuletoDTO  muleto = new MuletoDTO();
 
 		
 		try {
@@ -289,6 +294,7 @@ public class MediadoReclamoRapido {
 			IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();
 			IControlPieza iControl_Pieza = MediadorAccionesIniciarPrograma.getControlPieza();
 			IControlMano_Obra iControlMano_Obra = MediadorAccionesIniciarPrograma.getControlMano_Obra();
+			IControlMuleto iControlMuleto = MediadorAccionesIniciarPrograma.getControlMuleto();
 			
 			//REGISTRATE
 			if (iControlRegistrante.existeRegistrante(nombre_registrante)){
@@ -347,102 +353,104 @@ public class MediadoReclamoRapido {
 				vehiculo.setId(iControlVehiculo.agregarVehiculo(vehiculo));
 			}
 			//ORDEN
-			if(iControlOrden.existeOrden(numero_orden)){
-				orden = iControlOrden.buscarOrden(numero_orden);
-			}else{
-				orden.setFecha_apertura(fechaApertura);
-				orden.setNumero_orden(numero_orden);
-				orden.setEstado("SIN RECLAMO");
-				orden.setId(iControlOrden.agregarOrden(orden));
-			}
+			orden.setFecha_apertura(fechaApertura);
+			orden.setNumero_orden(numero_orden);
+			orden.setEstado("ABIERTA/SIN RECURSO");
+			orden.setId(iControlOrden.agregarOrden(orden));
+
 			//RECLAMO
-			if(iControlReclamo.existeReclamo(fechaReclamo, reclamante, vehiculo)){
-				reclamo = iControlReclamo.buscarReclamo(fechaReclamo, reclamante, vehiculo);
+
+			reclamo.setFecha_reclamo(fechaReclamo);
+			if(!piezas_R.isEmpty() && !numero_pedido.isEmpty() && fecha_solicitud_pedido!=null){
+				reclamo.setEstado_reclamo("ABIERTO/CON PEDIDO/SIN TURNO");
 			}else{
-				reclamo.setFecha_reclamo(fechaReclamo);
-				if(!piezas.isEmpty() && !numero_pedido.isEmpty() && fecha_solicitud_pedido!=null){
-					reclamo.setEstado_reclamo("ABIERTO/CON PEDIDO/SIN TURNO");
-				}else{
-					reclamo.setEstado_reclamo("ABIERTO/SIN PEDIDO/SIN TURNO");
+				reclamo.setEstado_reclamo("ABIERTO/SIN PEDIDO/SIN TURNO");
+			}
+			reclamo.setDescripcion(descipcion);
+			reclamo.setInmovilizado(inmovilizado);
+			reclamo.setPeligroso(peligroso);
+			reclamo.setOrden(orden);
+			reclamo.setReclamante(reclamante);
+			reclamo.setRegistrante(registrante);
+			reclamo.setVehiculo(vehiculo);
+			reclamo.setUsuario(mediadorPrincipal.getUsuario());
+			reclamo.setId(iControlReclamo.agregarReclamo(reclamo));
+			
+			mano_obra.setReclamo(reclamo);
+			mano_obra.setCantidad_horas(0);
+			if(esEntidad(registrante)){
+				common.RootAndIp.setConf("");    
+				if(registrante.getNombre_registrante().equals(iControlRegistrante.buscarRegistranteDTO("RENAULT").getNombre_registrante())){
+					mano_obra.setValor_mano_obra(RootAndIp.getValor_mano_obra_renault());
 				}
-				reclamo.setDescripcion(descipcion);
-				reclamo.setInmovilizado(inmovilizado);
-				reclamo.setPeligroso(peligroso);
-				reclamo.setOrden(orden);
-				reclamo.setReclamante(reclamante);
-				reclamo.setRegistrante(registrante);
-				reclamo.setVehiculo(vehiculo);
-				reclamo.setUsuario(mediadorPrincipal.getUsuario());
-				reclamo.setId(iControlReclamo.agregarReclamo(reclamo));
-				
-				mano_obra.setReclamo(reclamo);
-				mano_obra.setCantidad_horas(0);
-				if(esEntidad(registrante)){
-					common.RootAndIp.setConf("");    
-					if(registrante.getNombre_registrante().equals(iControlRegistrante.buscarRegistranteDTO("RENAULT").getNombre_registrante())){
-						mano_obra.setValor_mano_obra(RootAndIp.getValor_mano_obra_renault());
-					}
-					if(registrante.getNombre_registrante().equals(iControlRegistrante.buscarRegistranteDTO("NISSAN").getNombre_registrante())){
-						mano_obra.setValor_mano_obra(RootAndIp.getValor_mano_obra_nissan());
-					}
+				if(registrante.getNombre_registrante().equals(iControlRegistrante.buscarRegistranteDTO("NISSAN").getNombre_registrante())){
+					mano_obra.setValor_mano_obra(RootAndIp.getValor_mano_obra_nissan());
 				}
-				mano_obra.setId(iControlMano_Obra.agregarMano_Obra(mano_obra));	
+			}
+			mano_obra.setId(iControlMano_Obra.agregarMano_Obra(mano_obra));	
+			
+			//if(!piezas.isEmpty() && !numero_pedido.isEmpty() && fecha_solicitud_pedido!=null){
+			if(!piezas_R.isEmpty()){
+				pedido = new PedidoDTO();
+				pedido.setReclamo(reclamo);
+				pedido.setFecha_solicitud_pedido(fecha_solicitud_pedido);
+				pedido.setId(iControlPedido.agregarPedido(pedido));
 				
-				//if(!piezas.isEmpty() && !numero_pedido.isEmpty() && fecha_solicitud_pedido!=null){
-				if(!piezas.isEmpty()){
-					pedido = new PedidoDTO();
-					pedido.setReclamo(reclamo);
-					if(fecha_solicitud_pedido!=null)
-						pedido.setFecha_solicitud_pedido(fecha_solicitud_pedido);
-					pedido.setId(iControlPedido.agregarPedido(pedido));
+				for (int i = 0; i< piezas_R.size();i++){
+
+					pieza = new PiezaDTO();
+					pieza = piezas_R.elementAt(i).first();
+					pieza.setId(iControl_Pieza.agregarPieza(pieza));
 					
-					for (int i = 0; i< piezas.size();i++){
-
-						pieza = new PiezaDTO();
-						pieza = piezas.elementAt(i);
-						pieza.setId(iControl_Pieza.agregarPieza(pieza));
-						
-						pedido_pieza = new Pedido_PiezaDTO();
-						pedido_pieza.setPedido(pedido);
-						pedido_pieza.setPieza(pieza);
-						pedido_pieza.setNumero_pedido(numero_pedido);
-						pedido_pieza.setEstado_pedido("SIN SOLICITUD A FABRICA");
-
-						
-						mano_obra = new Mano_ObraDTO();
-						mano_obra.setReclamo(reclamo);
-						mano_obra.setCantidad_horas(0);
-						
-						if(esEntidad(registrante)){
-							common.RootAndIp.setConf("");    
-							if(registrante.getNombre_registrante().equals(iControlRegistrante.buscarRegistranteDTO("RENAULT").getNombre_registrante())){
-								mano_obra.setValor_mano_obra(RootAndIp.getValor_mano_obra_renault());
-							}
-							if(registrante.getNombre_registrante().equals(iControlRegistrante.buscarRegistranteDTO("NISSAN").getNombre_registrante())){
-								mano_obra.setValor_mano_obra(RootAndIp.getValor_mano_obra_nissan());
-							}
-						}
-						mano_obra.setId(iControlMano_Obra.agregarMano_Obra(mano_obra));	
-						pedido_pieza.setMano_obra(mano_obra);
-						
-						pedido_pieza.setId(iControlPedido_Pieza.agregarPedido_Pieza(pedido_pieza));
+					pedido_pieza = new Pedido_PiezaDTO();
+					pedido_pieza.setPedido(pedido);
+					pedido_pieza.setPieza(pieza);
+					pedido_pieza.setNumero_pedido(numero_pedido);
+					pedido_pieza.setEstado_pedido("EN ESPERA DE RECEPCION FABRICA");
+					//MULETO
+					if(piezas_R.elementAt(i).second()!=null){
+						muleto.setDescripcion(piezas_R.elementAt(i).second().getDescripcion());
+						muleto.setPedido(pedido);
+						muleto.setPieza(pieza);
+						muleto.setVin(piezas_R.elementAt(i).second().getVin());
+						muleto.setId(iControlMuleto.agregarMuleto(muleto));
+						pedido_pieza.setMuleto(muleto);						
 					}
+					pedido_pieza.setFecha_solicitud_fabrica(fecha_solicitud_pedido);
+					pedido_pieza.setPnc(piezas_R.elementAt(i).third());
+					pedido_pieza.setStock(piezas_R.elementAt(i).fourth().first());
+					pedido_pieza.setPropio(piezas_R.elementAt(i).fourth().second());
+					
+					mano_obra = new Mano_ObraDTO();
+					mano_obra.setReclamo(reclamo);
+					mano_obra.setCantidad_horas(0);
+					
+					if(esEntidad(registrante)){
+						common.RootAndIp.setConf("");    
+						if(registrante.getNombre_registrante().equals(iControlRegistrante.buscarRegistranteDTO("RENAULT").getNombre_registrante())){
+							mano_obra.setValor_mano_obra(RootAndIp.getValor_mano_obra_renault());
+						}
+						if(registrante.getNombre_registrante().equals(iControlRegistrante.buscarRegistranteDTO("NISSAN").getNombre_registrante())){
+							mano_obra.setValor_mano_obra(RootAndIp.getValor_mano_obra_nissan());
+						}
+					}
+					mano_obra.setId(iControlMano_Obra.agregarMano_Obra(mano_obra));	
+					pedido_pieza.setMano_obra(mano_obra);
+					
+					pedido_pieza.setId(iControlPedido_Pieza.agregarPedido_Pieza(pedido_pieza));
 				}
 			}
 			//RECLAMO-ORDEN
-			if(iControlOrden_Reclamo.existeOrden_Reclamo(orden, reclamo)){
-				orden_reclamo = iControlOrden_Reclamo.buscarOrden_Reclamo(orden, reclamo);
+			if(!piezas_R.isEmpty()){
+				orden.setEstado("ABIERTA/SIN RECURSO");
 			}else{
-				if(!piezas.isEmpty()){
-					orden.setEstado("ABIERTA/SIN RECURSO");
-				}else{
-					orden.setEstado("SIN PEDIDO");
-				}
-				iControlOrden.modificarOrden(orden.getId(), orden);
-				orden_reclamo.setOrden(orden);
-				orden_reclamo.setReclamo(reclamo);
-				orden_reclamo.setId(iControlOrden_Reclamo.agregarOrden_Reclamo(orden_reclamo));
+				orden.setEstado("SIN PEDIDO");
 			}
+			iControlOrden.modificarOrden(orden.getId(), orden);
+			orden_reclamo.setOrden(orden);
+			orden_reclamo.setReclamo(reclamo);
+			orden_reclamo.setId(iControlOrden_Reclamo.agregarOrden_Reclamo(orden_reclamo));
+
 			res= true;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1452,15 +1452,15 @@ public class GUIAltaReclamoRapido extends JFrame{
 		    for (int i = 0;i< cbTelefonos_E.getModel().getSize(); i++){
 		    	telefonos_reclamante.add(cbTelefonos_E.getModel().getElementAt(i).toString());
 		    }
-			if (mediador.nuevoReclamo(cbEntidad.getSelectedItem().toString(),tfNombreReclamante_E.getText(),tfDni_E.getText(), tfEmail_E.getText(),
-				telefonos_reclamante, tfNombreTitular_E.getText(),tfDominio_E.getText(),tfVin_E.getText(),
-				cbMarca_E.getSelectedItem().toString(), cbModelo_E.getSelectedItem().toString(),tfNumeroOrden_E.getText(),
-				fechaApertura,fechaReclamo,tADescripcion_E.getText(),piezas_R,tfNumero_pedido_E.getText(),fechaSP,cBPeligroso.isSelected(),cBInmovilizado.isSelected())){
-				JOptionPane.showMessageDialog(this,"Reclamo Agregado.","Notificacion",JOptionPane.INFORMATION_MESSAGE);
-				dispose();
-			}else{
-				JOptionPane.showMessageDialog(this,"Error al agregar. Inente nuevamente.","Error",JOptionPane.ERROR_MESSAGE);
-			}
+//			if (mediador.nuevoReclamo(cbEntidad.getSelectedItem().toString(),tfNombreReclamante_E.getText(),tfDni_E.getText(), tfEmail_E.getText(),
+//				telefonos_reclamante, tfNombreTitular_E.getText(),tfDominio_E.getText(),tfVin_E.getText(),
+//				cbMarca_E.getSelectedItem().toString(), cbModelo_E.getSelectedItem().toString(),tfNumeroOrden_E.getText(),
+//				fechaApertura,fechaReclamo,tADescripcion_E.getText(),piezas_R,tfNumero_pedido_E.getText(),fechaSP,cBPeligroso.isSelected(),cBInmovilizado.isSelected())){
+//				JOptionPane.showMessageDialog(this,"Reclamo Agregado.","Notificacion",JOptionPane.INFORMATION_MESSAGE);
+//				dispose();
+//			}else{
+//				JOptionPane.showMessageDialog(this,"Error al agregar. Inente nuevamente.","Error",JOptionPane.ERROR_MESSAGE);
+//			}
 		}
 	}
 	public boolean chequearCamposAgente(){
@@ -1496,15 +1496,15 @@ public class GUIAltaReclamoRapido extends JFrame{
 		    for (int i = 0;i< cbTelefonos_A.getModel().getSize(); i++){
 		    	telefonos_reclamante.add(cbTelefonos_A.getModel().getElementAt(i).toString());
 		    }
-			if (mediador.nuevoReclamo(cbAgente.getSelectedItem().toString(),tfNombreReclamante_A.getText(),tfDni_A.getText(), tfEmail_A.getText(),
-				telefonos_reclamante, tfNombreTitular_A.getText(),tfDominio_A.getText(),tfVin_A.getText(),
-				cbMarca_A.getSelectedItem().toString(), cbModelo_A.getSelectedItem().toString(),tfNumeroOrden_A.getText(),
-				fechaApertura,fechaReclamo,tADescripcion_A.getText(),piezas_A,tf_Num_Pedido_A.getText(),fechaSP,null,null)){
-				JOptionPane.showMessageDialog(this,"Reclamo Agregado.","Notificacion",JOptionPane.INFORMATION_MESSAGE);
-				dispose();
-			}else{
-				JOptionPane.showMessageDialog(this,"Error al agregar. Inente nuevamente.","Error",JOptionPane.ERROR_MESSAGE);
-			}
+//			if (mediador.nuevoReclamo(cbAgente.getSelectedItem().toString(),tfNombreReclamante_A.getText(),tfDni_A.getText(), tfEmail_A.getText(),
+//				telefonos_reclamante, tfNombreTitular_A.getText(),tfDominio_A.getText(),tfVin_A.getText(),
+//				cbMarca_A.getSelectedItem().toString(), cbModelo_A.getSelectedItem().toString(),tfNumeroOrden_A.getText(),
+//				fechaApertura,fechaReclamo,tADescripcion_A.getText(),piezas_A,tf_Num_Pedido_A.getText(),fechaSP,null,null)){
+//				JOptionPane.showMessageDialog(this,"Reclamo Agregado.","Notificacion",JOptionPane.INFORMATION_MESSAGE);
+//				dispose();
+//			}else{
+//				JOptionPane.showMessageDialog(this,"Error al agregar. Inente nuevamente.","Error",JOptionPane.ERROR_MESSAGE);
+//			}
 		}
 	}
 	public boolean isReclamante_desdeEntidad() {

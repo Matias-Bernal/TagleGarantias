@@ -277,9 +277,9 @@ public class MediadorPrincipal{
 	}
 	
 	// RECLAMOS //
-	public void reclamos() {
+	public void reclamoRapidoEntidad() {
 		mediadorReclamoRapido= new MediadoReclamoRapido(this);
-		mediadorReclamoRapido.altaReclamo();
+		mediadorReclamoRapido.altaReclamoRapidoEntidad();
 	}
 	
 	// REPUESTOS //
