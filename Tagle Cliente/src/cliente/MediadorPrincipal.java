@@ -281,6 +281,10 @@ public class MediadorPrincipal{
 		mediadorReclamoRapido= new MediadoReclamoRapido(this);
 		mediadorReclamoRapido.altaReclamoRapidoEntidad();
 	}
+	public void reclamoRapidoAgente() {
+		mediadorReclamoRapido= new MediadoReclamoRapido(this);
+		mediadorReclamoRapido.altaReclamoRapidoAgente();
+	}
 	
 	// REPUESTOS //
 	public void repuestos() {
