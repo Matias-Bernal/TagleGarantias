@@ -15,7 +15,9 @@
 package cliente.GestionarPedido;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +25,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
@@ -40,6 +42,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
+import org.eclipse.wb.swing.FocusTraversalOnArray;
+
 import cliente.Recursos.Botones.ButtonType;
 import cliente.Recursos.Botones.GlossyButton;
 import cliente.Recursos.util.JPanel_Whit_Image;
@@ -47,7 +51,6 @@ import cliente.Recursos.util.Theme;
 import cliente.Recursos.util.TransparentPanel;
 
 import com.toedter.calendar.JDateChooser;
-
 import common.DTOs.BdgDTO;
 import common.DTOs.Devolucion_PiezaDTO;
 import common.DTOs.Mano_ObraDTO;
@@ -56,7 +59,7 @@ import common.DTOs.PedidoDTO;
 import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.PiezaDTO;
 import common.DTOs.ProveedorDTO;
-import common.DTOs.ReclamoDTO;
+import common.DTOs.RecursoDTO;
 
 public class GUIModificarPedidoEntidad extends JFrame {
 
@@ -65,7 +68,6 @@ public class GUIModificarPedidoEntidad extends JFrame {
 	private JPanel contentPane;
 	private JDateChooser dcFSF;
 	private JDateChooser dcFRF;
-	private JDateChooser dcFBDG;	
 	private JDateChooser dcFDF;
 	
 	private JTextField tfNumero_Pedido;
@@ -76,12 +78,10 @@ public class GUIModificarPedidoEntidad extends JFrame {
 	private JTextField tfHs_Mano_Obra;
 	private JTextField tfVal_Mano_Obra;
 	private JTextField tfCod_Mano_Obra;
-	private JTextField tfNumero_BDG;
 	private JTextField tfEstado_Pedido;
 	private JTextField tfNumero_Remito;
 	private JTextField tfTransporte;
 	private JTextField tfNumero_Retiro;
-	private JTextField tfFSP;
 
 	private JTextArea taDesc_Muleto;
 	private JTextArea taDesc_Pedido;
@@ -102,7 +102,6 @@ public class GUIModificarPedidoEntidad extends JFrame {
 	private Vector<Pedido_PiezaDTO> pedidos_piezas;
 
 	private PedidoDTO pedido;
-	private ReclamoDTO reclamo;
 	private Devolucion_PiezaDTO devolucion;
 	private Mano_ObraDTO mano_obra;
 	private BdgDTO bdg;
@@ -110,14 +109,30 @@ public class GUIModificarPedidoEntidad extends JFrame {
 	private JButton btn_clear_FSF;
 	private JButton btn_clear_FRF;
 	private JButton btn_clear_FDF;
-	private JButton btn_clear_FBDG;
-	private JButton btn_clear_FAS;
-	private JButton btn_clear_FSD;
-	private JDateChooser dcFAS;
-	private JDateChooser dcFSD;
-	private JDateChooser dcFCambio;
+	private JDateChooser dcFTurno;
 	private JButton btn_clear_FCambio;
 	private JButton btnModificar;
+	private JLabel lblEntidad;
+	private JTextField tFEntidad;
+	private JLabel lblNombreReclamante;
+	private JTextField tFNombreReclamante;
+	private JButton btnVerReclamante;
+	private JTextField tFNombreTitular;
+	private JTextField tFDominio;
+	private JTextField tFVinVehiculo;
+	private JTextField tFMarca;
+	private JTextField tFModelo;
+	private JPanel panel;
+	private JPanel orden;
+	private JLabel lblFechaReclamo;
+	private JDateChooser dcFReclamo;
+	private JDateChooser dCFAperturaOrden;
+	private JTextField tFNumeroRecurso;
+	private JButton btn_clear_fcorden;
+	private JButton btn_clear_frecurso;
+	private JDateChooser dCFCierreOrden;
+	private JDateChooser dCFechaRecurso;
+	private JDateChooser dCFSP;
 		
 	public GUIModificarPedidoEntidad(final MediadorPedido mediador, PedidoDTO pedido) {
 		this.setMediador(mediador);
@@ -141,13 +156,26 @@ public class GUIModificarPedidoEntidad extends JFrame {
 	}
 
 	private void completarCampos() {
+		tFEntidad.setText(pedido.getReclamo().getRegistrante().getNombre_registrante());
+		tFNombreReclamante.setText(pedido.getReclamo().getReclamante().getNombre_apellido());
+		dcFReclamo.setDate(pedido.getReclamo().getFecha_reclamo());
+		dCFSP.setDate(pedido.getFecha_solicitud_pedido());
 		if (pedidos_piezas.size()>0)
 			tfNumero_Pedido.setText(pedidos_piezas.elementAt(0).getNumero_pedido());
-		if(pedido.getFecha_solicitud_pedido()!=null)
-			tfFSP.setText(pedido.getFecha_solicitud_pedido().toString());
-		reclamo = pedido.getReclamo();
-		if(reclamo.getOrden()!=null)
-			tfNumeroOrden.setText(reclamo.getOrden().getNumero_orden());
+
+		tFNombreTitular.setText(pedido.getReclamo().getVehiculo().getNombre_titular());
+		tFDominio.setText(pedido.getReclamo().getVehiculo().getDominio());
+		tFVinVehiculo.setText(pedido.getReclamo().getVehiculo().getVin());
+		tFMarca.setText(pedido.getReclamo().getVehiculo().getMarca().getNombre_marca());
+		tFModelo.setText(pedido.getReclamo().getVehiculo().getModelo().getNombre_modelo());
+		
+		tfNumeroOrden.setText(pedido.getReclamo().getOrden().getNumero_orden());
+		dCFAperturaOrden.setDate(pedido.getReclamo().getOrden().getFecha_apertura());
+		dCFCierreOrden.setDate(pedido.getReclamo().getOrden().getFecha_cierre());
+		if(pedido.getReclamo().getOrden().getRecurso()!=null){
+			tFNumeroRecurso.setText(pedido.getReclamo().getOrden().getRecurso().getNumero_recurso());
+			dCFechaRecurso.setDate(pedido.getReclamo().getOrden().getRecurso().getFecha_recurso());
+		}
 		//pedido_pieza
 		if(cmbPiezas.getSize()>0)
 			cbPiezas.setSelectedIndex(0);
@@ -155,36 +183,17 @@ public class GUIModificarPedidoEntidad extends JFrame {
 	}
 	
 	private void initialize() {
-		setTitle("MODIFICAR PEDIDO ENTIDAD");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 865, 700);
+		setBounds(0, 0,1382,768);
+		//setExtendedState(Frame.MAXIMIZED_BOTH);
+		//setLocationRelativeTo(null);
+		setTitle("MODIFICAR PEDIDO ENTIDAD");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/edit_pedido_entidad.png")));
+		
 		contentPane =  new JPanel_Whit_Image("/cliente/Recursos/Imagenes/background.jpg");
-		contentPane.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		setLocationRelativeTo(null);
+		contentPane.setBounds(new Rectangle(0, 0, 1366, 768));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);		
-		
-		JLabel lblFechaSolicitud = new JLabel("Fecha Solicitud Pedido");
-		lblFechaSolicitud.setBorder(null);
-		lblFechaSolicitud.setFont(new Font("Tahoma", Font.BOLD, 10));
-		lblFechaSolicitud.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFechaSolicitud.setBounds(0, 40, 150, 20);
-		contentPane.add(lblFechaSolicitud);
-		
-		JLabel lblOrden = new JLabel("Numero Orden");
-		lblOrden.setBorder(null);
-		lblOrden.setFont(new Font("Tahoma", Font.BOLD, 10));
-		lblOrden.setHorizontalAlignment(SwingConstants.CENTER);
-		lblOrden.setBounds(0, 70, 150, 20);
-		contentPane.add(lblOrden);
-		
-		tfNumeroOrden = new JTextField();
-		tfNumeroOrden.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tfNumeroOrden.setEditable(false);
-		tfNumeroOrden.setBounds(150, 70, 160, 20);
-		contentPane.add(tfNumeroOrden);
-		tfNumeroOrden.setColumns(10);
+		getContentPane().setLayout(null);
 		
 		JButton btnCancelar = new GlossyButton("CANCELAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_RED_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
 		btnCancelar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
@@ -194,44 +203,29 @@ public class GUIModificarPedidoEntidad extends JFrame {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(203, 630, 120, 20);
+		btnCancelar.setBounds(322, 670, 200, 30);
 		contentPane.add(btnCancelar);
 		
 		btnModificar = new GlossyButton("MODIFICAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_GREEN_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
 		btnModificar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btnModificar.setEnabled(false);
 		btnModificar.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/edit.png")));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificar();
 			}
 		});
-		btnModificar.setBounds(526, 630, 120, 20);
+		btnModificar.setBounds(844, 670, 200, 30);
 		contentPane.add(btnModificar);
-		
-		JLabel lblNumeroPedido = new JLabel("Numero Pedido");
-		lblNumeroPedido.setBorder(null);
-		lblNumeroPedido.setFont(new Font("Tahoma", Font.BOLD, 10));
-		lblNumeroPedido.setBounds(0, 10, 150, 20);
-		contentPane.add(lblNumeroPedido);
-		lblNumeroPedido.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		tfNumero_Pedido = new JTextField();
-		tfNumero_Pedido.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-
-		tfNumero_Pedido.setBounds(150, 10, 160, 20);
-		contentPane.add(tfNumero_Pedido);
-		tfNumero_Pedido.setColumns(10);
 		
 		JPanel panel_piezas = new TransparentPanel();
 		panel_piezas.setBorder(null);
-		panel_piezas.setBounds(10, 105, 424, 515);
+		panel_piezas.setBounds(27, 226, 420, 337);
 		contentPane.add(panel_piezas);
 		panel_piezas.setLayout(null);
 		
 		JLabel lblPiezas = new JLabel("Piezas");
 		lblPiezas.setBorder(null);
-		lblPiezas.setBounds(0, 40, 140, 20);
+		lblPiezas.setBounds(10, 40, 150, 20);
 		panel_piezas.add(lblPiezas);
 		lblPiezas.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -244,14 +238,14 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		});
 		cmbPiezas = new DefaultComboBoxModel<String>(numeros_piezas);
 		cbPiezas.setModel(cmbPiezas);
-		cbPiezas.setBounds(140, 40, 160, 20);
+		cbPiezas.setBounds(160, 40, 160, 20);
 		panel_piezas.add(cbPiezas);
 		
 		cbxPropio = new JCheckBox("Propio");
 		cbxPropio.setBorder(null);
 		cbxPropio.setContentAreaFilled(false);
 		cbxPropio.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		cbxPropio.setBounds(138, 210, 130, 23);
+		cbxPropio.setBounds(160, 210, 130, 23);
 		panel_piezas.add(cbxPropio);
 		cbxPropio.setHorizontalAlignment(SwingConstants.LEFT);
 		
@@ -259,188 +253,347 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		cbxStrock.setBorder(null);
 		cbxStrock.setContentAreaFilled(false);
 		cbxStrock.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		cbxStrock.setBounds(270, 210, 126, 23);
+		cbxStrock.setBounds(290, 210, 126, 23);
 		panel_piezas.add(cbxStrock);
 		cbxStrock.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		JLabel lblPnc = new JLabel("PNC");
 		lblPnc.setBorder(null);
-		lblPnc.setBounds(0, 330, 140, 20);
+		lblPnc.setBounds(10, 240, 150, 20);
 		panel_piezas.add(lblPnc);
 		lblPnc.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tfPNC = new JTextField();
 		tfPNC.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 
-		tfPNC.setBounds(140, 330, 160, 20);
+		tfPNC.setBounds(160, 240, 160, 20);
 		panel_piezas.add(tfPNC);
 		tfPNC.setColumns(10);
-		
-		dcFSF = new JDateChooser();
-		dcFSF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		dcFSF.setBounds(140, 240, 160, 20);
-		panel_piezas.add(dcFSF);
-		
-		JLabel lblFechaSolicitudFabrica = new JLabel("Fecha Solicitud Fabrica");
-		lblFechaSolicitudFabrica.setBorder(null);
-		lblFechaSolicitudFabrica.setFont(new Font("Tahoma", Font.BOLD, 10));
-		lblFechaSolicitudFabrica.setBounds(0, 240, 140, 20);
-		panel_piezas.add(lblFechaSolicitudFabrica);
-		lblFechaSolicitudFabrica.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		JLabel lblFechaRecepcionFabrica = new JLabel("Fecha Recepcion Fabrica");
-		lblFechaRecepcionFabrica.setBorder(null);
-		lblFechaRecepcionFabrica.setFont(new Font("Tahoma", Font.BOLD, 10));
-		lblFechaRecepcionFabrica.setBounds(0, 270, 140, 20);
-		panel_piezas.add(lblFechaRecepcionFabrica);
-		lblFechaRecepcionFabrica.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		dcFRF = new JDateChooser();
-		dcFRF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		dcFRF.setBounds(140, 270, 160, 20);
-		panel_piezas.add(dcFRF);
 		
 		tfNum_Pieza = new JTextField();
 		tfNum_Pieza.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tfNum_Pieza.setColumns(10);
-		tfNum_Pieza.setBounds(140, 70, 160, 20);
+		tfNum_Pieza.setBounds(160, 70, 160, 20);
 		panel_piezas.add(tfNum_Pieza);
 		
 		cbProveedor = new JComboBox<String>();
 		cbProveedor.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cmbProveedor = new DefaultComboBoxModel<String>(proveedores);
 		cbProveedor.setModel(cmbProveedor);
-		cbProveedor.setBounds(140, 100, 160, 20);
+		cbProveedor.setBounds(160, 100, 160, 20);
 		panel_piezas.add(cbProveedor);
 		
 		taDesc_Pedido = new JTextArea(4, 31);
 		taDesc_Pedido.setLineWrap(true);
 		taDesc_Pedido.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		taDesc_Pedido.setBounds(140, 130, 260, 70);
+		taDesc_Pedido.setBounds(160, 130, 250, 70);
 		panel_piezas.add(taDesc_Pedido);
 		
 		JLabel label = new JLabel("Descripcion");
 		label.setBorder(null);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setBounds(0, 130, 140, 20);
+		label.setBounds(10, 130, 150, 20);
 		panel_piezas.add(label);
 		
 		JLabel label_1 = new JLabel("Proveedor");
 		label_1.setBorder(null);
 		label_1.setHorizontalAlignment(SwingConstants.CENTER);
-		label_1.setBounds(0, 100, 140, 20);
+		label_1.setBounds(10, 100, 150, 20);
 		panel_piezas.add(label_1);
 		
 		JLabel label_2 = new JLabel("Numero Pieza");
 		label_2.setBorder(null);
 		label_2.setHorizontalAlignment(SwingConstants.CENTER);
-		label_2.setBounds(0, 70, 140, 20);
+		label_2.setBounds(10, 70, 150, 20);
 		panel_piezas.add(label_2);
-		
-		JLabel lblEstadoPedido = new JLabel("Estado Pedido");
-		lblEstadoPedido.setBorder(null);
-		lblEstadoPedido.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEstadoPedido.setBounds(0, 300, 140, 20);
-		panel_piezas.add(lblEstadoPedido);
-		
-		JButton btnModificarPieza = new GlossyButton("GUARDAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_LIGHTGRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
-		btnModificarPieza.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btnModificarPieza.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/save.png")));
-		btnModificarPieza.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				modificarPieza();
-			}
-		});
-		btnModificarPieza.setBounds(305, 40, 110, 20);
-		panel_piezas.add(btnModificarPieza);
-		
-		tfEstado_Pedido = new JTextField();
-		tfEstado_Pedido.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tfEstado_Pedido.setEditable(false);
-		tfEstado_Pedido.setColumns(10);
-		tfEstado_Pedido.setBounds(140, 300, 256, 20);
-		panel_piezas.add(tfEstado_Pedido);
 		
 		JLabel lblPiezas_1 = new JLabel("PIEZAS");
 		lblPiezas_1.setBorder(null);
 		lblPiezas_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblPiezas_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPiezas_1.setBounds(142, 10, 130, 20);
+		lblPiezas_1.setBounds(0, 10, 420, 20);
 		panel_piezas.add(lblPiezas_1);
 		
-		btn_clear_FSF = new JButton("");
-		btn_clear_FSF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btn_clear_FSF.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (dcFSF.getDate()!=null)
-					dcFSF.setDate(null);
-			}
-		});
-		btn_clear_FSF.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
-		btn_clear_FSF.setBounds(310, 240, 25, 20);
-		panel_piezas.add(btn_clear_FSF);
+		JPanel vehiculo = new TransparentPanel();
+		vehiculo.setBounds(474, 45, 418, 170);
+		contentPane.add(vehiculo);
+		vehiculo.setLayout(null);
 		
-		btn_clear_FRF = new JButton("");
-		btn_clear_FRF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btn_clear_FRF.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (dcFRF.getDate()!=null)
-					dcFRF.setDate(null);
-			}
-		});
-		btn_clear_FRF.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
-		btn_clear_FRF.setBounds(310, 270, 25, 20);
-		panel_piezas.add(btn_clear_FRF);
+		JLabel label_10 = new JLabel("Modelo");
+		label_10.setBounds(10, 130, 130, 20);
+		vehiculo.add(label_10);
+		label_10.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblFechaCambio = new JLabel("Fecha Cambio");
-		lblFechaCambio.setBorder(null);
-		lblFechaCambio.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFechaCambio.setFont(new Font("Tahoma", Font.BOLD, 10));
-		lblFechaCambio.setBounds(0, 361, 140, 20);
-		panel_piezas.add(lblFechaCambio);
+		JLabel label_9 = new JLabel("Marca");
+		label_9.setBounds(10, 100, 130, 20);
+		vehiculo.add(label_9);
+		label_9.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		dcFCambio = new JDateChooser();
-		dcFCambio.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		dcFCambio.setBounds(140, 361, 160, 20);
-		panel_piezas.add(dcFCambio);
+		tFVinVehiculo = new JTextField();
+		tFVinVehiculo.setBackground(Color.LIGHT_GRAY);
+		tFVinVehiculo.setDisabledTextColor(Color.BLACK);
+		tFVinVehiculo.setEditable(false);
+		tFVinVehiculo.setBounds(160, 70, 160, 20);
+		vehiculo.add(tFVinVehiculo);
+		tFVinVehiculo.setToolTipText("Ej 12345678901234567");
+		tFVinVehiculo.setColumns(10);
+		tFVinVehiculo.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
-		btn_clear_FCambio = new JButton("");
-		btn_clear_FCambio.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btn_clear_FCambio.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
-		btn_clear_FCambio.addActionListener(new ActionListener() {
+		JLabel label_8 = new JLabel("VIN");
+		label_8.setBounds(10, 70, 130, 20);
+		vehiculo.add(label_8);
+		label_8.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JLabel label_6 = new JLabel("Dominio");
+		label_6.setBounds(10, 40, 130, 20);
+		vehiculo.add(label_6);
+		label_6.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tFDominio = new JTextField();
+		tFDominio.setDisabledTextColor(Color.BLACK);
+		tFDominio.setBackground(Color.LIGHT_GRAY);
+		tFDominio.setEditable(false);
+		tFDominio.setBounds(160, 40, 80, 20);
+		vehiculo.add(tFDominio);
+		tFDominio.setToolTipText("Ej XYZ123");
+		tFDominio.setColumns(10);
+		tFDominio.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		
+		tFMarca = new JTextField();
+		tFMarca.setDisabledTextColor(Color.BLACK);
+		tFMarca.setBackground(Color.LIGHT_GRAY);
+		tFMarca.setEditable(false);
+		tFMarca.setToolTipText("Ej 12345678901234567");
+		tFMarca.setColumns(10);
+		tFMarca.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tFMarca.setBounds(160, 100, 160, 20);
+		vehiculo.add(tFMarca);
+		
+		tFModelo = new JTextField();
+		tFModelo.setBackground(Color.LIGHT_GRAY);
+		tFModelo.setDisabledTextColor(Color.BLACK);
+		tFModelo.setToolTipText("Ej 12345678901234567");
+		tFModelo.setEditable(false);
+		tFModelo.setColumns(10);
+		tFModelo.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tFModelo.setBounds(160, 130, 160, 20);
+		vehiculo.add(tFModelo);
+		
+		tFNombreTitular = new JTextField();
+		tFNombreTitular.setDisabledTextColor(Color.BLACK);
+		tFNombreTitular.setBounds(160, 10, 160, 20);
+		vehiculo.add(tFNombreTitular);
+		tFNombreTitular.setEditable(false);
+		tFNombreTitular.setColumns(10);
+		tFNombreTitular.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tFNombreTitular.setBackground(Color.LIGHT_GRAY);
+		
+		JLabel lblNombreTitular = new JLabel("Nombre Titular");
+		lblNombreTitular.setBounds(10, 10, 150, 20);
+		vehiculo.add(lblNombreTitular);
+		lblNombreTitular.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNombreTitular.setFont(new Font("Tahoma", Font.BOLD, 10));
+		
+		panel = new TransparentPanel();
+		panel.setBounds(27, 45, 420, 170);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		btnVerReclamante = new JButton("");
+		btnVerReclamante.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (dcFCambio.getDate()!=null)
-					dcFCambio.setDate(null);
+				mediador.verRegistrante(pedido.getId().toString());
 			}
 		});
-		btn_clear_FCambio.setBounds(310, 361, 25, 20);
-		panel_piezas.add(btn_clear_FCambio);
+		btnVerReclamante.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/1find.png")));
+		btnVerReclamante.setBounds(330, 40, 25, 20);
+		panel.add(btnVerReclamante);
+		btnVerReclamante.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
-		JPanel panel_claves_foraneas = new TransparentPanel();
-		panel_claves_foraneas.setBorder(null);
-		panel_claves_foraneas.setBounds(438, 105, 402, 515);
-		contentPane.add(panel_claves_foraneas);
-		panel_claves_foraneas.setLayout(null);
+		tFNombreReclamante = new JTextField();
+		tFNombreReclamante.setBounds(160, 40, 160, 20);
+		panel.add(tFNombreReclamante);
+		tFNombreReclamante.setEditable(false);
+		tFNombreReclamante.setColumns(10);
+		tFNombreReclamante.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tFNombreReclamante.setBackground(Color.LIGHT_GRAY);
+		
+		lblNombreReclamante = new JLabel("Nombre Reclamante");
+		lblNombreReclamante.setBounds(10, 40, 150, 20);
+		panel.add(lblNombreReclamante);
+		lblNombreReclamante.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNombreReclamante.setFont(new Font("Tahoma", Font.BOLD, 10));
+		
+		lblEntidad = new JLabel("Entidad");
+		lblEntidad.setBounds(10, 10, 150, 20);
+		panel.add(lblEntidad);
+		lblEntidad.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblEntidad.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tFEntidad = new JTextField();
+		tFEntidad.setBounds(160, 10, 160, 20);
+		panel.add(tFEntidad);
+		tFEntidad.setBackground(Color.LIGHT_GRAY);
+		tFEntidad.setEditable(false);
+		tFEntidad.setColumns(10);
+		tFEntidad.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		
+		lblFechaReclamo = new JLabel("Fecha Reclamo");
+		lblFechaReclamo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFechaReclamo.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblFechaReclamo.setBorder(null);
+		lblFechaReclamo.setBounds(10, 70, 150, 20);
+		panel.add(lblFechaReclamo);
+		
+		dcFReclamo = new JDateChooser();
+		dcFReclamo.setFont(new Font("Tahoma", Font.BOLD, 11));
+		dcFReclamo.getCalendarButton().setEnabled(false);
+		dcFReclamo.setEnabled(false);
+		dcFReclamo.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		dcFReclamo.setBounds(160, 70, 160, 20);
+		panel.add(dcFReclamo);
+		
+		JLabel lblFechaSolicitud = new JLabel("Fecha Solicitud Pedido");
+		lblFechaSolicitud.setBounds(10, 100, 150, 20);
+		panel.add(lblFechaSolicitud);
+		lblFechaSolicitud.setBorder(null);
+		lblFechaSolicitud.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblFechaSolicitud.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		dCFSP = new JDateChooser();
+		dCFSP.setFont(new Font("Tahoma", Font.BOLD, 11));
+		dCFSP.setEnabled(false);
+		dCFSP.getCalendarButton().setEnabled(false);
+		dCFSP.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		dCFSP.setBounds(160, 100, 160, 20);
+		panel.add(dCFSP);
+		
+		JLabel lblNumeroPedido = new JLabel("Numero Pedido");
+		lblNumeroPedido.setBounds(10, 130, 150, 20);
+		panel.add(lblNumeroPedido);
+		lblNumeroPedido.setBorder(null);
+		lblNumeroPedido.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblNumeroPedido.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tfNumero_Pedido = new JTextField();
+		tfNumero_Pedido.setEditable(false);
+		tfNumero_Pedido.setDisabledTextColor(Color.BLACK);
+		tfNumero_Pedido.setBackground(Color.LIGHT_GRAY);
+		tfNumero_Pedido.setBounds(160, 130, 160, 20);
+		panel.add(tfNumero_Pedido);
+		tfNumero_Pedido.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tfNumero_Pedido.setColumns(10);
+		
+		orden = new TransparentPanel();
+		orden.setBounds(919, 45, 418, 170);
+		contentPane.add(orden);
+		orden.setLayout(null);
+		
+		JLabel lblOrden = new JLabel("Numero Orden");
+		lblOrden.setBounds(10, 10, 150, 20);
+		orden.add(lblOrden);
+		lblOrden.setBorder(null);
+		lblOrden.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblOrden.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tfNumeroOrden = new JTextField();
+		tfNumeroOrden.setBounds(160, 10, 160, 20);
+		orden.add(tfNumeroOrden);
+		tfNumeroOrden.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tfNumeroOrden.setEditable(false);
+		tfNumeroOrden.setColumns(10);
+		
+		JLabel lblFechaAperturaOrden = new JLabel("Fecha Apertura Orden");
+		lblFechaAperturaOrden.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFechaAperturaOrden.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblFechaAperturaOrden.setBorder(null);
+		lblFechaAperturaOrden.setBounds(10, 40, 150, 20);
+		orden.add(lblFechaAperturaOrden);
+		
+		dCFAperturaOrden = new JDateChooser();
+		dCFAperturaOrden.setFont(new Font("Tahoma", Font.BOLD, 11));
+		dCFAperturaOrden.getCalendarButton().setVisible(false);
+		dCFAperturaOrden.getCalendarButton().setEnabled(false);
+		dCFAperturaOrden.setEnabled(false);
+		dCFAperturaOrden.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		dCFAperturaOrden.setBounds(160, 40, 160, 20);
+		orden.add(dCFAperturaOrden);
+		
+		JLabel lblFechaCierreOrden = new JLabel("Fecha Cierre Orden");
+		lblFechaCierreOrden.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFechaCierreOrden.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblFechaCierreOrden.setBorder(null);
+		lblFechaCierreOrden.setBounds(10, 70, 150, 20);
+		orden.add(lblFechaCierreOrden);
+		
+		dCFCierreOrden = new JDateChooser();
+		dCFCierreOrden.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		dCFCierreOrden.setBounds(160, 70, 160, 20);
+		orden.add(dCFCierreOrden);
+		
+		JLabel lblNumeroDeRecurso = new JLabel("Numero de Recurso");
+		lblNumeroDeRecurso.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblNumeroDeRecurso.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNumeroDeRecurso.setBorder(null);
+		lblNumeroDeRecurso.setBounds(10, 100, 150, 20);
+		orden.add(lblNumeroDeRecurso);
+		
+		tFNumeroRecurso = new JTextField();
+		tFNumeroRecurso.setColumns(10);
+		tFNumeroRecurso.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tFNumeroRecurso.setBounds(160, 100, 160, 20);
+		orden.add(tFNumeroRecurso);
+		
+		JLabel lblFechaRecurso = new JLabel("Fecha Recurso");
+		lblFechaRecurso.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFechaRecurso.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblFechaRecurso.setBorder(null);
+		lblFechaRecurso.setBounds(10, 130, 150, 20);
+		orden.add(lblFechaRecurso);
+		
+		dCFechaRecurso = new JDateChooser();
+		dCFechaRecurso.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		dCFechaRecurso.setBounds(160, 130, 160, 20);
+		orden.add(dCFechaRecurso);
+		
+		btn_clear_fcorden = new JButton("");
+		btn_clear_fcorden.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dCFCierreOrden.getDate()!=null)
+					dCFCierreOrden.setDate(null);
+			}
+		});
+		btn_clear_fcorden.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_fcorden.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btn_clear_fcorden.setBounds(330, 70, 25, 20);
+		orden.add(btn_clear_fcorden);
+		
+		btn_clear_frecurso = new JButton("");
+		btn_clear_frecurso.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dCFechaRecurso.getDate()!=null)
+					dCFechaRecurso.setDate(null);
+			}
+		});
+		btn_clear_frecurso.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_frecurso.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btn_clear_frecurso.setBounds(330, 130, 25, 20);
+		orden.add(btn_clear_frecurso);
+		
+		JPanel panel_1 = new TransparentPanel();
+		panel_1.setBounds(474, 226, 420, 337);
+		contentPane.add(panel_1);
+		panel_1.setLayout(null);
 		
 		taDesc_Muleto = new JTextArea(4, 31);
+		taDesc_Muleto.setBounds(160, 190, 250, 70);
+		panel_1.add(taDesc_Muleto);
 		taDesc_Muleto.setLineWrap(true);
 		taDesc_Muleto.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		taDesc_Muleto.setBounds(140, 240, 260, 70);
-		panel_claves_foraneas.add(taDesc_Muleto);
-		
-		JLabel lblDescripcionMuleto = new JLabel("Descripcion Muleto");
-		lblDescripcionMuleto.setBorder(null);
-		lblDescripcionMuleto.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDescripcionMuleto.setBounds(0, 240, 140, 20);
-		panel_claves_foraneas.add(lblDescripcionMuleto);
-		
-		JLabel lblVin = new JLabel("VIN Muleto");
-		lblVin.setBorder(null);
-		lblVin.setHorizontalAlignment(SwingConstants.CENTER);
-		lblVin.setBounds(0, 215, 140, 20);
-		panel_claves_foraneas.add(lblVin);
 		
 		tfVIN_Muleto = new JTextField();
+		tfVIN_Muleto.setBounds(160, 160, 160, 20);
+		panel_1.add(tfVIN_Muleto);
 		tfVIN_Muleto.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tfVIN_Muleto.setToolTipText("Ej 12345678901234567");
 		tfVIN_Muleto.addKeyListener(new KeyListener() {
@@ -461,146 +614,182 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		}
 		});
 		tfVIN_Muleto.setColumns(10);
-		tfVIN_Muleto.setBounds(140, 215, 160, 20);
-		panel_claves_foraneas.add(tfVIN_Muleto);
 		
 		JLabel lblMuleto = new JLabel("MULETO");
+		lblMuleto.setBounds(0, 130, 420, 20);
+		panel_1.add(lblMuleto);
 		lblMuleto.setBorder(null);
 		lblMuleto.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblMuleto.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMuleto.setBounds(142, 190, 130, 20);
-		panel_claves_foraneas.add(lblMuleto);
 		
-		JLabel lblCantidadHs = new JLabel("Horas de Mano Obra");
-		lblCantidadHs.setBorder(null);
-		lblCantidadHs.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCantidadHs.setBounds(0, 335, 140, 20);
-		panel_claves_foraneas.add(lblCantidadHs);
+		JLabel lblVin = new JLabel("VIN Muleto");
+		lblVin.setBounds(10, 160, 150, 20);
+		panel_1.add(lblVin);
+		lblVin.setBorder(null);
+		lblVin.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		tfHs_Mano_Obra = new JTextField();
-		tfHs_Mano_Obra.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tfHs_Mano_Obra.setColumns(10);
-		tfHs_Mano_Obra.setBounds(140, 335, 160, 20);
-		panel_claves_foraneas.add(tfHs_Mano_Obra);
+		JLabel lblDescripcionMuleto = new JLabel("Descripcion Muleto");
+		lblDescripcionMuleto.setBounds(10, 190, 150, 20);
+		panel_1.add(lblDescripcionMuleto);
+		lblDescripcionMuleto.setBorder(null);
+		lblDescripcionMuleto.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblValor = new JLabel(" Valor de Mano Obra");
-		lblValor.setBorder(null);
-		lblValor.setHorizontalAlignment(SwingConstants.CENTER);
-		lblValor.setBounds(0, 360, 140, 20);
-		panel_claves_foraneas.add(lblValor);
+		dcFSF = new JDateChooser();
+		dcFSF.setBounds(160, 10, 160, 20);
+		panel_1.add(dcFSF);
+		dcFSF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
-		tfVal_Mano_Obra = new JTextField();
-		tfVal_Mano_Obra.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tfVal_Mano_Obra.setColumns(10);
-		tfVal_Mano_Obra.setBounds(140, 360, 160, 20);
-		panel_claves_foraneas.add(tfVal_Mano_Obra);
+		JLabel lblFechaSolicitudFabrica = new JLabel("Fecha Solicitud Fabrica");
+		lblFechaSolicitudFabrica.setBounds(10, 10, 150, 20);
+		panel_1.add(lblFechaSolicitudFabrica);
+		lblFechaSolicitudFabrica.setBorder(null);
+		lblFechaSolicitudFabrica.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblFechaSolicitudFabrica.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblCodigoManoObra = new JLabel("Codigo de Mano Obra");
-		lblCodigoManoObra.setBorder(null);
-		lblCodigoManoObra.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCodigoManoObra.setBounds(0, 385, 140, 20);
-		panel_claves_foraneas.add(lblCodigoManoObra);
+		btn_clear_FSF = new JButton("");
+		btn_clear_FSF.setBounds(330, 10, 25, 20);
+		panel_1.add(btn_clear_FSF);
+		btn_clear_FSF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btn_clear_FSF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dcFSF.getDate()!=null)
+					dcFSF.setDate(null);
+			}
+		});
+		btn_clear_FSF.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
 		
-		tfCod_Mano_Obra = new JTextField();
-		tfCod_Mano_Obra.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tfCod_Mano_Obra.setColumns(10);
-		tfCod_Mano_Obra.setBounds(140, 385, 160, 20);
-		panel_claves_foraneas.add(tfCod_Mano_Obra);
+		JLabel lblFechaRecepcionFabrica = new JLabel("Fecha Recepcion Fabrica");
+		lblFechaRecepcionFabrica.setBounds(10, 40, 150, 20);
+		panel_1.add(lblFechaRecepcionFabrica);
+		lblFechaRecepcionFabrica.setBorder(null);
+		lblFechaRecepcionFabrica.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblFechaRecepcionFabrica.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		dcFRF = new JDateChooser();
+		dcFRF.setBounds(160, 40, 160, 20);
+		panel_1.add(dcFRF);
+		dcFRF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		
+		btn_clear_FRF = new JButton("");
+		btn_clear_FRF.setBounds(330, 40, 25, 20);
+		panel_1.add(btn_clear_FRF);
+		btn_clear_FRF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btn_clear_FRF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dcFRF.getDate()!=null)
+					dcFRF.setDate(null);
+			}
+		});
+		btn_clear_FRF.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		
+		JLabel lblFechaCambio = new JLabel("Fecha Turno");
+		lblFechaCambio.setBounds(10, 100, 150, 20);
+		panel_1.add(lblFechaCambio);
+		lblFechaCambio.setBorder(null);
+		lblFechaCambio.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFechaCambio.setFont(new Font("Tahoma", Font.BOLD, 10));
+		
+		dcFTurno = new JDateChooser();
+		dcFTurno.setBounds(160, 100, 160, 20);
+		panel_1.add(dcFTurno);
+		dcFTurno.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		
+		btn_clear_FCambio = new JButton("");
+		btn_clear_FCambio.setBounds(330, 100, 25, 20);
+		panel_1.add(btn_clear_FCambio);
+		btn_clear_FCambio.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btn_clear_FCambio.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		
+		JLabel lblEstadoPedido = new JLabel("Estado Pedido");
+		lblEstadoPedido.setBounds(10, 70, 150, 20);
+		panel_1.add(lblEstadoPedido);
+		lblEstadoPedido.setBorder(null);
+		lblEstadoPedido.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tfEstado_Pedido = new JTextField();
+		tfEstado_Pedido.setBackground(Color.LIGHT_GRAY);
+		tfEstado_Pedido.setBounds(160, 70, 250, 20);
+		panel_1.add(tfEstado_Pedido);
+		tfEstado_Pedido.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tfEstado_Pedido.setEditable(false);
+		tfEstado_Pedido.setColumns(10);
+		btn_clear_FCambio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (dcFTurno.getDate()!=null)
+					dcFTurno.setDate(null);
+			}
+		});
+		
+		JPanel panel_2 = new TransparentPanel();
+		panel_2.setBounds(921, 226, 418, 337);
+		contentPane.add(panel_2);
+		panel_2.setLayout(null);
 		
 		JLabel lblManoObra = new JLabel("MANO OBRA");
+		lblManoObra.setBounds(0, 10, 418, 20);
+		panel_2.add(lblManoObra);
 		lblManoObra.setBorder(null);
 		lblManoObra.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblManoObra.setHorizontalAlignment(SwingConstants.CENTER);
-		lblManoObra.setBounds(142, 310, 130, 20);
-		panel_claves_foraneas.add(lblManoObra);
 		
-		JLabel lblBdg = new JLabel("BDG");
-		lblBdg.setBorder(null);
-		lblBdg.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblBdg.setHorizontalAlignment(SwingConstants.CENTER);
-		lblBdg.setBounds(142, 405, 130, 20);
-		panel_claves_foraneas.add(lblBdg);
+		JLabel lblCantidadHs = new JLabel("Horas de Mano Obra");
+		lblCantidadHs.setBounds(10, 40, 150, 20);
+		panel_2.add(lblCantidadHs);
+		lblCantidadHs.setBorder(null);
+		lblCantidadHs.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblFechaBdg = new JLabel("Fecha Carga BDG");
-		lblFechaBdg.setBorder(null);
-		lblFechaBdg.setFont(new Font("Tahoma", Font.BOLD, 10));
-		lblFechaBdg.setBounds(0, 430, 140, 20);
-		panel_claves_foraneas.add(lblFechaBdg);
-		lblFechaBdg.setHorizontalAlignment(SwingConstants.CENTER);
+		tfHs_Mano_Obra = new JTextField();
+		tfHs_Mano_Obra.setBounds(160, 40, 160, 20);
+		panel_2.add(tfHs_Mano_Obra);
+		tfHs_Mano_Obra.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tfHs_Mano_Obra.setColumns(10);
 		
-		dcFBDG = new JDateChooser();
-		dcFBDG.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		dcFBDG.setBounds(140, 430, 160, 20);
-		panel_claves_foraneas.add(dcFBDG);
+		JLabel lblValor = new JLabel(" Valor de Mano Obra");
+		lblValor.setBounds(10, 70, 150, 20);
+		panel_2.add(lblValor);
+		lblValor.setBorder(null);
+		lblValor.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblNumeroDeBdg = new JLabel("Numero de BDG");
-		lblNumeroDeBdg.setBorder(null);
-		lblNumeroDeBdg.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNumeroDeBdg.setBounds(0, 455, 140, 20);
-		panel_claves_foraneas.add(lblNumeroDeBdg);
+		tfVal_Mano_Obra = new JTextField();
+		tfVal_Mano_Obra.setBounds(160, 70, 160, 20);
+		panel_2.add(tfVal_Mano_Obra);
+		tfVal_Mano_Obra.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tfVal_Mano_Obra.setColumns(10);
 		
-		tfNumero_BDG = new JTextField();
-		tfNumero_BDG.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tfNumero_BDG.setColumns(10);
-		tfNumero_BDG.setBounds(140, 455, 160, 20);
-		panel_claves_foraneas.add(tfNumero_BDG);
+		JLabel lblCodigoManoObra = new JLabel("Codigo de Mano Obra");
+		lblCodigoManoObra.setBounds(10, 100, 150, 20);
+		panel_2.add(lblCodigoManoObra);
+		lblCodigoManoObra.setBorder(null);
+		lblCodigoManoObra.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tfCod_Mano_Obra = new JTextField();
+		tfCod_Mano_Obra.setBounds(160, 100, 160, 20);
+		panel_2.add(tfCod_Mano_Obra);
+		tfCod_Mano_Obra.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tfCod_Mano_Obra.setColumns(10);
 		
 		JLabel lblDevolucion = new JLabel("DEVOLUCION");
+		lblDevolucion.setBounds(0, 130, 418, 20);
+		panel_2.add(lblDevolucion);
 		lblDevolucion.setBorder(null);
 		lblDevolucion.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblDevolucion.setBounds(142, 10, 130, 20);
-		panel_claves_foraneas.add(lblDevolucion);
 		lblDevolucion.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		dcFDF = new JDateChooser();
-		dcFDF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		dcFDF.setBounds(140, 90, 160, 20);
-		panel_claves_foraneas.add(dcFDF);
-		
 		JLabel label_3 = new JLabel("Fecha Devolucion");
+		label_3.setBounds(10, 160, 140, 20);
+		panel_2.add(label_3);
 		label_3.setBorder(null);
 		label_3.setFont(new Font("Tahoma", Font.BOLD, 10));
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
-		label_3.setBounds(0, 90, 140, 20);
-		panel_claves_foraneas.add(label_3);
 		
-		JLabel label_4 = new JLabel("Numero Remito");
-		label_4.setBorder(null);
-		label_4.setHorizontalAlignment(SwingConstants.CENTER);
-		label_4.setBounds(0, 115, 140, 20);
-		panel_claves_foraneas.add(label_4);
-		
-		tfNumero_Remito = new JTextField();
-		tfNumero_Remito.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tfNumero_Remito.setColumns(10);
-		tfNumero_Remito.setBounds(140, 115, 160, 20);
-		panel_claves_foraneas.add(tfNumero_Remito);
-		
-		JLabel label_5 = new JLabel("Transporte");
-		label_5.setBorder(null);
-		label_5.setHorizontalAlignment(SwingConstants.CENTER);
-		label_5.setBounds(0, 140, 140, 20);
-		panel_claves_foraneas.add(label_5);
-		
-		tfTransporte = new JTextField();
-		tfTransporte.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tfTransporte.setColumns(10);
-		tfTransporte.setBounds(140, 140, 160, 20);
-		panel_claves_foraneas.add(tfTransporte);
-		
-		JLabel label_6 = new JLabel("Numero Retiro");
-		label_6.setBorder(null);
-		label_6.setHorizontalAlignment(SwingConstants.CENTER);
-		label_6.setBounds(0, 165, 140, 20);
-		panel_claves_foraneas.add(label_6);
-		
-		tfNumero_Retiro = new JTextField();
-		tfNumero_Retiro.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tfNumero_Retiro.setColumns(10);
-		tfNumero_Retiro.setBounds(140, 165, 160, 20);
-		panel_claves_foraneas.add(tfNumero_Retiro);
+		dcFDF = new JDateChooser();
+		dcFDF.setBounds(150, 160, 160, 20);
+		panel_2.add(dcFDF);
+		dcFDF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
 		btn_clear_FDF = new JButton("");
+		btn_clear_FDF.setBounds(320, 160, 25, 20);
+		panel_2.add(btn_clear_FDF);
 		btn_clear_FDF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btn_clear_FDF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -609,109 +798,85 @@ public class GUIModificarPedidoEntidad extends JFrame {
 			}
 		});
 		btn_clear_FDF.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
-		btn_clear_FDF.setBounds(310, 90, 25, 20);
-		panel_claves_foraneas.add(btn_clear_FDF);
 		
-		btn_clear_FBDG = new JButton("");
-		btn_clear_FBDG.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btn_clear_FBDG.addActionListener(new ActionListener() {
+		tfNumero_Remito = new JTextField();
+		tfNumero_Remito.setBounds(150, 190, 160, 20);
+		panel_2.add(tfNumero_Remito);
+		tfNumero_Remito.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tfNumero_Remito.setColumns(10);
+		
+		JLabel label_4 = new JLabel("Numero Remito");
+		label_4.setBounds(10, 190, 140, 20);
+		panel_2.add(label_4);
+		label_4.setBorder(null);
+		label_4.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JLabel label_5 = new JLabel("Transporte");
+		label_5.setBounds(10, 220, 140, 20);
+		panel_2.add(label_5);
+		label_5.setBorder(null);
+		label_5.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tfTransporte = new JTextField();
+		tfTransporte.setBounds(150, 220, 160, 20);
+		panel_2.add(tfTransporte);
+		tfTransporte.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tfTransporte.setColumns(10);
+		
+		JLabel lblNumeroGuia = new JLabel("Numero Guia");
+		lblNumeroGuia.setBounds(10, 250, 140, 20);
+		panel_2.add(lblNumeroGuia);
+		lblNumeroGuia.setBorder(null);
+		lblNumeroGuia.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		tfNumero_Retiro = new JTextField();
+		tfNumero_Retiro.setBounds(150, 250, 160, 20);
+		panel_2.add(tfNumero_Retiro);
+		tfNumero_Retiro.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tfNumero_Retiro.setColumns(10);
+		
+		JButton btnModificarPieza = new GlossyButton("GUARDAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_LIGHTGRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnModificarPieza.setBounds(583, 600, 200, 30);
+		contentPane.add(btnModificarPieza);
+		btnModificarPieza.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnModificarPieza.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/save.png")));
+		contentPane.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{tFEntidad, tFNombreReclamante, dcFReclamo, dCFSP, tfNumero_Pedido, tFNombreTitular, tFDominio, tFVinVehiculo, tFMarca, tFModelo, tfNumeroOrden, dCFAperturaOrden, dCFCierreOrden, tFNumeroRecurso, dCFechaRecurso, cbPiezas, tfNum_Pieza, cbProveedor, taDesc_Pedido, cbxPropio, cbxStrock, tfPNC, dcFSF, dcFRF, tfEstado_Pedido, dcFTurno, tfVIN_Muleto, taDesc_Muleto, tfHs_Mano_Obra, tfVal_Mano_Obra, tfCod_Mano_Obra, dcFDF, tfNumero_Remito, tfTransporte, tfNumero_Retiro, btnModificarPieza, btnCancelar, btnModificar, panel_piezas, lblPiezas, lblPnc, dcFSF.getCalendarButton(), lblFechaSolicitudFabrica, lblFechaRecepcionFabrica, dcFRF.getCalendarButton(), label, label_1, label_2, lblEstadoPedido, lblPiezas_1, btn_clear_FSF, btn_clear_FRF, lblFechaCambio, dcFTurno.getCalendarButton(), btn_clear_FCambio, lblVin, lblMuleto, lblDescripcionMuleto, lblManoObra, lblCantidadHs, lblValor, lblCodigoManoObra, lblDevolucion, dcFDF.getCalendarButton(), btn_clear_FDF, label_3, label_4, label_5, lblNumeroGuia, vehiculo, label_10, label_9, label_8, label_6, lblNombreTitular, panel, btnVerReclamante, lblNombreReclamante, lblEntidad, lblFechaReclamo, dcFReclamo.getCalendarButton(), lblFechaSolicitud, dCFSP.getCalendarButton(), lblNumeroPedido, orden, lblOrden, lblFechaAperturaOrden, dCFAperturaOrden.getCalendarButton(), lblFechaCierreOrden, dCFCierreOrden.getCalendarButton(), lblNumeroDeRecurso, lblFechaRecurso, dCFechaRecurso.getCalendarButton(), btn_clear_fcorden, btn_clear_frecurso}));
+		btnModificarPieza.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (dcFBDG.getDate()!=null)
-					dcFBDG.setDate(null);
+				modificarPieza();
 			}
 		});
-		btn_clear_FBDG.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
-		btn_clear_FBDG.setBounds(310, 430, 25, 20);
-		panel_claves_foraneas.add(btn_clear_FBDG);
-		
-		JLabel label_7 = new JLabel("Fecha Aprobacion Solicitud");
-		label_7.setBorder(null);
-		label_7.setHorizontalAlignment(SwingConstants.CENTER);
-		label_7.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		label_7.setBounds(0, 65, 140, 20);
-		panel_claves_foraneas.add(label_7);
-		
-		dcFAS = new JDateChooser();
-		dcFAS.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		dcFAS.setBounds(140, 65, 160, 20);
-		panel_claves_foraneas.add(dcFAS);
-		
-		btn_clear_FAS = new JButton("");
-		btn_clear_FAS.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btn_clear_FAS.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (dcFAS.getDate()!=null)
-					dcFAS.setDate(null);
-			}
-		});
-		btn_clear_FAS.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
-		btn_clear_FAS.setBounds(310, 65, 25, 20);
-		panel_claves_foraneas.add(btn_clear_FAS);
-		
-		dcFSD = new JDateChooser();
-		dcFSD.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		dcFSD.setBounds(140, 40, 160, 20);
-		panel_claves_foraneas.add(dcFSD);
-
-		btn_clear_FSD = new JButton("");
-		btn_clear_FSD.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btn_clear_FSD.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (dcFSD.getDate()!=null)
-					dcFSD.setDate(null);
-			}
-		});
-		btn_clear_FSD.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
-		btn_clear_FSD.setBounds(310, 40, 25, 20);
-		panel_claves_foraneas.add(btn_clear_FSD);
-		
-		
-		JLabel label_8 = new JLabel("Fecha Solicitud Devolucion");
-		label_8.setBorder(null);
-		label_8.setHorizontalAlignment(SwingConstants.CENTER);
-		label_8.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		label_8.setBounds(0, 40, 140, 20);
-		panel_claves_foraneas.add(label_8);
-		
-		tfFSP = new JTextField();
-		tfFSP.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tfFSP.setEditable(false);
-		tfFSP.setColumns(10);
-		tfFSP.setBounds(150, 40, 160, 20);
-		contentPane.add(tfFSP);
 		
 		contentPane.setVisible(true);	
 	}
 
 
+	@SuppressWarnings("static-access")
 	protected void modificarPieza() {
 		if (tfNum_Pieza.getText().isEmpty() || cbProveedor.getSelectedItem()==null){
 			JOptionPane.showMessageDialog(this,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
 		}else{	
 			//pieza
 			ProveedorDTO proveedor = mediador.obtenerProveedor(cbProveedor.getSelectedItem().toString());
-			SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy"); 
 
 			for(int i=0;i< pedidos_piezas.size();i++){
 				if(pedidos_piezas.elementAt(i).getPieza().getNumero_pieza().equals(cbPiezas.getSelectedItem().toString())){
 
 					pedidos_piezas.elementAt(i).getPieza().setNumero_pieza(tfNum_Pieza.getText());
-					pedidos_piezas.elementAt(i).getPieza().setDescripcion(taDesc_Pedido.getText());
 					pedidos_piezas.elementAt(i).getPieza().setProveedor(proveedor);
-
+					pedidos_piezas.elementAt(i).getPieza().setDescripcion(taDesc_Pedido.getText());
 					if (!numeros_piezas.contains(pedidos_piezas.elementAt(i).getPieza().getNumero_pieza())){
 						numeros_piezas.remove(cbPiezas.getSelectedItem().toString());
 						numeros_piezas.add(pedidos_piezas.elementAt(i).getPieza().getNumero_pieza());
 					}
 					cmbPiezas = new DefaultComboBoxModel<String>(numeros_piezas);
 					cbPiezas.setModel(cmbPiezas);
-					
 					pedidos_piezas.elementAt(i).setPropio(cbxPropio.isSelected());
 					pedidos_piezas.elementAt(i).setStock(cbxStrock.isSelected());
-					
+					pedidos_piezas.elementAt(i).setPnc(tfPNC.getText());
+
 					//fecha solicitud fabrica
 					if (dcFSF.getDate()!=null){
-						String fecha = format2.format(dcFSF.getDate());
 						java.sql.Date fsf = new java.sql.Date(dcFSF.getDate().getTime());
 						pedidos_piezas.elementAt(i).setFecha_solicitud_fabrica(fsf);
 					}else{
@@ -719,59 +884,25 @@ public class GUIModificarPedidoEntidad extends JFrame {
 					}
 					//fecha recepcion fabrica
 					if(dcFRF.getDate()!=null){
-						String fecha = format2.format(dcFRF.getDate());
 						java.sql.Date frf = new java.sql.Date(dcFRF.getDate().getTime());
 						pedidos_piezas.elementAt(i).setFecha_recepcion_fabrica(frf);
 					}else{
 						pedidos_piezas.elementAt(i).setFecha_recepcion_fabrica(null);
 					}
-					//fecha cambio
-					if(dcFCambio.getDate()!=null){
-						String fecha = format2.format(dcFCambio.getDate());
-						java.sql.Date fcambio = new java.sql.Date(dcFCambio.getDate().getTime());
-						pedidos_piezas.elementAt(i).setFecha_cambio(fcambio);
-					}else{
-						pedidos_piezas.elementAt(i).setFecha_cambio(null);
-					}
-					pedidos_piezas.elementAt(i).setPnc(tfPNC.getText());
-
-					//devolucion
 					
-					if(dcFSD.getDate()!=null){
-						String fecha = format2.format(dcFSD.getDate());
-						java.sql.Date fsd = new java.sql.Date(dcFSD.getDate().getTime());
-						pedidos_piezas.elementAt(i).setFecha_solicitud_devolucion(fsd);
+					//fecha turno
+					if(dcFTurno.getDate()!=null){
+						java.sql.Date fturno = new java.sql.Date(dcFTurno.getDate().getTime());
+						Calendar c = Calendar.getInstance();
+						c.setTime(dcFTurno.getDate());
+						c.add(c.DAY_OF_YEAR, -3);
+						java.sql.Date fllamdoturno = new java.sql.Date(c.getTime().getTime());					
+						
+						pedidos_piezas.elementAt(i).getPedido().getReclamo().setFecha_turno(fturno);
+						pedidos_piezas.elementAt(i).getPedido().getReclamo().setFecha_llamado_turno(fllamdoturno);
 					}else{
-						pedidos_piezas.elementAt(i).setFecha_solicitud_devolucion(null);
-					}
-					
-					if(dcFAS.getDate()!=null){
-						String fecha = format2.format(dcFAS.getDate());
-						java.sql.Date fas = new java.sql.Date(dcFAS.getDate().getTime());
-						pedidos_piezas.elementAt(i).setFecha_aprobacion_solicitud_devolucion(fas);
-					}else{
-						pedidos_piezas.elementAt(i).setFecha_aprobacion_solicitud_devolucion(null);
-					}
-					
-					if(dcFDF.getDate()!=null || !tfNumero_Remito.getText().isEmpty() || !tfTransporte.getText().isEmpty() || !tfNumero_Retiro.getText().isEmpty()){
-						if(pedidos_piezas.elementAt(i).getDevolucion_pieza()==null){
-							Devolucion_PiezaDTO devolucion = new Devolucion_PiezaDTO();
-							String fecha = format2.format(dcFDF.getDate());
-							java.sql.Date fdf = new java.sql.Date(dcFDF.getDate().getTime());
-							devolucion.setFecha_devolucion(fdf);
-							devolucion.setNumero_remito(tfNumero_Remito.getText());
-							devolucion.setTransporte(tfTransporte.getText());
-							devolucion.setNumero_retiro(tfNumero_Retiro.getText());
-							pedidos_piezas.elementAt(i).setDevolucion_pieza(devolucion);
-						}else{
-							String fecha = format2.format(dcFDF.getDate());
-							java.sql.Date fdf = new java.sql.Date(dcFDF.getDate().getTime());
-							pedidos_piezas.elementAt(i).getDevolucion_pieza().setFecha_devolucion(fdf);
-							pedidos_piezas.elementAt(i).getDevolucion_pieza().setNumero_remito(tfNumero_Remito.getText());
-							pedidos_piezas.elementAt(i).getDevolucion_pieza().setTransporte(tfTransporte.getText());
-							pedidos_piezas.elementAt(i).getDevolucion_pieza().setNumero_retiro(tfNumero_Retiro.getText());
-	
-						}
+						pedidos_piezas.elementAt(i).getPedido().getReclamo().setFecha_turno(null);
+						pedidos_piezas.elementAt(i).getPedido().getReclamo().setFecha_llamado_turno(null);
 					}
 					//muleto
 					if(!tfVIN_Muleto.getText().isEmpty() || !taDesc_Muleto.getText().isEmpty()){
@@ -779,66 +910,165 @@ public class GUIModificarPedidoEntidad extends JFrame {
 							MuletoDTO muleto = new MuletoDTO();
 							muleto.setVin(tfVIN_Muleto.getText());
 							muleto.setDescripcion(taDesc_Muleto.getText());
-							muleto.setPedido(pedido);
+							muleto.setPedido(pedidos_piezas.elementAt(i).getPedido());
 							muleto.setPieza(pedidos_piezas.elementAt(i).getPieza());
 							pedidos_piezas.elementAt(i).setMuleto(muleto);
 						}else{
 							pedidos_piezas.elementAt(i).getMuleto().setVin(tfVIN_Muleto.getText());
 							pedidos_piezas.elementAt(i).getMuleto().setDescripcion(taDesc_Muleto.getText());
-							pedidos_piezas.elementAt(i).getMuleto().setPedido(pedido);
+							pedidos_piezas.elementAt(i).getMuleto().setPedido(pedidos_piezas.elementAt(i).getPedido());
 							pedidos_piezas.elementAt(i).getMuleto().setPieza(pedidos_piezas.elementAt(i).getPieza());
 						}
 					}
+					
 					//mano obra
 					if(!tfVal_Mano_Obra.getText().isEmpty() && !tfCod_Mano_Obra.getText().isEmpty() && !tfHs_Mano_Obra.getText().isEmpty()){
 						if(pedidos_piezas.elementAt(i).getMano_obra()==null){
 							Mano_ObraDTO mano_obra = new Mano_ObraDTO();
 							try{
 								mano_obra.setCantidad_horas(Float.parseFloat(tfHs_Mano_Obra.getText()));
-								mano_obra.setValor_mano_obra(Float.parseFloat(tfVal_Mano_Obra.getText()));
-								mano_obra.setCodigo_mano_obra(tfCod_Mano_Obra.getText());
-								pedidos_piezas.elementAt(i).setMano_obra(mano_obra);
 							}catch(Exception e){
-								System.out.println("Error de parseo de floats");
+								mano_obra.setCantidad_horas(new Float(0.00));
 							}
+							try{
+								mano_obra.setValor_mano_obra(Float.parseFloat(tfVal_Mano_Obra.getText()));
+							}catch(Exception e){
+								mano_obra.setValor_mano_obra(new Float(0.00));
+							}
+							mano_obra.setCodigo_mano_obra(tfCod_Mano_Obra.getText());
+							pedidos_piezas.elementAt(i).setMano_obra(mano_obra);
+							
 						}else{
 							try{
 								pedidos_piezas.elementAt(i).getMano_obra().setCantidad_horas(Float.parseFloat(tfHs_Mano_Obra.getText()));
 								pedidos_piezas.elementAt(i).getMano_obra().setValor_mano_obra(Float.parseFloat(tfVal_Mano_Obra.getText()));
-								pedidos_piezas.elementAt(i).getMano_obra().setCodigo_mano_obra(tfCod_Mano_Obra.getText());
 							}catch(Exception e){
-								System.out.println("Error de parseo de floats");
+								mano_obra.setCantidad_horas(new Float(0.00));
+								mano_obra.setValor_mano_obra(new Float(0.00));
+							}
+							pedidos_piezas.elementAt(i).getMano_obra().setCodigo_mano_obra(tfCod_Mano_Obra.getText());
+						}
+					}
+					//devolucion
+					if(dcFDF.getDate()!=null || !tfNumero_Remito.getText().isEmpty() || !tfTransporte.getText().isEmpty() || !tfNumero_Retiro.getText().isEmpty()){
+						if(pedidos_piezas.elementAt(i).getDevolucion_pieza()==null){
+							Devolucion_PiezaDTO devolucion = new Devolucion_PiezaDTO();
+							java.sql.Date fdf = new java.sql.Date(dcFDF.getDate().getTime());
+							devolucion.setFecha_devolucion(fdf);
+							devolucion.setNumero_remito(tfNumero_Remito.getText());
+							devolucion.setTransporte(tfTransporte.getText());
+							devolucion.setNumero_retiro(tfNumero_Retiro.getText());
+							pedidos_piezas.elementAt(i).setDevolucion_pieza(devolucion);
+							
+							Calendar c = Calendar.getInstance();
+							c.setTime(dcFDF.getDate());
+							c.add(c.DAY_OF_YEAR, -5);
+							java.sql.Date fsdf = new java.sql.Date(c.getTime().getTime());
+							pedidos_piezas.elementAt(i).setFecha_solicitud_devolucion(fsdf);
+							
+							Calendar d = Calendar.getInstance();
+							d.setTime(dcFDF.getDate());
+							d.add(d.DAY_OF_YEAR, -4);
+							java.sql.Date fasdf = new java.sql.Date(d.getTime().getTime());
+							pedidos_piezas.elementAt(i).setFecha_aprobacion_solicitud_devolucion(fasdf);
+						}else{
+							java.sql.Date fdf = new java.sql.Date(dcFDF.getDate().getTime());
+							pedidos_piezas.elementAt(i).getDevolucion_pieza().setFecha_devolucion(fdf);
+							pedidos_piezas.elementAt(i).getDevolucion_pieza().setNumero_remito(tfNumero_Remito.getText());
+							pedidos_piezas.elementAt(i).getDevolucion_pieza().setTransporte(tfTransporte.getText());
+							pedidos_piezas.elementAt(i).getDevolucion_pieza().setNumero_retiro(tfNumero_Retiro.getText());
+							
+							Calendar c = Calendar.getInstance();
+							c.setTime(dcFDF.getDate());
+							c.add(c.DAY_OF_YEAR, -5);
+							java.sql.Date fsdf = new java.sql.Date(c.getTime().getTime());
+							pedidos_piezas.elementAt(i).setFecha_solicitud_devolucion(fsdf);
+							
+							Calendar d = Calendar.getInstance();
+							d.setTime(dcFDF.getDate());
+							d.add(d.DAY_OF_YEAR, -4);
+							java.sql.Date fasdf = new java.sql.Date(d.getTime().getTime());
+							pedidos_piezas.elementAt(i).setFecha_aprobacion_solicitud_devolucion(fasdf);
+						}
+					}
+		
+					//Recurso y Bdg
+					if(!tFNumeroRecurso.getText().isEmpty() && dCFechaRecurso.getDate()!=null){
+						if(pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().getRecurso()==null){
+							RecursoDTO recurso = new RecursoDTO();
+							recurso.setNumero_recurso(tFNumeroRecurso.getText());
+							java.sql.Date frecurso = new java.sql.Date(dCFechaRecurso.getDate().getTime());
+							recurso.setFecha_recurso(frecurso);
+							pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().setRecurso(recurso);
+							
+							if(pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().getFecha_cierre()==null || dCFCierreOrden.getDate()==null)
+								pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().setEstado("ABIERTA/CON RECURSO");
+							else
+								pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().setEstado("CERRADA");
+							
+							if(pedidos_piezas.elementAt(i).getBdg()!=null){
+								java.sql.Date fbdg = new java.sql.Date(dCFechaRecurso.getDate().getTime());
+								pedidos_piezas.elementAt(i).getBdg().setFecha_bdg(fbdg);
+								pedidos_piezas.elementAt(i).getBdg().setNumero_bdg(tFNumeroRecurso.getText());
+								pedidos_piezas.elementAt(i).getBdg().setPedido(pedido);
+								pedidos_piezas.elementAt(i).getBdg().setPieza(pedidos_piezas.elementAt(i).getPieza());
+							}else{
+								BdgDTO bdg = new BdgDTO();
+								java.sql.Date fbdg = new java.sql.Date(dCFechaRecurso.getDate().getTime());
+								bdg.setFecha_bdg(fbdg);
+								bdg.setNumero_bdg(tFNumeroRecurso.getText());
+								bdg.setPedido(pedido);
+								bdg.setPieza(pedidos_piezas.elementAt(i).getPieza());
+								pedidos_piezas.elementAt(i).setBdg(bdg);
+							}
+						}else{
+							pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().getRecurso().setNumero_recurso(tFNumeroRecurso.getText());
+							java.sql.Date frecurso = new java.sql.Date(dCFechaRecurso.getDate().getTime());
+							pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().getRecurso().setFecha_recurso(frecurso);
+							
+							if(pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().getFecha_cierre()==null || dCFCierreOrden.getDate()==null)
+								pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().setEstado("ABIERTA/CON RECURSO");
+							else
+								pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().setEstado("CERRADA");
+							if(pedidos_piezas.elementAt(i).getBdg()!=null){
+								java.sql.Date fbdg = new java.sql.Date(dCFechaRecurso.getDate().getTime());
+								pedidos_piezas.elementAt(i).getBdg().setFecha_bdg(fbdg);
+								pedidos_piezas.elementAt(i).getBdg().setNumero_bdg(tFNumeroRecurso.getText());
+								pedidos_piezas.elementAt(i).getBdg().setPedido(pedido);
+								pedidos_piezas.elementAt(i).getBdg().setPieza(pedidos_piezas.elementAt(i).getPieza());
+							}else{
+								BdgDTO bdg = new BdgDTO();
+								java.sql.Date fbdg = new java.sql.Date(dCFechaRecurso.getDate().getTime());
+								bdg.setFecha_bdg(fbdg);
+								bdg.setNumero_bdg(tFNumeroRecurso.getText());
+								bdg.setPedido(pedido);
+								bdg.setPieza(pedidos_piezas.elementAt(i).getPieza());
+								pedidos_piezas.elementAt(i).setBdg(bdg);
 							}
 						}
 					}
-					//bdg
-					if(!tfNumero_BDG.getText().isEmpty() && dcFBDG.getDate()!=null){
-						if(pedidos_piezas.elementAt(i).getBdg()==null){
-							BdgDTO bdg = new BdgDTO();
-							String fecha = format2.format(dcFBDG.getDate());
-							java.sql.Date fbdg = new java.sql.Date(dcFBDG.getDate().getTime());
-							bdg.setFecha_bdg(fbdg);
-							bdg.setNumero_bdg(tfNumero_BDG.getText());
-							bdg.setPedido(pedido);
-							bdg.setPieza(pedidos_piezas.elementAt(i).getPieza());
-							pedidos_piezas.elementAt(i).setBdg(bdg);
-						}else{
-							String fecha = format2.format(dcFBDG.getDate());
-							java.sql.Date fbdg = new java.sql.Date(dcFBDG.getDate().getTime());
-							pedidos_piezas.elementAt(i).getBdg().setFecha_bdg(fbdg);
-							pedidos_piezas.elementAt(i).getBdg().setNumero_bdg(tfNumero_BDG.getText());
-							pedidos_piezas.elementAt(i).getBdg().setPedido(pedido);
-							pedidos_piezas.elementAt(i).getBdg().setPieza(pedidos_piezas.elementAt(i).getPieza());
-						}
+					
+					if(dCFCierreOrden.getDate()!=null){
+						java.sql.Date fcot = new java.sql.Date(dCFCierreOrden.getDate().getTime());
+						pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().setFecha_cierre(fcot);
+						pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().setEstado("CERRADA");
+						pedidos_piezas.elementAt(i).setFecha_cambio(fcot);
+					}else{
+						pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().setFecha_cierre(null);
+						pedidos_piezas.elementAt(i).setFecha_cambio(null);
+						if(pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().getRecurso()==null)
+							pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().setEstado("ABIERTA/CON RECURSO");
+						else
+							pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().setEstado("ABIERTA/SIN RECURSO");
 					}
-					//pedidos_piezas.add(pedido_pieza);
+					
+					
 					JOptionPane.showMessageDialog(this,"Pieza Modificada.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
 					actualizarPiezas();
 					
 					break;
 				}
 			}
-			btnModificar.setEnabled(true);
 		}
 		
 	}
@@ -868,30 +1098,25 @@ public class GUIModificarPedidoEntidad extends JFrame {
 				taDesc_Pedido.setText("");
 				cbxPropio.setSelected(false);
 				cbxStrock.setSelected(false);
+				tfPNC.setText("");
+				
 				dcFSF.setDate(null);
 				dcFRF.setDate(null);
-				dcFCambio.setDate(null);
-
 				tfEstado_Pedido.setText("");
-				tfPNC.setText("");
-				//devolucion
-				dcFSD.setDate(null);
-				dcFAS.setDate(null);
-				dcFDF.setDate(null);
-				tfNumero_Remito.setText("");
-				tfTransporte.setText("");
-				tfNumero_Retiro.setText("");
+				dcFTurno.setDate(null);
 				//muleto
 				tfVIN_Muleto.setText("");
 				taDesc_Muleto.setText("");
+				
 				//mano obra
 				tfHs_Mano_Obra.setText("");
 				tfVal_Mano_Obra.setText("");
 				tfCod_Mano_Obra.setText("");
-				//bdg
-				dcFBDG.setDate(null);
-				tfNumero_BDG.setText("");
-				
+				//devolucion
+				dcFDF.setDate(null);
+				tfNumero_Remito.setText("");
+				tfTransporte.setText("");
+				tfNumero_Retiro.setText("");
 												
 				for(int i=0;i< pedidos_piezas.size();i++){
 					if(pedidos_piezas.elementAt(i).getPieza().getNumero_pieza().equals(cbPiezas.getSelectedItem().toString())){
@@ -899,40 +1124,28 @@ public class GUIModificarPedidoEntidad extends JFrame {
 						tfNum_Pieza.setText(pedidos_piezas.elementAt(i).getPieza().getNumero_pieza());
 						cbProveedor.setSelectedItem(pedidos_piezas.elementAt(i).getPieza().getProveedor().getNombre());
 						taDesc_Pedido.setText(pedidos_piezas.elementAt(i).getPieza().getDescripcion());
-						if(pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null)
-							dcFSF.setDate(pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica());
-						if(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null)
-							dcFRF.setDate(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica());
-						if(pedidos_piezas.elementAt(i).getFecha_cambio()!=null)
-							dcFCambio.setDate(pedidos_piezas.elementAt(i).getFecha_cambio());
-						tfEstado_Pedido.setText(pedidos_piezas.elementAt(i).getEstado_pedido());
-						tfPNC.setText(pedidos_piezas.elementAt(i).getPnc());
-						//
 						if(pedidos_piezas.elementAt(i).getPropio()!=null){
 							cbxPropio.setSelected(pedidos_piezas.elementAt(i).getPropio());
 						}
 						if(pedidos_piezas.elementAt(i).getStock()!=null){
 							cbxStrock.setSelected(pedidos_piezas.elementAt(i).getStock());
 						}
-						//devolucion
-						if(pedidos_piezas.elementAt(i).getFecha_solicitud_devolucion()!=null)
-							dcFSD.setDate(pedidos_piezas.elementAt(i).getFecha_solicitud_devolucion());
-						if(pedidos_piezas.elementAt(i).getFecha_aprobacion_solicitud_devolucion()!=null)
-							dcFAS.setDate(pedidos_piezas.elementAt(i).getFecha_aprobacion_solicitud_devolucion());
-						if(pedidos_piezas.elementAt(i).getDevolucion_pieza()!=null){
-							setDevolucion(pedidos_piezas.elementAt(i).getDevolucion_pieza());
-							if(pedidos_piezas.elementAt(i).getDevolucion_pieza().getFecha_devolucion()!=null)
-								dcFDF.setDate(pedidos_piezas.elementAt(i).getDevolucion_pieza().getFecha_devolucion());
-							tfNumero_Remito.setText(pedidos_piezas.elementAt(i).getDevolucion_pieza().getNumero_remito());
-							tfTransporte.setText(pedidos_piezas.elementAt(i).getDevolucion_pieza().getTransporte());
-							tfNumero_Retiro.setText(pedidos_piezas.elementAt(i).getDevolucion_pieza().getNumero_retiro());
-						}
+						tfPNC.setText(pedidos_piezas.elementAt(i).getPnc());
+
+						if(pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null)
+							dcFSF.setDate(pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica());
+						if(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null)
+							dcFRF.setDate(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica());
+						tfEstado_Pedido.setText(pedidos_piezas.elementAt(i).getEstado_pedido());
+						if(pedidos_piezas.elementAt(i).getPedido().getReclamo().getFecha_turno()!=null)
+							dcFTurno.setDate(pedidos_piezas.elementAt(i).getPedido().getReclamo().getFecha_turno());
 						//muleto
 						if(pedidos_piezas.elementAt(i).getMuleto()!=null){
 							setMuleto(pedidos_piezas.elementAt(i).getMuleto());
 							tfVIN_Muleto.setText(pedidos_piezas.elementAt(i).getMuleto().getVin());
 							taDesc_Muleto.setText(pedidos_piezas.elementAt(i).getMuleto().getDescripcion());
 						}
+						
 						//mano obra
 						if(pedidos_piezas.elementAt(i).getMano_obra()!=null){
 							setMano_obra(pedidos_piezas.elementAt(i).getMano_obra());
@@ -947,12 +1160,14 @@ public class GUIModificarPedidoEntidad extends JFrame {
 								tfCod_Mano_Obra.setText("");
 							}
 						}
-						//bdg
-						if(pedidos_piezas.elementAt(i).getBdg()!=null){
-							setBdg(pedidos_piezas.elementAt(i).getBdg());
-							if(pedidos_piezas.elementAt(i).getBdg().getFecha_bdg()!=null)
-								dcFBDG.setDate(pedidos_piezas.elementAt(i).getBdg().getFecha_bdg());
-							tfNumero_BDG.setText(pedidos_piezas.elementAt(i).getBdg().getNumero_bdg());
+						//devolucion
+						if(pedidos_piezas.elementAt(i).getDevolucion_pieza()!=null){
+							setDevolucion(pedidos_piezas.elementAt(i).getDevolucion_pieza());
+							if(pedidos_piezas.elementAt(i).getDevolucion_pieza().getFecha_devolucion()!=null)
+								dcFDF.setDate(pedidos_piezas.elementAt(i).getDevolucion_pieza().getFecha_devolucion());
+							tfNumero_Remito.setText(pedidos_piezas.elementAt(i).getDevolucion_pieza().getNumero_remito());
+							tfTransporte.setText(pedidos_piezas.elementAt(i).getDevolucion_pieza().getTransporte());
+							tfNumero_Retiro.setText(pedidos_piezas.elementAt(i).getDevolucion_pieza().getNumero_retiro());
 						}
 						break;
 					}
@@ -964,43 +1179,30 @@ public class GUIModificarPedidoEntidad extends JFrame {
 				taDesc_Pedido.setText("");
 				cbxPropio.setSelected(false);
 				cbxStrock.setSelected(false);
+				tfPNC.setText("");
+				
 				dcFSF.setDate(null);
 				dcFRF.setDate(null);
-				dcFCambio.setDate(null);
 				tfEstado_Pedido.setText("");
-				tfPNC.setText("");
-				//devolucion
-				dcFSD.setDate(null);
-				dcFAS.setDate(null);
-				dcFDF.setDate(null);
-				tfNumero_Remito.setText("");
-				tfTransporte.setText("");
-				tfNumero_Retiro.setText("");
+				dcFTurno.setDate(null);
 				//muleto
 				tfVIN_Muleto.setText("");
 				taDesc_Muleto.setText("");
+				
 				//mano obra
 				tfHs_Mano_Obra.setText("");
 				tfVal_Mano_Obra.setText("");
 				tfCod_Mano_Obra.setText("");
-				//bdg
-				dcFBDG.setDate(null);
-				tfNumero_BDG.setText("");
+				//devolucion
+				dcFDF.setDate(null);
+				tfNumero_Remito.setText("");
+				tfTransporte.setText("");
+				tfNumero_Retiro.setText("");
 			}
 		}
 		
 	}
-	@SuppressWarnings("unused")
-	private Pedido_PiezaDTO buscarPedido_Pieza(String numero_pieza) {
-		Pedido_PiezaDTO pedido = null;
-		for(int i=0;i< pedidos_piezas.size();i++){
-			if(pedidos_piezas.elementAt(i).getPieza().getNumero_pieza().equals(numero_pieza))
-				pedido = pedidos_piezas.elementAt(i);
-		}
-		return pedido;
-	}
 	
-
 	//GETTERS AND SETTERS//
 	public MediadorPedido getMediador() {
 		return mediador;

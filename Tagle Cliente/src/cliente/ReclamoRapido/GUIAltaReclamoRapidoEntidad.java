@@ -51,7 +51,6 @@ import com.toedter.calendar.JDateChooser;
 import common.Cuadruple;
 import common.Tupla;
 import common.DTOs.MuletoDTO;
-import common.DTOs.OrdenDTO;
 import common.DTOs.PiezaDTO;
 import common.DTOs.ProveedorDTO;
 import common.DTOs.ReclamanteDTO;
@@ -97,7 +96,6 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 	private JComboBox<String> cbModelo_E;
 	private Vector<String> modelos;
 	private JCheckBox cBInmovilizado;
-	private boolean orden_desdeEntidad;
 	private JDateChooser dCFecha_Reclamo_E;
 	private JTextArea tADescripcion_E;
 	private JButton btnLimpiar_E;
@@ -150,8 +148,8 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 
 		contentPane =  new JPanel_Whit_Image("/cliente/Recursos/Imagenes/background.jpg");
 		contentPane.setBounds(new Rectangle(0, 0, 1366, 768));
-		getContentPane().setLayout(null);
 		setContentPane(contentPane);
+		getContentPane().setLayout(null);
 
 		cmbProveedor_E = new DefaultComboBoxModel<String>(proveedores);
 		
@@ -164,7 +162,6 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 				crearReclamoEntidad();
 			}
 		});
-		contentPane.setLayout(null);
 		
 		JPanel selecEntidad = new TransparentPanel();
 		selecEntidad.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
@@ -181,7 +178,7 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 		cbEntidad = new JComboBox<String>();
 		cbEntidad.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		cbEntidad.setModel(new DefaultComboBoxModel<String>(entidades));
-		cbEntidad.setBounds(160, 11, 200, 20);
+		cbEntidad.setBounds(160, 11, 400, 20);
 		selecEntidad.add(cbEntidad);
 		
 		JPanel selectReclamoEntidad = new TransparentPanel();
@@ -239,7 +236,7 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 			}
 		});
 		btn_clear_FR_E.setIcon(new ImageIcon(GUIAltaReclamoRapidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
-		btn_clear_FR_E.setBounds(335, 11, 25, 20);
+		btn_clear_FR_E.setBounds(330, 11, 25, 20);
 		selectReclamoEntidad.add(btn_clear_FR_E);
 		
 		JPanel selectReclamanteEntidad = new TransparentPanel();
@@ -382,7 +379,7 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 				mediador.buscarReclamante();
 			}
 		});
-		btnBuscarReclamante_E.setBounds(430, 11, 155, 20);
+		btnBuscarReclamante_E.setBounds(395, 10, 165, 20);
 		selectReclamanteEntidad.add(btnBuscarReclamante_E);
 		
 		JPanel selectOrdenEntidad = new TransparentPanel();
@@ -508,7 +505,7 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 				mediador.buscarVehiculo();
 			}
 		});
-		btnBuscarVehiculo_E.setBounds(430, 12, 155, 20);
+		btnBuscarVehiculo_E.setBounds(395, 11, 165, 20);
 		selectVehiculoEntidad.add(btnBuscarVehiculo_E);
 		
 		cBPeligroso = new JCheckBox("PELIGROSO");
@@ -639,7 +636,7 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 		
 		JLabel lblFechaSolicitudFabrica = new JLabel("Fecha Solicitud Fabrica");
 		lblFechaSolicitudFabrica.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFechaSolicitudFabrica.setBounds(10, 35, 130, 20);
+		lblFechaSolicitudFabrica.setBounds(0, 35, 153, 20);
 		selectPiezasEntidad.add(lblFechaSolicitudFabrica);
 		
 		JLabel label_7 = new JLabel("Piezas");
@@ -677,45 +674,45 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 		tFPnc = new JTextField();
 		tFPnc.setColumns(10);
 		tFPnc.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tFPnc.setBounds(154, 218, 160, 20);
+		tFPnc.setBounds(154, 220, 160, 20);
 		selectPiezasEntidad.add(tFPnc);
 		
 		JLabel label_5 = new JLabel("PNC");
 		label_5.setHorizontalAlignment(SwingConstants.CENTER);
 		label_5.setBorder(null);
-		label_5.setBounds(10, 218, 140, 20);
+		label_5.setBounds(10, 220, 140, 20);
 		selectPiezasEntidad.add(label_5);
 		
 		JLabel label_6 = new JLabel("Descripcion Muleto");
 		label_6.setHorizontalAlignment(SwingConstants.CENTER);
 		label_6.setBorder(null);
-		label_6.setBounds(10, 299, 140, 20);
+		label_6.setBounds(10, 300, 140, 20);
 		selectPiezasEntidad.add(label_6);
 		
 		JLabel label_8 = new JLabel("VIN Muleto");
 		label_8.setHorizontalAlignment(SwingConstants.CENTER);
 		label_8.setBorder(null);
-		label_8.setBounds(10, 274, 140, 20);
+		label_8.setBounds(10, 275, 140, 20);
 		selectPiezasEntidad.add(label_8);
 		
 		tFVinMuleto = new JTextField();
 		tFVinMuleto.setToolTipText("Ej 12345678901234567");
 		tFVinMuleto.setColumns(10);
 		tFVinMuleto.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tFVinMuleto.setBounds(154, 273, 160, 20);
+		tFVinMuleto.setBounds(154, 275, 160, 20);
 		selectPiezasEntidad.add(tFVinMuleto);
 		
 		tADescMuleto = new JTextArea(4, 31);
 		tADescMuleto.setLineWrap(true);
 		tADescMuleto.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tADescMuleto.setBounds(154, 298, 260, 70);
+		tADescMuleto.setBounds(154, 300, 260, 70);
 		selectPiezasEntidad.add(tADescMuleto);
 		
 		JLabel label_9 = new JLabel("MULETO");
 		label_9.setHorizontalAlignment(SwingConstants.CENTER);
 		label_9.setFont(new Font("Tahoma", Font.BOLD, 11));
 		label_9.setBorder(null);
-		label_9.setBounds(154, 249, 130, 20);
+		label_9.setBounds(154, 250, 130, 20);
 		selectPiezasEntidad.add(label_9);
 		
 		cBPropio = new JCheckBox("Propio");
@@ -723,7 +720,7 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 		cBPropio.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		cBPropio.setContentAreaFilled(false);
 		cBPropio.setBorder(null);
-		cBPropio.setBounds(327, 215, 130, 23);
+		cBPropio.setBounds(327, 220, 130, 23);
 		selectPiezasEntidad.add(cBPropio);
 		
 		cBStock = new JCheckBox("Stock");
@@ -731,7 +728,7 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 		cBStock.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		cBStock.setContentAreaFilled(false);
 		cBStock.setBorder(null);
-		cBStock.setBounds(459, 215, 126, 23);
+		cBStock.setBounds(459, 220, 126, 23);
 		selectPiezasEntidad.add(cBStock);
 		btnCrear_E.setBounds(190, 673, 200, 30);
 		getContentPane().add(btnCrear_E);
@@ -823,20 +820,13 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 		if (chequearCamposEntidad()){
 			JOptionPane.showMessageDialog(this,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
 		}else{
-			
-//			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy"); 
-//			String fecha = format2.format(dCFSF_E.getDate());
-		    java.sql.Date fechaApertura = new java.sql.Date(dCFSF_E.getDate().getTime());
-		    
-//			fecha = format2.format(dCFecha_Reclamo_E.getDate());
+
+		    java.sql.Date fechaApertura = new java.sql.Date(dCFSF_E.getDate().getTime());    
 		    java.sql.Date fechaReclamo = new java.sql.Date(dCFecha_Reclamo_E.getDate().getTime());
-		    
 		    java.sql.Date fechaSP = null;
 		    if(dCFSF_E.getDate()!=null){
-//				fecha = format2.format(dCFSF_E.getDate());
 				fechaSP = new java.sql.Date(dCFSF_E.getDate().getTime());
 		    }
-		    
 		    Vector<String> telefonos_reclamante = new Vector<String>();
 		    for (int i = 0;i< cbTelefonos_E.getModel().getSize(); i++){
 		    	telefonos_reclamante.add(cbTelefonos_E.getModel().getElementAt(i).toString());
@@ -869,18 +859,6 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 		this.vehiculo_desdeEntidad = vehiculo_desdeEntidad;
 	}
 
-	public boolean isOrden_desdeEntidad() {
-		return orden_desdeEntidad;
-	}
-
-	public void setOrden_desdeEntidad(boolean orden_desdeEntidad) {
-		this.orden_desdeEntidad = orden_desdeEntidad;
-	}
-
-	public void setOrdenEntidad(OrdenDTO orden) {
-		tfNumeroOrden_E.setText(orden.getNumero_orden());
-	}
-
 	public void setReclamanteEntidad(ReclamanteDTO reclamante) {
 		tfNombreReclamante_E.setText(reclamante.getNombre_apellido());
 		tfEmail_E.setText(reclamante.getEmail());
@@ -907,22 +885,19 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 	}
 	
 	private void limpiar() {
+		reclamante_desdeEntidad=false;
+		vehiculo_desdeEntidad=false;
 		//ENTIDAD
 		cbEntidad.setSelectedIndex(0);
-		
 		tfNombreReclamante_E.setText("");
 		tfEmail_E.setText("");
 		tfDni_E.setText("");
-
 		telefonos_E = new Vector<String>();
-
 		DefaultComboBoxModel<String> comboBOX_Modelo_E = new DefaultComboBoxModel<String>(telefonos_E);
 		cbTelefonos_E.setModel(comboBOX_Modelo_E);
-		
 		rbCelular_E.setSelected(false);
 		rbFijo_E.setSelected(false);
 		reclamante_desdeEntidad=false;
-				
 		tfNombreTitular_E.setText("");
 		tfDominio_E.setText("");
 		tfVin_E.setText("");
@@ -931,32 +906,21 @@ public class GUIAltaReclamoRapidoEntidad extends JFrame{
 		cbMarca_E.setSelectedIndex(0);
 		cbModelo_E.setSelectedIndex(0);
 		vehiculo_desdeEntidad=false;
-		
 		tfNumeroOrden_E.setText("");
-		orden_desdeEntidad=false;
-		
 		dCFecha_Reclamo_E.setDate(new Date());
 		tADescripcion_E.setText("");
-		
 		piezas_R = new Vector<Cuadruple<PiezaDTO,MuletoDTO,String,Tupla<Boolean,Boolean>>>();
-		
 		tfNumero_pedido_E.setText("");
-
 		dCFSF_E.setDate(null);
-		
 		tfNumero_Pieza_E.setText("");
-		
 		numeros_piezas_E = new Vector<String>();
 		cmbPieza_E = new DefaultComboBoxModel<String>(numeros_piezas_E);
-		
 		taDesc_Pieza_E.setText("");
 		cb_proveedor_E.setSelectedIndex(0);
-		
 		tFPnc.setText("");
 		tFVinMuleto.setText("");
 		tADescMuleto.setText("");
 		cBPropio.setSelected(false);
 		cBStock.setSelected(false);
-
 	}
 }

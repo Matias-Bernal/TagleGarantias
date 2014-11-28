@@ -61,10 +61,9 @@ public class MediadoReclamoRapido {
 
 	private MediadorPrincipal mediadorPrincipal;
 	
-	private GUIAltaReclamoRapido guiAltaReclamo;
 	private GUIAltaReclamoRapidoEntidad guiAltaReclamoRapidoEntidad;
+	private GUIAltaReclamoRapidoAgente guiAltaReclamoRapidoAgente;
 	
-	private GUIBuscarOrden guiBuscarOrden;
 	private GUIBuscarReclamante guiBuscarReclamante;
 	private GUIBuscarVehiculo guiBuscarVehiculo;
 	
@@ -75,6 +74,11 @@ public class MediadoReclamoRapido {
 	public void altaReclamoRapidoEntidad() {
 		guiAltaReclamoRapidoEntidad = new GUIAltaReclamoRapidoEntidad(this);
 		guiAltaReclamoRapidoEntidad.setVisible(true);
+	}
+	
+	public void altaReclamoRapidoAgente() {
+		guiAltaReclamoRapidoAgente = new GUIAltaReclamoRapidoAgente(this);
+		guiAltaReclamoRapidoAgente.setVisible(true);
 	}
 
 	public Vector<String> obtenerNombresEntidades() {
@@ -192,30 +196,15 @@ public class MediadoReclamoRapido {
 		return proveedores;
 	}
 	
-	public void setOrden(String id_orden) {
-		try {
-			IControlOrden iControlOrden = MediadorAccionesIniciarPrograma.getControlOrden();
-			OrdenDTO orden;
-			orden = iControlOrden.buscarOrden(new Long(id_orden));
-			if(guiAltaReclamo.isOrden_desdeEntidad()){
-				guiAltaReclamo.setOrdenEntidad(orden);
-			}else{
-				guiAltaReclamo.setOrdenAgente(orden);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}	
 	public void setReclamante(String id_reclamante) {
 		try {
 			IControlReclamante iControlReclamante = MediadorAccionesIniciarPrograma.getControlReclamante();
 			ReclamanteDTO reclamante;
 			reclamante = iControlReclamante.buscarReclamante(new Long(id_reclamante));
-			if(guiAltaReclamoRapidoEntidad.isReclamante_desdeEntidad()){
+			if(guiAltaReclamoRapidoEntidad!=null && guiAltaReclamoRapidoEntidad.isReclamante_desdeEntidad())
 				guiAltaReclamoRapidoEntidad.setReclamanteEntidad(reclamante);
-			}else{
-				guiAltaReclamo.setReclamanteAgente(reclamante);
-			}
+			if(guiAltaReclamoRapidoAgente!=null && guiAltaReclamoRapidoAgente.isReclamante_desdeAgente())
+				guiAltaReclamoRapidoAgente.setReclamanteAgente(reclamante);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -225,20 +214,15 @@ public class MediadoReclamoRapido {
 			IControlVehiculo iControlVehiculo = MediadorAccionesIniciarPrograma.getControlVehiculo();
 			VehiculoDTO vehiculo;
 			vehiculo = iControlVehiculo.buscarVehiculo(new Long(id_vehiculo));
-			if(guiAltaReclamoRapidoEntidad.isVehiculo_desdeEntidad()){
+			if(guiAltaReclamoRapidoEntidad!=null && guiAltaReclamoRapidoEntidad.isVehiculo_desdeEntidad())
 				guiAltaReclamoRapidoEntidad.setVehiculoEntidad(vehiculo);
-			}else{
-				guiAltaReclamo.setVehiculoAgente(vehiculo);
-			}
+			if(guiAltaReclamoRapidoAgente!=null && guiAltaReclamoRapidoAgente.isVehiculo_desdeAgente())
+				guiAltaReclamoRapidoAgente.setVehiculoAgente(vehiculo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void buscarOrden() {
-		guiBuscarOrden = new GUIBuscarOrden(this);
-		guiBuscarOrden.setVisible(true);
-	}
 	public void buscarReclamante() {
 		guiBuscarReclamante = new GUIBuscarReclamante(this);
 		guiBuscarReclamante.setVisible(true);

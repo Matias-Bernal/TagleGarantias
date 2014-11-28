@@ -191,7 +191,7 @@ public class GUIGestionPedidoEntidad extends JFrame {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if (e.getClickCount() == 2)
-					verReclamante();
+					modificar();
 			    else{
 			    	e.consume();
 			    }   
@@ -1401,10 +1401,8 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		if (row >= 0) {
 			int aux = tablaPedidos.convertRowIndexToModel(row);
 			Long id = new Long (tablaPedidos.getValueAt(aux, 0).toString());
-			if (JOptionPane.showConfirmDialog(null, "¿Modificar Pedido [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon(GUIGestionPedidoEntidad.class.getResource("/cliente/Resources/Icons/edit.png"))) == JOptionPane.YES_OPTION){ 
-				mediador.modificarPedidoEntidad(id);
-				actualizarDatos();
-			}
+			mediador.modificarPedidoEntidad(id);
+			actualizarDatos();
 		}else{
 			JOptionPane.showMessageDialog(contentPane,"Seleccione un pedido primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
 		}
