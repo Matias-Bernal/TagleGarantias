@@ -16,11 +16,11 @@ package cliente.Reportes;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Vector;
 
@@ -35,10 +35,10 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
+import cliente.GestionarPedido.GUIModificarPedidoEntidad;
 import cliente.Recursos.Botones.ButtonType;
 import cliente.Recursos.Botones.GlossyButton;
 import cliente.Recursos.util.JPanel_Whit_Image;
@@ -46,7 +46,6 @@ import cliente.Recursos.util.Theme;
 import cliente.Recursos.util.TransparentPanel;
 
 import com.toedter.calendar.JDateChooser;
-
 import common.Cuadruple;
 import common.Triple;
 
@@ -143,32 +142,6 @@ public class GUIReporteRapidoAgente extends JFrame {
 	private String prom_monto_recursadas;
 	private String max_monto_recursadas;
 	private String min_monto_recursadas;
-	
-	private JTable tablaPiezasConSDevolucion;
-	private DefaultTableModel modelo_tabla_piezas_con_sdevolucion;
-	private Vector<Vector<String>> datosTabla_piezas_con_sdevolucion;
-	private JButton btnVerCasosPiezasConSDevolucion;
-	private String cantidad_con_sdevolucion;
-	private String prom_anticuacion_con_sdevolucion;
-	private String max_anticuacion_con_sdevolucion;
-	private String min_anticuacion_con_sdevolucion;
-	private String monto_con_sdevolucion;
-	private String prom_monto_con_sdevolucion;
-	private String max_monto_con_sdevolucion;
-	private String min_monto_con_sdevolucion;
-
-	private JTable tablaPiezasAprobDevolucion;
-	private DefaultTableModel modelo_tabla_piezas_aprobacion_devolucion;
-	private Vector<Vector<String>> datosTabla_piezas_aprobacion_devolucion;
-	private JButton btnVerCasosPiezasAprobDevolucion;
-	private String cantidad_aprobadas_devolucion;
-	private String prom_anticuacion_aprobadas_devolucion;
-	private String max_anticuacion_aprobadas_devolucion;
-	private String min_anticuacion_aprobadas_devolucion;
-	private String monto_aprobadas_devolucion;
-	private String prom_monto_aprobadas_devolucion;
-	private String max_monto_aprobadas_devolucion;
-	private String min_monto_aprobadas_devolucion;
 
 	private JTable tablaPiezasDevueltas;
 	private DefaultTableModel modelo_tabla_piezas_devueltas;
@@ -187,8 +160,6 @@ public class GUIReporteRapidoAgente extends JFrame {
 	private JPanel panelPiezasPedidasAFabrica;
 	private JPanel panelPiezasEnviadasAgentes;
 	private JPanel panelPiezasEnTransito;
-	private JPanel panelPiezasConSDevolucion;
-	private JPanel panelPiezasAprobDevolucion;
 	private JPanel panelPiezasRecibidasAgentes;
 	private JPanel panelPiezasSinTurno;
 	private JPanel panelPiezasRecursadas;
@@ -206,7 +177,6 @@ public class GUIReporteRapidoAgente extends JFrame {
 
 	@SuppressWarnings({ "static-access"})
 	private void completarCampos() {
-		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		Calendar c = Calendar.getInstance();
 		c.setFirstDayOfWeek(c.SUNDAY);
 		c.set(c.DAY_OF_MONTH,1);
@@ -248,8 +218,6 @@ public class GUIReporteRapidoAgente extends JFrame {
 		nombreColumnas.add("VALOR");
 		
 		DecimalFormat df_pesos = new DecimalFormat("0.00");
-
-		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 		
 		Calendar desdeCalendar = Calendar.getInstance();
 		desdeCalendar.setFirstDayOfWeek(desdeCalendar.SUNDAY);
@@ -460,72 +428,6 @@ public class GUIReporteRapidoAgente extends JFrame {
 		else
 			min_monto_recursadas = "";
 		
-		cantidad_con_sdevolucion =  mediador.cantidad_con_sdevolucion_agente(desde, hasta, "");
-		Triple<Double,Double,Double> anticuacion_con_sdevolucion = mediador.anticuacion_con_sdevolucion_agente(desde, hasta, "");
-		if(anticuacion_con_sdevolucion.first()!=null)
-			prom_anticuacion_con_sdevolucion = roundUp(anticuacion_con_sdevolucion.first());
-		else
-			prom_anticuacion_con_sdevolucion = "";
-		if(anticuacion_con_sdevolucion.second()!=null)
-			max_anticuacion_con_sdevolucion = roundUp(anticuacion_con_sdevolucion.second());
-		else
-			max_anticuacion_con_sdevolucion = "";
-		if(anticuacion_con_sdevolucion.third()!=null)
-			min_anticuacion_con_sdevolucion = roundUp(anticuacion_con_sdevolucion.third());
-		else
-			min_anticuacion_con_sdevolucion = "";
-		
-		Cuadruple<Double,Double,Double,Double> _monto_con_sdevolucion = mediador.monto_con_sdevolucion_agente(desde, hasta, "");
-		if(_monto_con_sdevolucion.first()!=null)
-			monto_con_sdevolucion = "$"+df_pesos.format(_monto_con_sdevolucion.first());
-		else
-			monto_con_sdevolucion = "";
-		if(_monto_con_sdevolucion.second()!=null)
-			prom_monto_con_sdevolucion = "$"+df_pesos.format(_monto_con_sdevolucion.second());
-		else
-			prom_monto_con_sdevolucion = "";
-		if(_monto_con_sdevolucion.third()!=null)
-			max_monto_con_sdevolucion = "$"+df_pesos.format(_monto_con_sdevolucion.third());
-		else
-			max_monto_con_sdevolucion = "";
-		if(_monto_con_sdevolucion.fourth()!=null)
-			min_monto_con_sdevolucion = "$"+df_pesos.format(_monto_con_sdevolucion.fourth());
-		else
-			min_monto_con_sdevolucion = "";
-		
-		cantidad_aprobadas_devolucion =  mediador.cantidad_aprobada_devolucion_agente(desde, hasta, "");
-		Triple<Double,Double,Double> anticuacion_aprobadas_devolucion = mediador.anticuacion_aprobada_devolucion_agente(desde, hasta, "");
-		if(anticuacion_aprobadas_devolucion.first()!=null)
-			prom_anticuacion_aprobadas_devolucion = roundUp(anticuacion_aprobadas_devolucion.first());
-		else
-			prom_anticuacion_aprobadas_devolucion = "";
-		if(anticuacion_aprobadas_devolucion.second()!=null)
-			max_anticuacion_aprobadas_devolucion = roundUp(anticuacion_aprobadas_devolucion.second());
-		else
-			max_anticuacion_aprobadas_devolucion = "";
-		if(anticuacion_aprobadas_devolucion.third()!=null)
-			min_anticuacion_aprobadas_devolucion = roundUp(anticuacion_aprobadas_devolucion.third());
-		else
-			min_anticuacion_aprobadas_devolucion = "";
-		
-		Cuadruple<Double,Double,Double,Double> _monto_aprobadas_devolucion = mediador.monto_aprobada_devolucion_agente(desde, hasta, "");
-		if(_monto_aprobadas_devolucion.first()!=null)
-			monto_aprobadas_devolucion = "$"+df_pesos.format(_monto_aprobadas_devolucion.first());
-		else
-			monto_aprobadas_devolucion = "";
-		if(_monto_aprobadas_devolucion.second()!=null)
-			prom_monto_aprobadas_devolucion = "$"+df_pesos.format(_monto_aprobadas_devolucion.second());
-		else
-			prom_monto_aprobadas_devolucion = "";
-		if(_monto_aprobadas_devolucion.third()!=null)
-			max_monto_aprobadas_devolucion = "$"+df_pesos.format(_monto_aprobadas_devolucion.third());
-		else
-			max_monto_aprobadas_devolucion = "";
-		if(_monto_aprobadas_devolucion.fourth()!=null)
-			min_monto_aprobadas_devolucion = "$"+df_pesos.format(_monto_aprobadas_devolucion.fourth());
-		else
-			min_monto_aprobadas_devolucion = "";
-		
 		cantidad_devueltas =  mediador.cantidad_devueltas_agente(desde, hasta, "");
 		Triple<Double,Double,Double> anticuacion_devueltas = mediador.anticuacion_devueltas_agente(desde, hasta, "");
 		if(anticuacion_devueltas.first()!=null)
@@ -566,31 +468,31 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_pedidas_a_fabrica);//Q
 		datosTabla_piezas_pedidas_a_fabrica.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
+		row_prom_anticuacion.add("Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_pedidas_a_fabrica);//X
 		datosTabla_piezas_pedidas_a_fabrica.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
+		row_max_anticuacion.add("Maximo");
 		row_max_anticuacion.add(max_anticuacion_pedidas_a_fabrica);//MX
 		datosTabla_piezas_pedidas_a_fabrica.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
+		row_min_anticuacion.add("Minimo");
 		row_min_anticuacion.add(min_anticuacion_pedidas_a_fabrica);//mX
 		datosTabla_piezas_pedidas_a_fabrica.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
+		row_monto.add("Total");
 		row_monto.add(monto_pedidas_a_fabrica);//R
 		datosTabla_piezas_pedidas_a_fabrica.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
+		row_prom_monto.add("Promedio");
 		row_prom_monto.add(prom_monto_pedidas_a_fabrica);//XR
 		datosTabla_piezas_pedidas_a_fabrica.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
+		row_max_monto.add("Maximo");
 		row_max_monto.add(max_monto_pedidas_a_fabrica);//MR
 		datosTabla_piezas_pedidas_a_fabrica.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
+		row_min_monto.add("Minimo");
 		row_min_monto.add(min_monto_pedidas_a_fabrica);//mR
 		datosTabla_piezas_pedidas_a_fabrica.add(row_min_monto);
 		modelo_tabla_piezas_pedidas_a_fabrica.setDataVector(datosTabla_piezas_pedidas_a_fabrica, nombreColumnas);
@@ -604,31 +506,31 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_en_tranisto);//Q
 		datosTabla_piezas_en_transito.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
+		row_prom_anticuacion.add("Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_en_transito);//X
 		datosTabla_piezas_en_transito.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
+		row_max_anticuacion.add("Maximo");
 		row_max_anticuacion.add(max_anticuacion_en_transito);//MX
 		datosTabla_piezas_en_transito.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
+		row_min_anticuacion.add("Minimo");
 		row_min_anticuacion.add(min_anticuacion_en_transito);//mX
 		datosTabla_piezas_en_transito.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
+		row_monto.add("Total");
 		row_monto.add(monto_en_transito);//R
 		datosTabla_piezas_en_transito.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
+		row_prom_monto.add("Promedio");
 		row_prom_monto.add(prom_monto_en_transito);//XR
 		datosTabla_piezas_en_transito.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
+		row_max_monto.add("Maximo");
 		row_max_monto.add(max_monto_en_transito);//MR
 		datosTabla_piezas_en_transito.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
+		row_min_monto.add("Minimo");
 		row_min_monto.add(min_monto_en_transito);//mR
 		datosTabla_piezas_en_transito.add(row_min_monto);
 		modelo_tabla_piezas_en_transito.setDataVector(datosTabla_piezas_en_transito, nombreColumnas);
@@ -642,31 +544,31 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_sin_enviar_agentes);//Q
 		datosTabla_piezas_sin_enviar_agentes.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
+		row_prom_anticuacion.add("Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_sin_enviar_agentes);//X
 		datosTabla_piezas_sin_enviar_agentes.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
+		row_max_anticuacion.add("Maximo");
 		row_max_anticuacion.add(max_anticuacion_sin_enviar_agentes);//MX
 		datosTabla_piezas_sin_enviar_agentes.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
+		row_min_anticuacion.add("Minimo");
 		row_min_anticuacion.add(min_anticuacion_sin_enviar_agentes);//mX
 		datosTabla_piezas_sin_enviar_agentes.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
+		row_monto.add("Total");
 		row_monto.add(monto_sin_enviar_agentes);//R
 		datosTabla_piezas_sin_enviar_agentes.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
+		row_prom_monto.add("Promedio");
 		row_prom_monto.add(prom_monto_sin_enviar_agentes);//XR
 		datosTabla_piezas_sin_enviar_agentes.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
+		row_max_monto.add("Maximo");
 		row_max_monto.add(max_monto_sin_enviar_agentes);//MR
 		datosTabla_piezas_sin_enviar_agentes.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
+		row_min_monto.add("Minimo");
 		row_min_monto.add(min_monto_sin_enviar_agentes);//mR
 		datosTabla_piezas_sin_enviar_agentes.add(row_min_monto);
 		modelo_tabla_piezas_sin_enviar_agentes.setDataVector(datosTabla_piezas_sin_enviar_agentes, nombreColumnas);
@@ -680,31 +582,31 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_enviadas_agentes);//Q
 		datosTabla_piezas_enviadas_agentes.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
+		row_prom_anticuacion.add("Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_enviadas_agentes);//X
 		datosTabla_piezas_enviadas_agentes.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
+		row_max_anticuacion.add("Maximo");
 		row_max_anticuacion.add(max_anticuacion_enviadas_agentes);//MX
 		datosTabla_piezas_enviadas_agentes.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
+		row_min_anticuacion.add("Minimo");
 		row_min_anticuacion.add(min_anticuacion_enviadas_agentes);//mX
 		datosTabla_piezas_enviadas_agentes.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
+		row_monto.add("Total");
 		row_monto.add(monto_enviadas_agentes);//R
 		datosTabla_piezas_enviadas_agentes.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
+		row_prom_monto.add("Promedio");
 		row_prom_monto.add(prom_monto_enviadas_agentes);//XR
 		datosTabla_piezas_enviadas_agentes.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
+		row_max_monto.add("Maximo");
 		row_max_monto.add(max_monto_enviadas_agentes);//MR
 		datosTabla_piezas_enviadas_agentes.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
+		row_min_monto.add("Minimo");
 		row_min_monto.add(min_monto_enviadas_agentes);//mR
 		datosTabla_piezas_enviadas_agentes.add(row_min_monto);
 		modelo_tabla_piezas_enviadas_agentes.setDataVector(datosTabla_piezas_enviadas_agentes, nombreColumnas);
@@ -718,31 +620,31 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_recibiadas_agentes);//Q
 		datosTabla_piezas_recibiadas_agentes.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
+		row_prom_anticuacion.add("Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_recibiadas_agentes);//X
 		datosTabla_piezas_recibiadas_agentes.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
+		row_max_anticuacion.add("Maximo");
 		row_max_anticuacion.add(max_anticuacion_recibiadas_agentes);//MX
 		datosTabla_piezas_recibiadas_agentes.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
+		row_min_anticuacion.add("Minimo");
 		row_min_anticuacion.add(min_anticuacion_recibiadas_agentes);//mX
 		datosTabla_piezas_recibiadas_agentes.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
+		row_monto.add("Total");
 		row_monto.add(monto_recibiadas_agentes);//R
 		datosTabla_piezas_recibiadas_agentes.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
+		row_prom_monto.add("Promedio");
 		row_prom_monto.add(prom_monto_recibiadas_agentes);//XR
 		datosTabla_piezas_recibiadas_agentes.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
+		row_max_monto.add("Maximo");
 		row_max_monto.add(max_monto_recibiadas_agentes);//MR
 		datosTabla_piezas_recibiadas_agentes.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
+		row_min_monto.add("Minimo");
 		row_min_monto.add(min_monto_recibiadas_agentes);//mR
 		datosTabla_piezas_recibiadas_agentes.add(row_min_monto);
 		modelo_tabla_recibiadas_agentes.setDataVector(datosTabla_piezas_recibiadas_agentes, nombreColumnas);
@@ -756,112 +658,36 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_recursadas);//Q
 		datosTabla_piezas_recursadas.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
+		row_prom_anticuacion.add("Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_recursadas);//X
 		datosTabla_piezas_recursadas.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
+		row_max_anticuacion.add("Maximo");
 		row_max_anticuacion.add(max_anticuacion_recursadas);//MX
 		datosTabla_piezas_recursadas.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
+		row_min_anticuacion.add("Minimo");
 		row_min_anticuacion.add(min_anticuacion_recursadas);//mX
 		datosTabla_piezas_recursadas.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
+		row_monto.add("Total");
 		row_monto.add(monto_recursadas);//R
 		datosTabla_piezas_recursadas.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
+		row_prom_monto.add("Promedio");
 		row_prom_monto.add(prom_monto_recursadas);//XR
 		datosTabla_piezas_recursadas.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
+		row_max_monto.add("Maximo");
 		row_max_monto.add(max_monto_recursadas);//MR
 		datosTabla_piezas_recursadas.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
+		row_min_monto.add("Minimo");
 		row_min_monto.add(min_monto_recursadas);//mR
 		datosTabla_piezas_recursadas.add(row_min_monto);
 		modelo_tabla_piezas_recursadas.setDataVector(datosTabla_piezas_recursadas, nombreColumnas);
 		modelo_tabla_piezas_recursadas.fireTableStructureChanged();
-		//		Fin Tabla Piezas Recursadas		//
-		//		Tabla Piezas Con Solicitud Devolucion		//
-		modelo_tabla_piezas_con_sdevolucion = new DefaultTableModel();
-		datosTabla_piezas_con_sdevolucion = new Vector<Vector<String>>();
-		row_cantidad= new Vector<String> ();
-		row_cantidad.add("Cantidad");
-		row_cantidad.add(cantidad_con_sdevolucion);//Q
-		datosTabla_piezas_con_sdevolucion.add(row_cantidad);
-		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
-		row_prom_anticuacion.add(prom_anticuacion_con_sdevolucion);//X
-		datosTabla_piezas_con_sdevolucion.add(row_prom_anticuacion);
-		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
-		row_max_anticuacion.add(max_anticuacion_con_sdevolucion);//MX
-		datosTabla_piezas_con_sdevolucion.add(row_max_anticuacion);
-		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
-		row_min_anticuacion.add(min_anticuacion_con_sdevolucion);//mX
-		datosTabla_piezas_con_sdevolucion.add(row_min_anticuacion);
-		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
-		row_monto.add(monto_con_sdevolucion);//R
-		datosTabla_piezas_con_sdevolucion.add(row_monto);
-		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
-		row_prom_monto.add(prom_monto_con_sdevolucion);//XR
-		datosTabla_piezas_con_sdevolucion.add(row_prom_monto);
-		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
-		row_max_monto.add(max_monto_con_sdevolucion);//MR
-		datosTabla_piezas_con_sdevolucion.add(row_max_monto);
-		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
-		row_min_monto.add(min_monto_con_sdevolucion);//mR
-		datosTabla_piezas_con_sdevolucion.add(row_min_monto);
-		modelo_tabla_piezas_con_sdevolucion.setDataVector(datosTabla_piezas_con_sdevolucion, nombreColumnas);
-		modelo_tabla_piezas_con_sdevolucion.fireTableStructureChanged();
-		//		Fin Tabla Piezas Con Solicitud Devolucion		//
-		//		Tabla Piezas Aprobada Devolucion		//
-		modelo_tabla_piezas_aprobacion_devolucion = new DefaultTableModel();
-		datosTabla_piezas_aprobacion_devolucion = new Vector<Vector<String>>();
-		row_cantidad= new Vector<String> ();
-		row_cantidad.add("Cantidad");
-		row_cantidad.add(cantidad_aprobadas_devolucion);//Q
-		datosTabla_piezas_aprobacion_devolucion.add(row_cantidad);
-		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
-		row_prom_anticuacion.add(prom_anticuacion_aprobadas_devolucion);//X
-		datosTabla_piezas_aprobacion_devolucion.add(row_prom_anticuacion);
-		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
-		row_max_anticuacion.add(max_anticuacion_aprobadas_devolucion);//MX
-		datosTabla_piezas_aprobacion_devolucion.add(row_max_anticuacion);
-		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
-		row_min_anticuacion.add(min_anticuacion_aprobadas_devolucion);//mX
-		datosTabla_piezas_aprobacion_devolucion.add(row_min_anticuacion);
-		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
-		row_monto.add(monto_aprobadas_devolucion);//R
-		datosTabla_piezas_aprobacion_devolucion.add(row_monto);
-		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
-		row_prom_monto.add(prom_monto_aprobadas_devolucion);//XR
-		datosTabla_piezas_aprobacion_devolucion.add(row_prom_monto);
-		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
-		row_max_monto.add(max_monto_aprobadas_devolucion);//MR
-		datosTabla_piezas_aprobacion_devolucion.add(row_max_monto);
-		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
-		row_min_monto.add(min_monto_aprobadas_devolucion);//mR
-		datosTabla_piezas_aprobacion_devolucion.add(row_min_monto);
-		modelo_tabla_piezas_aprobacion_devolucion.setDataVector(datosTabla_piezas_aprobacion_devolucion, nombreColumnas);
-		modelo_tabla_piezas_aprobacion_devolucion.fireTableStructureChanged();
-		//		Fin Tabla Piezas Aprobada Devolucion		//		
+		//		Fin Tabla Piezas Recursadas		//	
 		//		Tabla Piezas Devueltas		//
 		modelo_tabla_piezas_devueltas = new DefaultTableModel();
 		datosTabla_piezas_devueltas = new Vector<Vector<String>>();
@@ -870,31 +696,31 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_devueltas);//Q
 		datosTabla_piezas_devueltas.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
+		row_prom_anticuacion.add("Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_devueltas);//X
 		datosTabla_piezas_devueltas.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
+		row_max_anticuacion.add("Maximo");
 		row_max_anticuacion.add(max_anticuacion_devueltas);//MX
 		datosTabla_piezas_devueltas.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
+		row_min_anticuacion.add("Minimo");
 		row_min_anticuacion.add(min_anticuacion_devueltas);//mX
 		datosTabla_piezas_devueltas.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
+		row_monto.add("Total");
 		row_monto.add(monto_devueltas);//R
 		datosTabla_piezas_devueltas.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
+		row_prom_monto.add("Promedio");
 		row_prom_monto.add(prom_monto_devueltas);//XR
 		datosTabla_piezas_devueltas.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
+		row_max_monto.add("Maximo");
 		row_max_monto.add(max_monto_devueltas);//MR
 		datosTabla_piezas_devueltas.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
+		row_min_monto.add("Minimo");
 		row_min_monto.add(min_monto_devueltas);//mR
 		datosTabla_piezas_devueltas.add(row_min_monto);
 		modelo_tabla_piezas_devueltas.setDataVector(datosTabla_piezas_devueltas, nombreColumnas);
@@ -903,26 +729,26 @@ public class GUIReporteRapidoAgente extends JFrame {
 	}
 	
 	private void initialize() {
-		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1300, 720);
-		setTitle("Reporte Rapido Agente");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIReporteRapidoAgente.class.getResource("/cliente/Resources/Icons/tablas.png")));
-		setResizable(false);
-		setLocationRelativeTo(null);
+		setBounds(0, 0,1382,768);
+		//setExtendedState(Frame.MAXIMIZED_BOTH);
+		//setLocationRelativeTo(null);
+		setTitle("REPORTES AGENTES");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/edit_pedido_entidad.png")));
 		
 		contentPane =  new JPanel_Whit_Image("/cliente/Recursos/Imagenes/background.jpg");
-
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBounds(new Rectangle(0, 0, 1366, 768));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		getContentPane().setLayout(null);
 		
 		JPanel panelFechas = new TransparentPanel();
 		panelFechas.setLayout(null);
-		panelFechas.setBounds(257, 0, 780, 40);
+		panelFechas.setBounds(20, 0, 1300, 40);
 		contentPane.add(panelFechas);
 		
-		JLabel lblDesdeFReclamo = new JLabel("Desde F. Reclamo");
+		JLabel lblDesdeFReclamo = new JLabel("Desde F. Pedido");
+		lblDesdeFReclamo.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		lblDesdeFReclamo.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblDesdeFReclamo.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblDesdeFReclamo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDesdeFReclamo.setBounds(10, 10, 130, 20);
@@ -944,6 +770,8 @@ public class GUIReporteRapidoAgente extends JFrame {
 		panelFechas.add(btnClearFReclamo);
 		
 		JLabel lblHastaFDevolucion = new JLabel("Hasta F. Devolucion");
+		lblHastaFDevolucion.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		lblHastaFDevolucion.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblHastaFDevolucion.setHorizontalAlignment(SwingConstants.CENTER);
 		lblHastaFDevolucion.setBounds(335, 10, 130, 20);
 		panelFechas.add(lblHastaFDevolucion);
@@ -970,17 +798,30 @@ public class GUIReporteRapidoAgente extends JFrame {
 				filtrar();
 			}
 		});
-		btnFiltrar.setBounds(660, 10, 110, 20);
+		btnFiltrar.setBounds(1180, 9, 110, 20);
 		panelFechas.add(btnFiltrar);
+		
+		JLabel lblNombreDelAgente = new JLabel("Nombre del Agente");
+		lblNombreDelAgente.setBounds(660, 10, 121, 20);
+		panelFechas.add(lblNombreDelAgente);
+		lblNombreDelAgente.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		lblNombreDelAgente.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNombreDelAgente.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		cBAgentes = new JComboBox<String>();
+		cBAgentes.setBounds(800, 10, 370, 20);
+		panelFechas.add(cBAgentes);
+		cBAgentes.setModel(new DefaultComboBoxModel<String>(agentes));
 		
 		JPanel panelReportes = new TransparentPanel();
 		panelReportes.setLayout(null);
-		panelReportes.setBounds(0, 40, 1294, 610);
+		panelReportes.setBounds(33, 45, 1300, 645);
 		contentPane.add(panelReportes);
 		
 		panelPiezasPedidasAFabrica = new TransparentPanel();
+		panelPiezasPedidasAFabrica.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		panelPiezasPedidasAFabrica.setLayout(null);
-		panelPiezasPedidasAFabrica.setBounds(98, 35, 300, 180);
+		panelPiezasPedidasAFabrica.setBounds(66, 11, 345, 200);
 		panelReportes.add(panelPiezasPedidasAFabrica);
 		
 		modelo_tabla_piezas_pedidas_a_fabrica = new DefaultTableModel(datosTabla_piezas_pedidas_a_fabrica, nombreColumnas);
@@ -995,7 +836,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 		};
 		tablaPiezasPedidasAFabrica.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablaPiezasPedidasAFabrica.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tablaPiezasPedidasAFabrica.setBounds(100, 20, 200, 130);
+		tablaPiezasPedidasAFabrica.setBounds(145, 20, 200, 130);
 		panelPiezasPedidasAFabrica.add(tablaPiezasPedidasAFabrica);
 		for(int i = 0; i < tablaPiezasPedidasAFabrica.getColumnCount(); i++) {
 			tablaPiezasPedidasAFabrica.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla.elementAt(i));
@@ -1003,33 +844,61 @@ public class GUIReporteRapidoAgente extends JFrame {
 		}
 		
 		JLabel lblPiezasPedidasAFabricas = new JLabel("Stock Pedido a Fabrica");
+		lblPiezasPedidasAFabricas.setToolTipText("Piezas pedidas a fabrica son aquellas que tienen fecha de pedido a fabrica.");
+		lblPiezasPedidasAFabricas.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblPiezasPedidasAFabricas.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblPiezasPedidasAFabricas.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPiezasPedidasAFabricas.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblPiezasPedidasAFabricas.setBounds(100, 0, 200, 20);
+		lblPiezasPedidasAFabricas.setBounds(145, 0, 200, 20);
 		panelPiezasPedidasAFabrica.add(lblPiezasPedidasAFabricas);
 		
 		btnVerCasosPiezasConOT = new GlossyButton("VER CASOS",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_BLUE_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnVerCasosPiezasConOT.setIcon(new ImageIcon(GUIReporteRapidoAgente.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btnVerCasosPiezasConOT.setText("Ver Casos");
 		btnVerCasosPiezasConOT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				verCasosPedidas_a_Fabrica();
 			}
 		});
-		btnVerCasosPiezasConOT.setBounds(100, 155, 200, 20);
+		btnVerCasosPiezasConOT.setBounds(72, 160, 200, 30);
 		panelPiezasPedidasAFabrica.add(btnVerCasosPiezasConOT);
 		
+		JLabel label = new JLabel("Valor Stock");
+		label.setHorizontalTextPosition(SwingConstants.CENTER);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label.setBounds(0, 85, 145, 66);
+		panelPiezasPedidasAFabrica.add(label);
+		
+		JLabel label_1 = new JLabel("Anticuacion de Stock");
+		label_1.setHorizontalTextPosition(SwingConstants.CENTER);
+		label_1.setHorizontalAlignment(SwingConstants.CENTER);
+		label_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_1.setAutoscrolls(true);
+		label_1.setBounds(0, 37, 145, 48);
+		panelPiezasPedidasAFabrica.add(label_1);
+		
+		JLabel label_2 = new JLabel("Stock");
+		label_2.setHorizontalAlignment(SwingConstants.CENTER);
+		label_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_2.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_2.setBounds(0, 20, 145, 17);
+		panelPiezasPedidasAFabrica.add(label_2);
+		
 		panelPiezasEnTransito = new TransparentPanel();
+		panelPiezasEnTransito.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		panelPiezasEnTransito.setLayout(null);
-		panelPiezasEnTransito.setBounds(496, 35, 300, 180);
+		panelPiezasEnTransito.setBounds(477, 11, 345, 200);
 		panelReportes.add(panelPiezasEnTransito);
 		
 		JLabel lblFOt = new JLabel("F. Pedido Fabrica");
-		lblFOt.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		lblFOt.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblFOt.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblFOt.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFOt.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblFOt.setBounds(0, 0, 100, 20);
+		lblFOt.setBounds(0, 0, 145, 20);
 		panelPiezasEnTransito.add(lblFOt);
 		
 		modelo_tabla_piezas_en_transito = new DefaultTableModel(datosTabla_piezas_en_transito, nombreColumnas);
@@ -1048,37 +917,65 @@ public class GUIReporteRapidoAgente extends JFrame {
 		}
 		tablaPiezasEnTransito.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablaPiezasEnTransito.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tablaPiezasEnTransito.setBounds(100, 20, 200, 130);
+		tablaPiezasEnTransito.setBounds(145, 20, 200, 130);
 		panelPiezasEnTransito.add(tablaPiezasEnTransito);
 		
 		JLabel lblPiezasConOt = new JLabel("Stock En Transito");
+		lblPiezasConOt.setToolTipText("Piezas en transito son aquellas que poseen fecha de pedido a fabrica pero no poseen fecha de recepcion de fabrica.");
+		lblPiezasConOt.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPiezasConOt.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblPiezasConOt.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPiezasConOt.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblPiezasConOt.setBounds(100, 0, 200, 20);
+		lblPiezasConOt.setBounds(145, 0, 200, 20);
 		panelPiezasEnTransito.add(lblPiezasConOt);
 		
 		btnVerCasosPiezasEnTransito = new GlossyButton("VER CASOS",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_BLUE_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnVerCasosPiezasEnTransito.setIcon(new ImageIcon(GUIReporteRapidoAgente.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btnVerCasosPiezasEnTransito.setText("Ver Casos");
 		btnVerCasosPiezasEnTransito.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				verCasosEnTransito();
 			}
 		});
-		btnVerCasosPiezasEnTransito.setBounds(100, 155, 200, 20);
+		btnVerCasosPiezasEnTransito.setBounds(72, 160, 200, 30);
 		panelPiezasEnTransito.add(btnVerCasosPiezasEnTransito);
 		
+		JLabel label_3 = new JLabel("Valor Stock");
+		label_3.setHorizontalTextPosition(SwingConstants.CENTER);
+		label_3.setHorizontalAlignment(SwingConstants.CENTER);
+		label_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_3.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_3.setBounds(0, 84, 145, 66);
+		panelPiezasEnTransito.add(label_3);
+		
+		JLabel label_4 = new JLabel("Anticuacion de Stock");
+		label_4.setHorizontalTextPosition(SwingConstants.CENTER);
+		label_4.setHorizontalAlignment(SwingConstants.CENTER);
+		label_4.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_4.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_4.setAutoscrolls(true);
+		label_4.setBounds(0, 36, 145, 48);
+		panelPiezasEnTransito.add(label_4);
+		
+		JLabel label_5 = new JLabel("Stock");
+		label_5.setHorizontalAlignment(SwingConstants.CENTER);
+		label_5.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_5.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_5.setBounds(0, 19, 145, 17);
+		panelPiezasEnTransito.add(label_5);
+		
 		panelPiezasSinTurno = new TransparentPanel();
+		panelPiezasSinTurno.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		panelPiezasSinTurno.setLayout(null);
-		panelPiezasSinTurno.setBounds(894, 35, 300, 180);
+		panelPiezasSinTurno.setBounds(888, 11, 345, 200);
 		panelReportes.add(panelPiezasSinTurno);
 		
 		JLabel lblFrecepcion = new JLabel("F. Recepcion Fabrica");
-		lblFrecepcion.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		lblFrecepcion.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblFrecepcion.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblFrecepcion.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFrecepcion.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblFrecepcion.setBounds(0, 0, 100, 20);
+		lblFrecepcion.setBounds(0, 0, 145, 20);
 		panelPiezasSinTurno.add(lblFrecepcion);
 		
 		modelo_tabla_piezas_sin_enviar_agentes = new DefaultTableModel(datosTabla_piezas_sin_enviar_agentes, nombreColumnas);
@@ -1097,36 +994,65 @@ public class GUIReporteRapidoAgente extends JFrame {
 		}
 		tablaPiezasSinEnviarAgentes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablaPiezasSinEnviarAgentes.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tablaPiezasSinEnviarAgentes.setBounds(100, 20, 200, 130);
+		tablaPiezasSinEnviarAgentes.setBounds(145, 20, 200, 130);
 		panelPiezasSinTurno.add(tablaPiezasSinEnviarAgentes);
 		
 		JLabel lblPiezasSinEnviarAgentes = new JLabel("Stock Sin Enviar Agente/s");
+		lblPiezasSinEnviarAgentes.setToolTipText("Piezas  sin enviar a agente son las que poseen fecha de recepcion a fabrica pero no poseen fecha de envio al agente.");
+		lblPiezasSinEnviarAgentes.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPiezasSinEnviarAgentes.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblPiezasSinEnviarAgentes.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPiezasSinEnviarAgentes.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblPiezasSinEnviarAgentes.setBounds(100, 0, 200, 20);
+		lblPiezasSinEnviarAgentes.setBounds(145, 0, 200, 20);
 		panelPiezasSinTurno.add(lblPiezasSinEnviarAgentes);
 		
 		btnVerCasosPiezasSinEnviarAgentes = new GlossyButton("VER CASOS",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_BLUE_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnVerCasosPiezasSinEnviarAgentes.setIcon(new ImageIcon(GUIReporteRapidoAgente.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btnVerCasosPiezasSinEnviarAgentes.setText("Ver Casos");
 		btnVerCasosPiezasSinEnviarAgentes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				verCasosSinEnviarAgente();
 			}
 		});
-		btnVerCasosPiezasSinEnviarAgentes.setBounds(100, 155, 200, 20);
+		btnVerCasosPiezasSinEnviarAgentes.setBounds(72, 160, 200, 30);
 		panelPiezasSinTurno.add(btnVerCasosPiezasSinEnviarAgentes);
 		
+		JLabel label_6 = new JLabel("Valor Stock");
+		label_6.setHorizontalTextPosition(SwingConstants.CENTER);
+		label_6.setHorizontalAlignment(SwingConstants.CENTER);
+		label_6.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_6.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_6.setBounds(0, 84, 145, 66);
+		panelPiezasSinTurno.add(label_6);
+		
+		JLabel label_7 = new JLabel("Anticuacion de Stock");
+		label_7.setHorizontalTextPosition(SwingConstants.CENTER);
+		label_7.setHorizontalAlignment(SwingConstants.CENTER);
+		label_7.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_7.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_7.setAutoscrolls(true);
+		label_7.setBounds(0, 36, 145, 48);
+		panelPiezasSinTurno.add(label_7);
+		
+		JLabel label_8 = new JLabel("Stock");
+		label_8.setHorizontalAlignment(SwingConstants.CENTER);
+		label_8.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_8.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_8.setBounds(0, 19, 145, 17);
+		panelPiezasSinTurno.add(label_8);
+		
 		panelPiezasEnviadasAgentes = new TransparentPanel();
+		panelPiezasEnviadasAgentes.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		panelPiezasEnviadasAgentes.setLayout(null);
-		panelPiezasEnviadasAgentes.setBounds(98, 230, 300, 180);
+		panelPiezasEnviadasAgentes.setBounds(66, 222, 345, 200);
 		panelReportes.add(panelPiezasEnviadasAgentes);
 		
 		JLabel lblFechaEnvioAgente = new JLabel("F. Envio Agente");
+		lblFechaEnvioAgente.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblFechaEnvioAgente.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblFechaEnvioAgente.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFechaEnvioAgente.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblFechaEnvioAgente.setBounds(0, 0, 100, 20);
+		lblFechaEnvioAgente.setBounds(0, 0, 145, 20);
 		panelPiezasEnviadasAgentes.add(lblFechaEnvioAgente);
 		
 		modelo_tabla_piezas_enviadas_agentes = new DefaultTableModel(datosTabla_piezas_enviadas_agentes, nombreColumnas);
@@ -1145,37 +1071,65 @@ public class GUIReporteRapidoAgente extends JFrame {
 		}
 		tablaPiezasEnviadasAgente.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablaPiezasEnviadasAgente.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tablaPiezasEnviadasAgente.setBounds(100, 20, 200, 130);
+		tablaPiezasEnviadasAgente.setBounds(145, 20, 200, 130);
 		panelPiezasEnviadasAgentes.add(tablaPiezasEnviadasAgente);
 		
 		JLabel lblPiezasEnviadasAgentes = new JLabel("Stock Enviado a Agente/s");
+		lblPiezasEnviadasAgentes.setToolTipText("Piezas  enviadas a agente son las que poseen fecha de envio a agente pero no poseen fecha de recepcion del agente.");
+		lblPiezasEnviadasAgentes.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblPiezasEnviadasAgentes.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblPiezasEnviadasAgentes.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPiezasEnviadasAgentes.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblPiezasEnviadasAgentes.setBounds(100, 0, 200, 20);
+		lblPiezasEnviadasAgentes.setBounds(145, 0, 200, 20);
 		panelPiezasEnviadasAgentes.add(lblPiezasEnviadasAgentes);
 		
 		btnVerCasosPiezasEnviadasAgentes = new GlossyButton("VER CASOS",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_BLUE_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnVerCasosPiezasEnviadasAgentes.setIcon(new ImageIcon(GUIReporteRapidoAgente.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btnVerCasosPiezasEnviadasAgentes.setText("Ver Casos");
 		btnVerCasosPiezasEnviadasAgentes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				verCasosEnviadasAgente();
 			}
 		});
-		btnVerCasosPiezasEnviadasAgentes.setBounds(100, 155, 200, 20);
+		btnVerCasosPiezasEnviadasAgentes.setBounds(72, 160, 200, 30);
 		panelPiezasEnviadasAgentes.add(btnVerCasosPiezasEnviadasAgentes);
 		
+		JLabel label_18 = new JLabel("Valor Stock");
+		label_18.setHorizontalTextPosition(SwingConstants.CENTER);
+		label_18.setHorizontalAlignment(SwingConstants.CENTER);
+		label_18.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_18.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_18.setBounds(0, 84, 145, 66);
+		panelPiezasEnviadasAgentes.add(label_18);
+		
+		JLabel label_19 = new JLabel("Anticuacion de Stock");
+		label_19.setHorizontalTextPosition(SwingConstants.CENTER);
+		label_19.setHorizontalAlignment(SwingConstants.CENTER);
+		label_19.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_19.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_19.setAutoscrolls(true);
+		label_19.setBounds(0, 36, 145, 48);
+		panelPiezasEnviadasAgentes.add(label_19);
+		
+		JLabel label_20 = new JLabel("Stock");
+		label_20.setHorizontalAlignment(SwingConstants.CENTER);
+		label_20.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_20.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_20.setBounds(0, 19, 145, 17);
+		panelPiezasEnviadasAgentes.add(label_20);
+		
 		panelPiezasRecibidasAgentes = new TransparentPanel();
+		panelPiezasRecibidasAgentes.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		panelPiezasRecibidasAgentes.setLayout(null);
-		panelPiezasRecibidasAgentes.setBounds(496, 230, 300, 180);
+		panelPiezasRecibidasAgentes.setBounds(477, 222, 345, 200);
 		panelReportes.add(panelPiezasRecibidasAgentes);
 		
 		JLabel lblFRecepcionAgente = new JLabel("F. Recepcion Agente");
-		lblFRecepcionAgente.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		lblFRecepcionAgente.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblFRecepcionAgente.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblFRecepcionAgente.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFRecepcionAgente.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblFRecepcionAgente.setBounds(0, 0, 100, 20);
+		lblFRecepcionAgente.setBounds(0, 0, 145, 20);
 		panelPiezasRecibidasAgentes.add(lblFRecepcionAgente);
 		
 		modelo_tabla_recibiadas_agentes = new DefaultTableModel(datosTabla_piezas_recibiadas_agentes, nombreColumnas);
@@ -1194,36 +1148,65 @@ public class GUIReporteRapidoAgente extends JFrame {
 		}
 		tablaPiezasRecibidasAgentes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablaPiezasRecibidasAgentes.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tablaPiezasRecibidasAgentes.setBounds(100, 20, 200, 130);
+		tablaPiezasRecibidasAgentes.setBounds(145, 20, 200, 130);
 		panelPiezasRecibidasAgentes.add(tablaPiezasRecibidasAgentes);
 		
 		JLabel lblPiezasRecibidasAgentes = new JLabel("Stock Recibido de Agente/s");
+		lblPiezasRecibidasAgentes.setToolTipText("Piezas  recibidas de agente son las que poseen fecha de recepcion de agente pero no poseen fecha de recursado.");
+		lblPiezasRecibidasAgentes.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPiezasRecibidasAgentes.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblPiezasRecibidasAgentes.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPiezasRecibidasAgentes.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblPiezasRecibidasAgentes.setBounds(100, 0, 200, 20);
+		lblPiezasRecibidasAgentes.setBounds(145, 0, 200, 20);
 		panelPiezasRecibidasAgentes.add(lblPiezasRecibidasAgentes);
 		
 		btnVerCasosPiezasRecibidasAgentes = new GlossyButton("VER CASOS",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_BLUE_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnVerCasosPiezasRecibidasAgentes.setIcon(new ImageIcon(GUIReporteRapidoAgente.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btnVerCasosPiezasRecibidasAgentes.setText("Ver Casos");
 		btnVerCasosPiezasRecibidasAgentes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				verCasosRecibidasDeAgente();
 			}
 		});
-		btnVerCasosPiezasRecibidasAgentes.setBounds(100, 155, 200, 20);
+		btnVerCasosPiezasRecibidasAgentes.setBounds(72, 160, 200, 30);
 		panelPiezasRecibidasAgentes.add(btnVerCasosPiezasRecibidasAgentes);
 		
+		JLabel label_9 = new JLabel("Valor Stock");
+		label_9.setHorizontalTextPosition(SwingConstants.CENTER);
+		label_9.setHorizontalAlignment(SwingConstants.CENTER);
+		label_9.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_9.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_9.setBounds(0, 85, 145, 66);
+		panelPiezasRecibidasAgentes.add(label_9);
+		
+		JLabel label_10 = new JLabel("Anticuacion de Stock");
+		label_10.setHorizontalTextPosition(SwingConstants.CENTER);
+		label_10.setHorizontalAlignment(SwingConstants.CENTER);
+		label_10.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_10.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_10.setAutoscrolls(true);
+		label_10.setBounds(0, 37, 145, 48);
+		panelPiezasRecibidasAgentes.add(label_10);
+		
+		JLabel label_11 = new JLabel("Stock");
+		label_11.setHorizontalAlignment(SwingConstants.CENTER);
+		label_11.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_11.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_11.setBounds(0, 20, 145, 17);
+		panelPiezasRecibidasAgentes.add(label_11);
+		
 		panelPiezasRecursadas = new TransparentPanel();
+		panelPiezasRecursadas.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		panelPiezasRecursadas.setLayout(null);
-		panelPiezasRecursadas.setBounds(894, 230, 300, 180);
+		panelPiezasRecursadas.setBounds(888, 222, 345, 200);
 		panelReportes.add(panelPiezasRecursadas);
 		
 		JLabel lblFrecurso = new JLabel("F. Recurso");
+		lblFrecurso.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblFrecurso.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblFrecurso.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFrecurso.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblFrecurso.setBounds(0, 0, 100, 20);
+		lblFrecurso.setBounds(0, 0, 145, 20);
 		panelPiezasRecursadas.add(lblFrecurso);
 		
 		modelo_tabla_piezas_recursadas = new DefaultTableModel(datosTabla_piezas_recursadas, nombreColumnas);
@@ -1242,137 +1225,65 @@ public class GUIReporteRapidoAgente extends JFrame {
 		}
 		tablaPiezasRecursadas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablaPiezasRecursadas.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tablaPiezasRecursadas.setBounds(100, 20, 200, 130);
+		tablaPiezasRecursadas.setBounds(145, 20, 200, 130);
 		panelPiezasRecursadas.add(tablaPiezasRecursadas);
 		
 		JLabel lblPiezasRecursadas = new JLabel("Stock Recursado");
+		lblPiezasRecursadas.setToolTipText("Piezas  recursadas son las que poseen fecha de recursado pero no poseen fecha de envio a fabrica.");
+		lblPiezasRecursadas.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPiezasRecursadas.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblPiezasRecursadas.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPiezasRecursadas.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblPiezasRecursadas.setBounds(100, 0, 200, 20);
+		lblPiezasRecursadas.setBounds(145, 0, 200, 20);
 		panelPiezasRecursadas.add(lblPiezasRecursadas);
 		
 		btnVerCasosPiezasRecursadas = new GlossyButton("VER CASOS",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_BLUE_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnVerCasosPiezasRecursadas.setIcon(new ImageIcon(GUIReporteRapidoAgente.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btnVerCasosPiezasRecursadas.setText("Ver Casos");
 		btnVerCasosPiezasRecursadas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				verCasosRecursadas();
 			}
 		});
-		btnVerCasosPiezasRecursadas.setBounds(100, 155, 200, 20);
+		btnVerCasosPiezasRecursadas.setBounds(72, 160, 200, 30);
 		panelPiezasRecursadas.add(btnVerCasosPiezasRecursadas);
 		
-		panelPiezasConSDevolucion = new TransparentPanel();
-		panelPiezasConSDevolucion.setLayout(null);
-		panelPiezasConSDevolucion.setBounds(98, 425, 300, 180);
-		panelReportes.add(panelPiezasConSDevolucion);
+		JLabel label_12 = new JLabel("Valor Stock");
+		label_12.setHorizontalTextPosition(SwingConstants.CENTER);
+		label_12.setHorizontalAlignment(SwingConstants.CENTER);
+		label_12.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_12.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_12.setBounds(0, 85, 145, 66);
+		panelPiezasRecursadas.add(label_12);
 		
-		JLabel lblFsolcitudDev = new JLabel("F. Solicitud Devolucion");
-		lblFsolcitudDev.setFont(new Font("Tahoma", Font.PLAIN, 7));
-		lblFsolcitudDev.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblFsolcitudDev.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFsolcitudDev.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblFsolcitudDev.setBounds(0, 0, 100, 20);
-		panelPiezasConSDevolucion.add(lblFsolcitudDev);
+		JLabel label_13 = new JLabel("Anticuacion de Stock");
+		label_13.setHorizontalTextPosition(SwingConstants.CENTER);
+		label_13.setHorizontalAlignment(SwingConstants.CENTER);
+		label_13.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_13.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_13.setAutoscrolls(true);
+		label_13.setBounds(0, 37, 145, 48);
+		panelPiezasRecursadas.add(label_13);
 		
-		modelo_tabla_piezas_con_sdevolucion = new DefaultTableModel(datosTabla_piezas_con_sdevolucion, nombreColumnas);
-		tablaPiezasConSDevolucion = new JTable(modelo_tabla_piezas_con_sdevolucion) {
-			private static final long serialVersionUID = 1L;
-			boolean[] columnEditables = new boolean[] {
-					false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		};
-		for(int i = 0; i < tablaPiezasConSDevolucion.getColumnCount(); i++) {
-			tablaPiezasConSDevolucion.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla.elementAt(i));
-			tablaPiezasConSDevolucion.getColumnModel().getColumn(i).setMinWidth(anchos_tabla.elementAt(i));
-		}
-		tablaPiezasConSDevolucion.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tablaPiezasConSDevolucion.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tablaPiezasConSDevolucion.setBounds(100, 20, 200, 130);
-		panelPiezasConSDevolucion.add(tablaPiezasConSDevolucion);
-		
-		JLabel lblPiezasConSolic = new JLabel("Stock Con Solicitud Devolucion");
-		lblPiezasConSolic.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		lblPiezasConSolic.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblPiezasConSolic.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPiezasConSolic.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblPiezasConSolic.setBounds(100, 0, 200, 20);
-		panelPiezasConSDevolucion.add(lblPiezasConSolic);
-		
-		btnVerCasosPiezasConSDevolucion = new GlossyButton("VER CASOS",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_BLUE_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
-		btnVerCasosPiezasConSDevolucion.setText("Ver Casos");
-		btnVerCasosPiezasConSDevolucion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				verCasosConSDevolucion();
-			}
-		});
-		btnVerCasosPiezasConSDevolucion.setBounds(100, 155, 200, 20);
-		panelPiezasConSDevolucion.add(btnVerCasosPiezasConSDevolucion);
-		
-		panelPiezasAprobDevolucion = new TransparentPanel();
-		panelPiezasAprobDevolucion.setLayout(null);
-		panelPiezasAprobDevolucion.setBounds(496, 425, 300, 180);
-		panelReportes.add(panelPiezasAprobDevolucion);
-		
-		JLabel lblFAprobacionDevolucion = new JLabel("F. Aprobado Devolucion");
-		lblFAprobacionDevolucion.setFont(new Font("Tahoma", Font.PLAIN, 7));
-		lblFAprobacionDevolucion.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblFAprobacionDevolucion.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFAprobacionDevolucion.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblFAprobacionDevolucion.setBounds(0, 0, 100, 20);
-		panelPiezasAprobDevolucion.add(lblFAprobacionDevolucion);
-		
-		modelo_tabla_piezas_aprobacion_devolucion = new DefaultTableModel(datosTabla_piezas_aprobacion_devolucion, nombreColumnas);
-		tablaPiezasAprobDevolucion = new JTable(modelo_tabla_piezas_aprobacion_devolucion) {
-			private static final long serialVersionUID = 1L;
-			boolean[] columnEditables = new boolean[] {
-					false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		};
-		for(int i = 0; i < tablaPiezasAprobDevolucion.getColumnCount(); i++) {
-			tablaPiezasAprobDevolucion.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla.elementAt(i));
-			tablaPiezasAprobDevolucion.getColumnModel().getColumn(i).setMinWidth(anchos_tabla.elementAt(i));
-		}
-		tablaPiezasAprobDevolucion.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tablaPiezasAprobDevolucion.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tablaPiezasAprobDevolucion.setBounds(100, 20, 200, 130);
-		panelPiezasAprobDevolucion.add(tablaPiezasAprobDevolucion);
-		
-		JLabel lblPiezasAprobadasDevolucion = new JLabel("Stock Aprobado Para Devolucion");
-		lblPiezasAprobadasDevolucion.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		lblPiezasAprobadasDevolucion.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblPiezasAprobadasDevolucion.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPiezasAprobadasDevolucion.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblPiezasAprobadasDevolucion.setBounds(100, 0, 200, 20);
-		panelPiezasAprobDevolucion.add(lblPiezasAprobadasDevolucion);
-		
-		btnVerCasosPiezasAprobDevolucion = new GlossyButton("VER CASOS",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_BLUE_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
-		btnVerCasosPiezasAprobDevolucion.setText("Ver Casos");
-		btnVerCasosPiezasAprobDevolucion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				verCasosAprobDevolucion();
-			}
-		});
-		btnVerCasosPiezasAprobDevolucion.setBounds(100, 155, 200, 20);
-		panelPiezasAprobDevolucion.add(btnVerCasosPiezasAprobDevolucion);
-		
+		JLabel label_14 = new JLabel("Stock");
+		label_14.setHorizontalAlignment(SwingConstants.CENTER);
+		label_14.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_14.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_14.setBounds(0, 20, 145, 17);
+		panelPiezasRecursadas.add(label_14);
+
 		panelPiezasDevueltas = new TransparentPanel();
+		panelPiezasDevueltas.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		panelPiezasDevueltas.setLayout(null);
-		panelPiezasDevueltas.setBounds(894, 425, 300, 180);
+		panelPiezasDevueltas.setBounds(477, 433, 345, 200);
 		panelReportes.add(panelPiezasDevueltas);
 		
 		JLabel lblFdevolucion = new JLabel("F. Devolucion Fabrica");
-		lblFdevolucion.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		lblFdevolucion.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblFdevolucion.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblFdevolucion.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFdevolucion.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblFdevolucion.setBounds(0, 0, 100, 20);
+		lblFdevolucion.setBounds(0, 0, 145, 20);
 		panelPiezasDevueltas.add(lblFdevolucion);
 		
 		modelo_tabla_piezas_devueltas = new DefaultTableModel(datosTabla_piezas_devueltas, nombreColumnas);
@@ -1391,39 +1302,56 @@ public class GUIReporteRapidoAgente extends JFrame {
 		}
 		tablaPiezasDevueltas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablaPiezasDevueltas.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tablaPiezasDevueltas.setBounds(100, 20, 200, 130);
+		tablaPiezasDevueltas.setBounds(145, 20, 200, 130);
 		panelPiezasDevueltas.add(tablaPiezasDevueltas);
 		
 		JLabel lblPiezasDevueltas = new JLabel("Stock Devuelto");
+		lblPiezasDevueltas.setToolTipText("Piezas devueltas son aquellas que poseen fecha de devolucion a fabrica.");
+		lblPiezasDevueltas.setFont(new Font("Dialog", Font.BOLD, 12));
 		lblPiezasDevueltas.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblPiezasDevueltas.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPiezasDevueltas.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblPiezasDevueltas.setBounds(100, 0, 200, 20);
+		lblPiezasDevueltas.setBounds(145, 0, 200, 20);
 		panelPiezasDevueltas.add(lblPiezasDevueltas);
 		
 		btnVerCasosPiezasDevueltas = new GlossyButton("VER CASOS",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_BLUE_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnVerCasosPiezasDevueltas.setIcon(new ImageIcon(GUIReporteRapidoAgente.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btnVerCasosPiezasDevueltas.setText("Ver Casos");
 		btnVerCasosPiezasDevueltas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				verCasosDevueltasAgente();
 			}
 		});
-		btnVerCasosPiezasDevueltas.setBounds(100, 155, 200, 20);
+		btnVerCasosPiezasDevueltas.setBounds(72, 160, 200, 30);
 		panelPiezasDevueltas.add(btnVerCasosPiezasDevueltas);
 		
-		JLabel lblNombreDelAgente = new JLabel("Nombre del Agente");
-		lblNombreDelAgente.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNombreDelAgente.setBounds(0, 0, 110, 20);
-		panelReportes.add(lblNombreDelAgente);
+		JLabel label_15 = new JLabel("Valor Stock");
+		label_15.setHorizontalTextPosition(SwingConstants.CENTER);
+		label_15.setHorizontalAlignment(SwingConstants.CENTER);
+		label_15.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_15.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_15.setBounds(0, 84, 145, 66);
+		panelPiezasDevueltas.add(label_15);
 		
-		cBAgentes = new JComboBox<String>();
-		cBAgentes.setBounds(120, 0, 250, 20);
-		cBAgentes.setModel(new DefaultComboBoxModel<String>(agentes));
-		panelReportes.add(cBAgentes);
+		JLabel label_16 = new JLabel("Anticuacion de Stock");
+		label_16.setHorizontalTextPosition(SwingConstants.CENTER);
+		label_16.setHorizontalAlignment(SwingConstants.CENTER);
+		label_16.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_16.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_16.setAutoscrolls(true);
+		label_16.setBounds(0, 36, 145, 48);
+		panelPiezasDevueltas.add(label_16);
+		
+		JLabel label_17 = new JLabel("Stock");
+		label_17.setHorizontalAlignment(SwingConstants.CENTER);
+		label_17.setFont(new Font("Tahoma", Font.BOLD, 11));
+		label_17.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		label_17.setBounds(0, 19, 145, 17);
+		panelPiezasDevueltas.add(label_17);
 		
 		btnVolver = new GlossyButton("VOLVER",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_BLUEGREEN_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
 		btnVolver.setText("Volver");
-		btnVolver.setBounds(587, 661, 120, 23);
+		btnVolver.setBounds(583, 685, 200, 30);
 		contentPane.add(btnVolver);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1456,28 +1384,6 @@ public class GUIReporteRapidoAgente extends JFrame {
 		if(dCHastaFDevolucion.getDate()!=null)
 			hasta = new java.sql.Date(dCHastaFDevolucion.getDate().getTime());
 		mediador.verCasosRecibidasDeAgente(desde, hasta, nombre_agente);
-	}
-
-	protected void verCasosAprobDevolucion() {
-		java.sql.Date desde = null;
-		String nombre_agente = cBAgentes.getSelectedItem().toString();
-		if(dCDesdeFReclamo.getDate()!=null)
-			desde = new java.sql.Date(dCDesdeFReclamo.getDate().getTime());
-		java.sql.Date hasta = null;
-		if(dCHastaFDevolucion.getDate()!=null)
-			hasta = new java.sql.Date(dCHastaFDevolucion.getDate().getTime());
-		mediador.verCasosAprobDevolucionAgente(desde, hasta, nombre_agente);
-	}
-
-	protected void verCasosConSDevolucion() {
-		java.sql.Date desde = null;
-		String nombre_agente = cBAgentes.getSelectedItem().toString();
-		if(dCDesdeFReclamo.getDate()!=null)
-			desde = new java.sql.Date(dCDesdeFReclamo.getDate().getTime());
-		java.sql.Date hasta = null;
-		if(dCHastaFDevolucion.getDate()!=null)
-			hasta = new java.sql.Date(dCHastaFDevolucion.getDate().getTime());
-		mediador.verCasosConSDevolucionAgente(desde, hasta, nombre_agente);
 	}
 
 	protected void verCasosRecursadas() {
@@ -1735,72 +1641,6 @@ public class GUIReporteRapidoAgente extends JFrame {
 		else
 			min_monto_recursadas = "";
 		
-		cantidad_con_sdevolucion =  mediador.cantidad_con_sdevolucion_agente(desde, hasta, filtro_agente);
-		Triple<Double,Double,Double> anticuacion_con_sdevolucion = mediador.anticuacion_con_sdevolucion_agente(desde, hasta, filtro_agente);
-		if(anticuacion_con_sdevolucion.first()!=null)
-			prom_anticuacion_con_sdevolucion = roundUp(anticuacion_con_sdevolucion.first());
-		else
-			prom_anticuacion_con_sdevolucion = "";
-		if(anticuacion_con_sdevolucion.second()!=null)
-			max_anticuacion_con_sdevolucion = roundUp(anticuacion_con_sdevolucion.second());
-		else
-			max_anticuacion_con_sdevolucion = "";
-		if(anticuacion_con_sdevolucion.third()!=null)
-			min_anticuacion_con_sdevolucion = roundUp(anticuacion_con_sdevolucion.third());
-		else
-			min_anticuacion_con_sdevolucion = "";
-		
-		Cuadruple<Double,Double,Double,Double> _monto_con_sdevolucion = mediador.monto_con_sdevolucion_agente(desde, hasta, filtro_agente);
-		if(_monto_con_sdevolucion.first()!=null)
-			monto_con_sdevolucion = "$"+df_pesos.format(_monto_con_sdevolucion.first());
-		else
-			monto_con_sdevolucion = "";
-		if(_monto_con_sdevolucion.second()!=null)
-			prom_monto_con_sdevolucion = "$"+df_pesos.format(_monto_con_sdevolucion.second());
-		else
-			prom_monto_con_sdevolucion = "";
-		if(_monto_con_sdevolucion.third()!=null)
-			max_monto_con_sdevolucion = "$"+df_pesos.format(_monto_con_sdevolucion.third());
-		else
-			max_monto_con_sdevolucion = "";
-		if(_monto_con_sdevolucion.fourth()!=null)
-			min_monto_con_sdevolucion = "$"+df_pesos.format(_monto_con_sdevolucion.fourth());
-		else
-			min_monto_con_sdevolucion = "";
-		
-		cantidad_aprobadas_devolucion =  mediador.cantidad_aprobada_devolucion_agente(desde, hasta, filtro_agente);
-		Triple<Double,Double,Double> anticuacion_aprobadas_devolucion = mediador.anticuacion_aprobada_devolucion_agente(desde, hasta, filtro_agente);
-		if(anticuacion_aprobadas_devolucion.first()!=null)
-			prom_anticuacion_aprobadas_devolucion = roundUp(anticuacion_aprobadas_devolucion.first());
-		else
-			prom_anticuacion_aprobadas_devolucion = "";
-		if(anticuacion_aprobadas_devolucion.second()!=null)
-			max_anticuacion_aprobadas_devolucion = roundUp(anticuacion_aprobadas_devolucion.second());
-		else
-			max_anticuacion_aprobadas_devolucion = "";
-		if(anticuacion_aprobadas_devolucion.third()!=null)
-			min_anticuacion_aprobadas_devolucion = roundUp(anticuacion_aprobadas_devolucion.third());
-		else
-			min_anticuacion_aprobadas_devolucion = "";
-		
-		Cuadruple<Double,Double,Double,Double> _monto_aprobadas_devolucion = mediador.monto_aprobada_devolucion_agente(desde, hasta, filtro_agente);
-		if(_monto_aprobadas_devolucion.first()!=null)
-			monto_aprobadas_devolucion = "$"+df_pesos.format(_monto_aprobadas_devolucion.first());
-		else
-			monto_aprobadas_devolucion = "";
-		if(_monto_aprobadas_devolucion.second()!=null)
-			prom_monto_aprobadas_devolucion = "$"+df_pesos.format(_monto_aprobadas_devolucion.second());
-		else
-			prom_monto_aprobadas_devolucion = "";
-		if(_monto_aprobadas_devolucion.third()!=null)
-			max_monto_aprobadas_devolucion = "$"+df_pesos.format(_monto_aprobadas_devolucion.third());
-		else
-			max_monto_aprobadas_devolucion = "";
-		if(_monto_aprobadas_devolucion.fourth()!=null)
-			min_monto_aprobadas_devolucion = "$"+df_pesos.format(_monto_aprobadas_devolucion.fourth());
-		else
-			min_monto_aprobadas_devolucion = "";
-		
 		cantidad_devueltas =  mediador.cantidad_devueltas_agente(desde, hasta, filtro_agente);
 		Triple<Double,Double,Double> anticuacion_devueltas = mediador.anticuacion_devueltas_agente(desde, hasta, filtro_agente);
 		if(anticuacion_devueltas.first()!=null)
@@ -1839,7 +1679,6 @@ public class GUIReporteRapidoAgente extends JFrame {
 
 	private void filtrar() {
 		String nombre_agente = cBAgentes.getSelectedItem().toString();
-		SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
 		if(dCDesdeFReclamo.getDate()==null || dCHastaFDevolucion.getDate()==null){ 
 			if(dCDesdeFReclamo.getDate()==null){ 
 				if(dCHastaFDevolucion.getDate()!=null){//NULL DESDE NO NULL HASTA
@@ -1881,31 +1720,31 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_pedidas_a_fabrica);//Q
 		datosTabla_piezas_pedidas_a_fabrica.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
+		row_prom_anticuacion.add("Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_pedidas_a_fabrica);//X
 		datosTabla_piezas_pedidas_a_fabrica.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
+		row_max_anticuacion.add("Maximo");
 		row_max_anticuacion.add(max_anticuacion_pedidas_a_fabrica);//MX
 		datosTabla_piezas_pedidas_a_fabrica.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
+		row_min_anticuacion.add("Minimo");
 		row_min_anticuacion.add(min_anticuacion_pedidas_a_fabrica);//mX
 		datosTabla_piezas_pedidas_a_fabrica.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
+		row_monto.add("Total");
 		row_monto.add(monto_pedidas_a_fabrica);//R
 		datosTabla_piezas_pedidas_a_fabrica.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
+		row_prom_monto.add("Promedio");
 		row_prom_monto.add(prom_monto_pedidas_a_fabrica);//XR
 		datosTabla_piezas_pedidas_a_fabrica.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
+		row_max_monto.add("Maximo");
 		row_max_monto.add(max_monto_pedidas_a_fabrica);//MR
 		datosTabla_piezas_pedidas_a_fabrica.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
+		row_min_monto.add("Minimo");
 		row_min_monto.add(min_monto_pedidas_a_fabrica);//mR
 		datosTabla_piezas_pedidas_a_fabrica.add(row_min_monto);
 		modelo_tabla_piezas_pedidas_a_fabrica.setDataVector(datosTabla_piezas_pedidas_a_fabrica, nombreColumnas);
@@ -1924,31 +1763,31 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_en_tranisto);//Q
 		datosTabla_piezas_en_transito.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
+		row_prom_anticuacion.add("Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_en_transito);//X
 		datosTabla_piezas_en_transito.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
+		row_max_anticuacion.add("Maximo");
 		row_max_anticuacion.add(max_anticuacion_en_transito);//MX
 		datosTabla_piezas_en_transito.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
+		row_min_anticuacion.add("Minimo");
 		row_min_anticuacion.add(min_anticuacion_en_transito);//mX
 		datosTabla_piezas_en_transito.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
+		row_monto.add("Total");
 		row_monto.add(monto_en_transito);//R
 		datosTabla_piezas_en_transito.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
+		row_prom_monto.add("Promedio");
 		row_prom_monto.add(prom_monto_en_transito);//XR
 		datosTabla_piezas_en_transito.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
+		row_max_monto.add("Maximo");
 		row_max_monto.add(max_monto_en_transito);//MR
 		datosTabla_piezas_en_transito.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
+		row_min_monto.add("Minimo");
 		row_min_monto.add(min_monto_en_transito);//mR
 		datosTabla_piezas_en_transito.add(row_min_monto);
 		modelo_tabla_piezas_en_transito.setDataVector(datosTabla_piezas_en_transito, nombreColumnas);
@@ -1967,31 +1806,31 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_sin_enviar_agentes);//Q
 		datosTabla_piezas_sin_enviar_agentes.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
+		row_prom_anticuacion.add("Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_sin_enviar_agentes);//X
 		datosTabla_piezas_sin_enviar_agentes.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
+		row_max_anticuacion.add("Maximo");
 		row_max_anticuacion.add(max_anticuacion_sin_enviar_agentes);//MX
 		datosTabla_piezas_sin_enviar_agentes.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
+		row_min_anticuacion.add("Minimo");
 		row_min_anticuacion.add(min_anticuacion_sin_enviar_agentes);//mX
 		datosTabla_piezas_sin_enviar_agentes.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
+		row_monto.add("Total");
 		row_monto.add(monto_sin_enviar_agentes);//R
 		datosTabla_piezas_sin_enviar_agentes.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
+		row_prom_monto.add("Promedio");
 		row_prom_monto.add(prom_monto_sin_enviar_agentes);//XR
 		datosTabla_piezas_sin_enviar_agentes.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
+		row_max_monto.add("Maximo");
 		row_max_monto.add(max_monto_sin_enviar_agentes);//MR
 		datosTabla_piezas_sin_enviar_agentes.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
+		row_min_monto.add("Minimo");
 		row_min_monto.add(min_monto_sin_enviar_agentes);//mR
 		datosTabla_piezas_sin_enviar_agentes.add(row_min_monto);
 		modelo_tabla_piezas_sin_enviar_agentes.setDataVector(datosTabla_piezas_sin_enviar_agentes, nombreColumnas);
@@ -2010,31 +1849,31 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_enviadas_agentes);//Q
 		datosTabla_piezas_enviadas_agentes.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
+		row_prom_anticuacion.add("Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_enviadas_agentes);//X
 		datosTabla_piezas_enviadas_agentes.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
+		row_max_anticuacion.add("Maximo");
 		row_max_anticuacion.add(max_anticuacion_enviadas_agentes);//MX
 		datosTabla_piezas_enviadas_agentes.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
+		row_min_anticuacion.add("Minimo");
 		row_min_anticuacion.add(min_anticuacion_enviadas_agentes);//mX
 		datosTabla_piezas_enviadas_agentes.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
+		row_monto.add("Total");
 		row_monto.add(monto_enviadas_agentes);//R
 		datosTabla_piezas_enviadas_agentes.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
+		row_prom_monto.add("Promedio");
 		row_prom_monto.add(prom_monto_enviadas_agentes);//XR
 		datosTabla_piezas_enviadas_agentes.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
+		row_max_monto.add("Maximo");
 		row_max_monto.add(max_monto_enviadas_agentes);//MR
 		datosTabla_piezas_enviadas_agentes.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
+		row_min_monto.add("Minimo");
 		row_min_monto.add(min_monto_enviadas_agentes);//mR
 		datosTabla_piezas_enviadas_agentes.add(row_min_monto);
 		modelo_tabla_piezas_enviadas_agentes.setDataVector(datosTabla_piezas_enviadas_agentes, nombreColumnas);
@@ -2053,31 +1892,31 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_recibiadas_agentes);//Q
 		datosTabla_piezas_recibiadas_agentes.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
+		row_prom_anticuacion.add("Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_recibiadas_agentes);//X
 		datosTabla_piezas_recibiadas_agentes.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
+		row_max_anticuacion.add("Maximo");
 		row_max_anticuacion.add(max_anticuacion_recibiadas_agentes);//MX
 		datosTabla_piezas_recibiadas_agentes.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
+		row_min_anticuacion.add("Minimo");
 		row_min_anticuacion.add(min_anticuacion_recibiadas_agentes);//mX
 		datosTabla_piezas_recibiadas_agentes.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
+		row_monto.add("Total");
 		row_monto.add(monto_recibiadas_agentes);//R
 		datosTabla_piezas_recibiadas_agentes.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
+		row_prom_monto.add("Promedio");
 		row_prom_monto.add(prom_monto_recibiadas_agentes);//XR
 		datosTabla_piezas_recibiadas_agentes.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
+		row_max_monto.add("Maximo");
 		row_max_monto.add(max_monto_recibiadas_agentes);//MR
 		datosTabla_piezas_recibiadas_agentes.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
+		row_min_monto.add("Minimo");
 		row_min_monto.add(min_monto_recibiadas_agentes);//mR
 		datosTabla_piezas_recibiadas_agentes.add(row_min_monto);
 		modelo_tabla_recibiadas_agentes.setDataVector(datosTabla_piezas_recibiadas_agentes, nombreColumnas);
@@ -2096,31 +1935,31 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_recursadas);//Q
 		datosTabla_piezas_recursadas.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
+		row_prom_anticuacion.add("Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_recursadas);//X
 		datosTabla_piezas_recursadas.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
+		row_max_anticuacion.add("Maximo");
 		row_max_anticuacion.add(max_anticuacion_recursadas);//MX
 		datosTabla_piezas_recursadas.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
+		row_min_anticuacion.add("Minimo");
 		row_min_anticuacion.add(min_anticuacion_recursadas);//mX
 		datosTabla_piezas_recursadas.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
+		row_monto.add("Total");
 		row_monto.add(monto_recursadas);//R
 		datosTabla_piezas_recursadas.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
+		row_prom_monto.add("Promedio");
 		row_prom_monto.add(prom_monto_recursadas);//XR
 		datosTabla_piezas_recursadas.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
+		row_max_monto.add("Maximo");
 		row_max_monto.add(max_monto_recursadas);//MR
 		datosTabla_piezas_recursadas.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
+		row_min_monto.add("Minimo");
 		row_min_monto.add(min_monto_recursadas);//mR
 		datosTabla_piezas_recursadas.add(row_min_monto);
 		modelo_tabla_piezas_recursadas.setDataVector(datosTabla_piezas_recursadas, nombreColumnas);
@@ -2130,93 +1969,7 @@ public class GUIReporteRapidoAgente extends JFrame {
 			tablaPiezasRecursadas.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla.elementAt(i));
 			tablaPiezasRecursadas.getColumnModel().getColumn(i).setMinWidth(anchos_tabla.elementAt(i));
 		}
-		//		Fin Tabla Piezas Recursadas		//
-		//		Tabla Piezas Con Solicitud Devolucion		//
-		modelo_tabla_piezas_con_sdevolucion = new DefaultTableModel();
-		datosTabla_piezas_con_sdevolucion = new Vector<Vector<String>>();
-		row_cantidad= new Vector<String> ();
-		row_cantidad.add("Cantidad");
-		row_cantidad.add(cantidad_con_sdevolucion);//Q
-		datosTabla_piezas_con_sdevolucion.add(row_cantidad);
-		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
-		row_prom_anticuacion.add(prom_anticuacion_con_sdevolucion);//X
-		datosTabla_piezas_con_sdevolucion.add(row_prom_anticuacion);
-		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
-		row_max_anticuacion.add(max_anticuacion_con_sdevolucion);//MX
-		datosTabla_piezas_con_sdevolucion.add(row_max_anticuacion);
-		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
-		row_min_anticuacion.add(min_anticuacion_con_sdevolucion);//mX
-		datosTabla_piezas_con_sdevolucion.add(row_min_anticuacion);
-		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
-		row_monto.add(monto_con_sdevolucion);//R
-		datosTabla_piezas_con_sdevolucion.add(row_monto);
-		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
-		row_prom_monto.add(prom_monto_con_sdevolucion);//XR
-		datosTabla_piezas_con_sdevolucion.add(row_prom_monto);
-		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
-		row_max_monto.add(max_monto_con_sdevolucion);//MR
-		datosTabla_piezas_con_sdevolucion.add(row_max_monto);
-		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
-		row_min_monto.add(min_monto_con_sdevolucion);//mR
-		datosTabla_piezas_con_sdevolucion.add(row_min_monto);
-		modelo_tabla_piezas_con_sdevolucion.setDataVector(datosTabla_piezas_con_sdevolucion, nombreColumnas);
-		modelo_tabla_piezas_con_sdevolucion.fireTableStructureChanged();
-		tablaPiezasConSDevolucion.setModel(modelo_tabla_piezas_con_sdevolucion);
-		for(int i = 0; i < tablaPiezasConSDevolucion.getColumnCount(); i++) {
-			tablaPiezasConSDevolucion.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla.elementAt(i));
-			tablaPiezasConSDevolucion.getColumnModel().getColumn(i).setMinWidth(anchos_tabla.elementAt(i));
-		}
-		//		Fin Tabla Piezas Con Solicitud Devolucion		//
-		//		Tabla Piezas Aprobada Devolucion		//
-		modelo_tabla_piezas_aprobacion_devolucion = new DefaultTableModel();
-		datosTabla_piezas_aprobacion_devolucion = new Vector<Vector<String>>();
-		row_cantidad= new Vector<String> ();
-		row_cantidad.add("Cantidad");
-		row_cantidad.add(cantidad_aprobadas_devolucion);//Q
-		datosTabla_piezas_aprobacion_devolucion.add(row_cantidad);
-		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
-		row_prom_anticuacion.add(prom_anticuacion_aprobadas_devolucion);//X
-		datosTabla_piezas_aprobacion_devolucion.add(row_prom_anticuacion);
-		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
-		row_max_anticuacion.add(max_anticuacion_aprobadas_devolucion);//MX
-		datosTabla_piezas_aprobacion_devolucion.add(row_max_anticuacion);
-		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
-		row_min_anticuacion.add(min_anticuacion_aprobadas_devolucion);//mX
-		datosTabla_piezas_aprobacion_devolucion.add(row_min_anticuacion);
-		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
-		row_monto.add(monto_aprobadas_devolucion);//R
-		datosTabla_piezas_aprobacion_devolucion.add(row_monto);
-		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
-		row_prom_monto.add(prom_monto_aprobadas_devolucion);//XR
-		datosTabla_piezas_aprobacion_devolucion.add(row_prom_monto);
-		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
-		row_max_monto.add(max_monto_aprobadas_devolucion);//MR
-		datosTabla_piezas_aprobacion_devolucion.add(row_max_monto);
-		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
-		row_min_monto.add(min_monto_aprobadas_devolucion);//mR
-		datosTabla_piezas_aprobacion_devolucion.add(row_min_monto);
-		modelo_tabla_piezas_aprobacion_devolucion.setDataVector(datosTabla_piezas_aprobacion_devolucion, nombreColumnas);
-		modelo_tabla_piezas_aprobacion_devolucion.fireTableStructureChanged();
-		tablaPiezasAprobDevolucion.setModel(modelo_tabla_piezas_aprobacion_devolucion);
-		for(int i = 0; i < tablaPiezasAprobDevolucion.getColumnCount(); i++) {
-			tablaPiezasAprobDevolucion.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla.elementAt(i));
-			tablaPiezasAprobDevolucion.getColumnModel().getColumn(i).setMinWidth(anchos_tabla.elementAt(i));
-		}
-		//		Fin Tabla Piezas Aprobada Devolucion		//		
+		//		Fin Tabla Piezas Recursadas		//	
 		//		Tabla Piezas Devueltas		//
 		modelo_tabla_piezas_devueltas = new DefaultTableModel();
 		datosTabla_piezas_devueltas = new Vector<Vector<String>>();
@@ -2225,31 +1978,31 @@ public class GUIReporteRapidoAgente extends JFrame {
 		row_cantidad.add(cantidad_devueltas);//Q
 		datosTabla_piezas_devueltas.add(row_cantidad);
 		row_prom_anticuacion= new Vector<String> ();
-		row_prom_anticuacion.add("Anticuacion Promedio");
+		row_prom_anticuacion.add("Promedio");
 		row_prom_anticuacion.add(prom_anticuacion_devueltas);//X
 		datosTabla_piezas_devueltas.add(row_prom_anticuacion);
 		row_max_anticuacion= new Vector<String> ();
-		row_max_anticuacion.add("Max Anticuacion");
+		row_max_anticuacion.add("Maximo");
 		row_max_anticuacion.add(max_anticuacion_devueltas);//MX
 		datosTabla_piezas_devueltas.add(row_max_anticuacion);
 		row_min_anticuacion= new Vector<String> ();
-		row_min_anticuacion.add("Min Anticuacion");
+		row_min_anticuacion.add("Minimo");
 		row_min_anticuacion.add(min_anticuacion_devueltas);//mX
 		datosTabla_piezas_devueltas.add(row_min_anticuacion);
 		row_monto= new Vector<String> ();
-		row_monto.add("Monto Total");
+		row_monto.add("Total");
 		row_monto.add(monto_devueltas);//R
 		datosTabla_piezas_devueltas.add(row_monto);
 		row_prom_monto= new Vector<String> ();
-		row_prom_monto.add("Monto Promedio");
+		row_prom_monto.add("Promedio");
 		row_prom_monto.add(prom_monto_devueltas);//XR
 		datosTabla_piezas_devueltas.add(row_prom_monto);
 		row_max_monto= new Vector<String> ();
-		row_max_monto.add("Max Monto");
+		row_max_monto.add("Maximo");
 		row_max_monto.add(max_monto_devueltas);//MR
 		datosTabla_piezas_devueltas.add(row_max_monto);
 		row_min_monto= new Vector<String> ();
-		row_min_monto.add("Min Monto");
+		row_min_monto.add("Minimo");
 		row_min_monto.add(min_monto_devueltas);//mR
 		datosTabla_piezas_devueltas.add(row_min_monto);
 		modelo_tabla_piezas_devueltas.setDataVector(datosTabla_piezas_devueltas, nombreColumnas);

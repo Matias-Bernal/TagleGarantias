@@ -174,11 +174,11 @@ public class GUIVerCasosAgente extends JFrame {
 		transparentPanel.setBounds(322, 10, 630, 40);
 		contentPane.add(transparentPanel);
 		
-		JLabel label = new JLabel("DESDE F. RECLAMO");
-		label.setHorizontalTextPosition(SwingConstants.CENTER);
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setBounds(10, 10, 130, 20);
-		transparentPanel.add(label);
+		JLabel lblDesdeFPedido = new JLabel("DESDE F. PEDIDO");
+		lblDesdeFPedido.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblDesdeFPedido.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDesdeFPedido.setBounds(10, 10, 130, 20);
+		transparentPanel.add(lblDesdeFPedido);
 		
 		dCFReclamo = new TextField();
 		dCFReclamo.setEditable(false);
