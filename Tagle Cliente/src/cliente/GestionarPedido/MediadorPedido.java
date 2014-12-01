@@ -56,40 +56,16 @@ public class MediadorPedido {
 
 	private MediadorPrincipal mediadorPrincipal;
 	
-	private GUIAltaPedidoAgente guiAltaPedidoAgente;
-	private GUIAltaPedidoEntidad guiAltaPedidoEntidad;
-	
 	private GUIGestionPedidoAgente guiGestionPedidoAgente;
 	private GUIGestionPedidoEntidad guiGestionPedidoEntidad;
 	
 	private GUIModificarPedidoAgente guiModificarPedidoAgente;
 	private GUIModificarPedidoEntidad guiModificarPedidoEntidad;
 	
-	private GUIBuscarReclamoEntidad guiBuscarReclamoEntidad;
-	private GUIBuscarReclamoAgente guiBuscarReclamoAgente;
-	
 	private GUIVerReclamante verReclamante;
 		
 	public MediadorPedido(MediadorPrincipal mediadorPrincipal) {
 		this.setMediadorPrincipal(mediadorPrincipal);
-	}
-
-	public void altaPedidoEntidad(String nombre_registrante, String tipo) {
-		guiAltaPedidoEntidad = new GUIAltaPedidoEntidad(this); // faltan datos
-		guiAltaPedidoEntidad.setVisible(true);		
-	}
-	public void altaPedidoAgente(String nombre_registrante, String tipo) {
-		guiAltaPedidoAgente = new GUIAltaPedidoAgente(this);
-		guiAltaPedidoAgente.setVisible(true);	
-	}
-
-	public void altaPedidoEntidad() {
-		guiAltaPedidoEntidad = new GUIAltaPedidoEntidad(this);
-		guiAltaPedidoEntidad.setVisible(true);		
-	}
-	public void altaPedidoAgente() {
-		guiAltaPedidoAgente = new GUIAltaPedidoAgente(this);
-		guiAltaPedidoAgente.setVisible(true);		
 	}
 
 	public void gestionarPedidoEntidad() {
@@ -208,15 +184,6 @@ public class MediadorPedido {
 		return proveedor;
 	}
 
-	public void buscarReclamoEntidad() {
-		guiBuscarReclamoEntidad = new GUIBuscarReclamoEntidad(this);
-		guiBuscarReclamoEntidad.setVisible(true);
-	}
-	public void buscarReclamoAgente() {
-		guiBuscarReclamoAgente = new GUIBuscarReclamoAgente(this);
-		guiBuscarReclamoAgente.setVisible(true);
-	}
-
 	public boolean nuevoPedido(String numero_pedido, Date fsp, ReclamoDTO reclamo, Vector<PiezaDTO> piezas) {
 		boolean res = false;
 		IControlPedido iControlPedido = MediadorAccionesIniciarPrograma.getControlPedido();
@@ -284,35 +251,6 @@ public class MediadorPedido {
 			e.printStackTrace();
 		}
 		return res;
-	}
-	
-	public void setReclamoEntidad(String id) {
-		if(guiAltaPedidoEntidad != null){
-			IControlReclamo iControlReclamo = MediadorAccionesIniciarPrograma.getControlReclamo();
-			try {
-				guiAltaPedidoEntidad.setReclamo(iControlReclamo.buscarReclamo(new Long(id)));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	public void setReclamoAgente(String id) {
-		if(guiAltaPedidoAgente != null){
-			IControlReclamo iControlReclamo = MediadorAccionesIniciarPrograma.getControlReclamo();
-			try {
-				guiAltaPedidoAgente.setReclamo(iControlReclamo.buscarReclamo(new Long(id)));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		if(guiModificarPedidoAgente !=null){
-			IControlReclamo iControlReclamo = MediadorAccionesIniciarPrograma.getControlReclamo();
-			try {
-				guiModificarPedidoAgente.setReclamo(iControlReclamo.buscarReclamo(new Long(id)));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	public boolean esEntidad(RegistranteDTO registrante) {
@@ -518,220 +456,240 @@ public class MediadorPedido {
 
 	public boolean modificarPedidoAgente(PedidoDTO pedido, Vector<Pedido_PiezaDTO> pedidos_piezas) {
 		boolean res = false;
-		IControlPedido iControlPedido = MediadorAccionesIniciarPrograma.getControlPedido();
 		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();
 		IControlBdg iControlBdg = MediadorAccionesIniciarPrograma.getControlBdg();
 		IControlMuleto iControlMuelto = MediadorAccionesIniciarPrograma.getControlMuleto();
 		IControlPieza iControlPieza = MediadorAccionesIniciarPrograma.getControlPieza();
 		IControlReclamo iControlReclamo = MediadorAccionesIniciarPrograma.getControlReclamo();
+		IControlDevolucion_Pieza iControlDevolucion_Pieza = MediadorAccionesIniciarPrograma.getControlDevolucion_Pieza();
+		IControlRecurso iControlRecurso = MediadorAccionesIniciarPrograma.getControlRecurso();
+		IControlOrden iControlOrden = MediadorAccionesIniciarPrograma.getControlOrden();
 		try {
-			IControlDevolucion_Pieza iControlDevolucion_Pieza = MediadorAccionesIniciarPrograma.getControlDevolucion_Pieza();
-
-			if (iControlPedido.existePedido(pedido.getId())){
-				Vector<Pedido_PiezaDTO> pedidos_piezasDTO = iControlPedido_Pieza.obtenerPedido_Pieza(pedido);
-				for(int i=0; i<pedidos_piezasDTO.size();i++){
-					for(int j=0; j<pedidos_piezas.size();j++){
-						if(pedidos_piezasDTO.elementAt(i).getId().equals(pedidos_piezas.elementAt(j).getId())){
-							
-							Pedido_PiezaDTO original = pedidos_piezasDTO.elementAt(i);
-							Pedido_PiezaDTO modificado = pedidos_piezas.elementAt(j);
-
-							//BDG
-							if(modificado.getBdg()!=null){
-								if (original.getBdg()!=null){
-									//EXISTE BDG
-									BdgDTO bdg = original.getBdg();
-									bdg.setNumero_bdg(modificado.getBdg().getNumero_bdg());
-									if(modificado.getBdg().getFecha_bdg()!=null){
-										bdg.setFecha_bdg(modificado.getBdg().getFecha_bdg());
-									}else{
-										bdg.setFecha_bdg(null);
-									}
-									iControlBdg.modificarBdg(bdg.getId(), bdg);
-									//NO SE DEBERIAN CAMBIAR LA PIEZA Y EL PEDIDO
-								}else{
-									//NO EXISTE BDG
-									BdgDTO bdg = new BdgDTO();
-									bdg.setNumero_bdg(modificado.getBdg().getNumero_bdg());
-									if(modificado.getBdg().getFecha_bdg()!=null){
-										bdg.setFecha_bdg(modificado.getBdg().getFecha_bdg());
-									}else{
-										bdg.setFecha_bdg(null);
-									}
-									bdg.setPedido(original.getPedido());
-									bdg.setPieza(original.getPieza());
-									bdg.setId(iControlBdg.agregarBdg(bdg));
-
-									original.setBdg(bdg);
-								}
-							}else{
-								original.setBdg(null);
-							}
-							//DEVOLUCION PIEZA
-							//FECHA SOLICITUD DEVOLUCION
-							if(modificado.getFecha_solicitud_devolucion()!=null){
-								original.setFecha_solicitud_devolucion(modificado.getFecha_solicitud_devolucion());
-							}else{
-								original.setFecha_solicitud_devolucion(null);
-							}
-							//FECHA APROBACION SOLICITUD DEVOLUCION
-							if(modificado.getFecha_aprobacion_solicitud_devolucion()!=null){
-								original.setFecha_aprobacion_solicitud_devolucion(modificado.getFecha_aprobacion_solicitud_devolucion());
-							}else{
-								original.setFecha_aprobacion_solicitud_devolucion(null);
-							}
-							if(modificado.getDevolucion_pieza()!=null){
-								if (original.getDevolucion_pieza()!=null){
-									//EXISTE DEVOLUCION
-									Devolucion_PiezaDTO devolucion = original.getDevolucion_pieza();
-									devolucion.setNumero_remito(modificado.getDevolucion_pieza().getNumero_remito());
-									devolucion.setNumero_retiro(modificado.getDevolucion_pieza().getNumero_retiro());
-									devolucion.setTransporte(modificado.getDevolucion_pieza().getTransporte());
-									if(modificado.getDevolucion_pieza().getFecha_devolucion()!=null){
-										devolucion.setFecha_devolucion(modificado.getDevolucion_pieza().getFecha_devolucion());
-									}else{
-										devolucion.setFecha_devolucion(null);
-									}
-									iControlDevolucion_Pieza.modificarDevolucion_Pieza(devolucion.getId(), devolucion);
-								}else{
-									//NO EXISTE DEVOLUCION
-									Devolucion_PiezaDTO devolucion = new Devolucion_PiezaDTO();
-									devolucion.setNumero_remito(modificado.getDevolucion_pieza().getNumero_remito());
-									devolucion.setNumero_retiro(modificado.getDevolucion_pieza().getNumero_retiro());
-									devolucion.setTransporte(modificado.getDevolucion_pieza().getTransporte());
-									if(modificado.getDevolucion_pieza().getFecha_devolucion()!=null){
-										devolucion.setFecha_devolucion(modificado.getDevolucion_pieza().getFecha_devolucion());
-									}else{
-										devolucion.setFecha_devolucion(null);
-									}
-									devolucion.setId(iControlDevolucion_Pieza.agregarDevolucion_Pieza(devolucion));
-
-									original.setDevolucion_pieza(devolucion);
-								}
-							}else{
-								original.setDevolucion_pieza(null);
-							}
-							//FECHA ENVIO AGENTE
-							if(modificado.getFecha_envio_agente()!=null){
-								original.setFecha_envio_agente(modificado.getFecha_envio_agente());
-							}else{
-								original.setFecha_envio_agente(null);
-							}
-							//FECHA RECEPCION AGENTE
+			Vector<Pedido_PiezaDTO> pedidos_piezasDTO = iControlPedido_Pieza.obtenerPedido_Pieza(pedido);
+			for(int i=0; i<pedidos_piezasDTO.size();i++){
+				for(int j=0; j<pedidos_piezas.size();j++){
+					if(pedidos_piezasDTO.elementAt(i).getId().equals(pedidos_piezas.elementAt(j).getId())){
+						
+						Pedido_PiezaDTO original = pedidos_piezasDTO.elementAt(i);
+						Pedido_PiezaDTO modificado = pedidos_piezas.elementAt(j);
+						//PIEZA
+						PiezaDTO pieza = original.getPieza();
+						pieza.setDescripcion(modificado.getPieza().getDescripcion());
+						pieza.setNumero_pieza(modificado.getPieza().getNumero_pieza());
+						pieza.setProveedor(modificado.getPieza().getProveedor());
+						iControlPieza.modificarPieza(pieza.getId(), pieza);
+						original.setPieza(pieza);
+						iControlPedido_Pieza.modificarPedido_Pieza(original.getId(), original);
+						//PIEZA USADA
+						if(modificado.getPieza_usada()!=null)
+							original.setPieza_usada(modificado.getPieza_usada());
+						//PNC
+						original.setPnc(modificado.getPnc());
+						//////////////////////////////////////////////////////////
+						//FECHA SOLICITUD FABRICA
+						if(modificado.getFecha_solicitud_fabrica()!=null){
+							original.setFecha_solicitud_fabrica(modificado.getFecha_solicitud_fabrica());
+						}else{
+							original.setFecha_solicitud_fabrica(null);
+						}
+						//FECHA RECEPCION FABRICA
+						if(modificado.getFecha_recepcion_fabrica()!=null){
+							original.setFecha_recepcion_fabrica(modificado.getFecha_recepcion_fabrica());
+						}else{
+							original.setFecha_recepcion_fabrica(null);
+						}
+						//ESTADO PEDIDO
+						if(modificado.getDevolucion_pieza()!=null){
+							original.setEstado_pedido("ENVIADO A FABRICA");
+							ReclamoDTO reclamo = pedido.getReclamo();
+							reclamo.setEstado_reclamo("CERRADO");
+							iControlReclamo.modificarReclamo(reclamo.getId(), reclamo);
+						}else{
 							if(modificado.getFecha_recepcion_agente()!=null){
-								original.setFecha_recepcion_agente(modificado.getFecha_recepcion_agente());
+								original.setEstado_pedido("SIN ENVIAR A FABRICA");
 							}else{
-								original.setFecha_recepcion_agente(null);
-							}
-							//FECHA RECEPCION FABRICA
-							if(modificado.getFecha_recepcion_fabrica()!=null){
-								original.setFecha_recepcion_fabrica(modificado.getFecha_recepcion_fabrica());
-							}else{
-								original.setFecha_recepcion_fabrica(null);
-							}
-							//FECHA SOLICITUD FABRICA
-							if(modificado.getFecha_solicitud_fabrica()!=null){
-								original.setFecha_solicitud_fabrica(modificado.getFecha_solicitud_fabrica());
-							}else{
-								original.setFecha_solicitud_fabrica(null);
-							}
-							//MULETO
-							if(modificado.getMuleto()!=null){
-								if (original.getMuleto()!=null){
-									//EXISTE MULETO
-									MuletoDTO muleto = original.getMuleto();
-									
-									muleto.setDescripcion(modificado.getMuleto().getDescripcion());
-									muleto.setVin(modificado.getMuleto().getVin());
-		
-									iControlMuelto.modificarMuleto(muleto.getId(), muleto);
+								if(modificado.getFecha_envio_agente()!=null){
+									original.setEstado_pedido("EN ESPERA DE RECEPCION AGENTE");
 								}else{
-									//NO EXISTE MULETO
-									MuletoDTO muleto = new MuletoDTO();
-									muleto.setDescripcion(modificado.getMuleto().getDescripcion());
-									muleto.setVin(modificado.getMuleto().getVin());
-									muleto.setPedido(original.getPedido());
-									muleto.setPieza(original.getPieza());
-									muleto.setId(iControlMuelto.agregarMuleto(muleto));
-
-									original.setMuleto(muleto);
-								}
-							}else{
-								original.setMuleto(null);
-							}
-							//NUMERO PEDIDOO
-							original.setNumero_pedido(modificado.getNumero_pedido());
-							//PIEZA USADA
-							if(modificado.getPieza_usada()!=null)
-								original.setPieza_usada(modificado.getPieza_usada());
-							//PNC
-							original.setPnc(modificado.getPnc());
-							//ESTADO PEDIDO
-							if(original.getDevolucion_pieza()!=null){
-								original.setEstado_pedido("ENVIADO A FABRICA");
-								ReclamoDTO reclamo = pedido.getReclamo();
-								reclamo.setEstado_reclamo("CERRADO");
-								iControlReclamo.modificarReclamo(reclamo.getId(), reclamo);
-							}else{
-								if(original.getFecha_recepcion_agente()!=null){
-									original.setEstado_pedido("SIN ENVIAR A FABRICA");
-								}else{
-									if(original.getFecha_envio_agente()!=null){
-										original.setEstado_pedido("EN ESPERA DE RECEPCION AGENTE");
+									if(modificado.getFecha_recepcion_fabrica()!=null){
+										original.setEstado_pedido("SIN ENVIAR A AGENTE");
 									}else{
-										if(original.getFecha_recepcion_fabrica()!=null){
-											original.setEstado_pedido("SIN ENVIAR A AGENTE");
+										if(modificado.getFecha_solicitud_fabrica()!=null){
+											original.setEstado_pedido("EN ESPERA DE RECEPCION FABRICA");
 										}else{
-											if(original.getFecha_solicitud_fabrica()!=null){
-												original.setEstado_pedido("EN ESPERA DE RECEPCION FABRICA");
-											}else{
-												original.setEstado_pedido("SIN SOLICITUD A FABRICA");
-											}
+											original.setEstado_pedido("SIN SOLICITUD A FABRICA");
 										}
 									}
 								}
 							}
-							//PIEZA
-							PiezaDTO pieza = original.getPieza();
-							pieza.setDescripcion(modificado.getPieza().getDescripcion());
-							pieza.setNumero_pieza(modificado.getPieza().getNumero_pieza());
-							pieza.setProveedor(modificado.getPieza().getProveedor());
-							iControlPieza.modificarPieza(pieza.getId(), pieza);
-							original.setPieza(pieza);
-							iControlPedido_Pieza.modificarPedido_Pieza(original.getId(), original);
-							break;
 						}
+						//FECHA ENVIO AGENTE
+						if(modificado.getFecha_envio_agente()!=null){
+							original.setFecha_envio_agente(modificado.getFecha_envio_agente());
+						}else{
+							original.setFecha_envio_agente(null);
+						}
+						//FECHA RECEPCION AGENTE
+						if(modificado.getFecha_recepcion_agente()!=null){
+							original.setFecha_recepcion_agente(modificado.getFecha_recepcion_agente());
+						}else{
+							original.setFecha_recepcion_agente(null);
+						}
+						//MULETO
+						if(modificado.getMuleto()!=null){
+							if (original.getMuleto()!=null){
+								//EXISTE MULETO
+								MuletoDTO muleto = original.getMuleto();
+								muleto.setDescripcion(modificado.getMuleto().getDescripcion());
+								muleto.setVin(modificado.getMuleto().getVin());
+								muleto.setPedido(original.getPedido());
+								muleto.setPieza(original.getPieza());
+								iControlMuelto.modificarMuleto(muleto.getId(), muleto);
+							}else{
+								//NO EXISTE MULETO
+								MuletoDTO muleto = new MuletoDTO();
+								muleto.setDescripcion(modificado.getMuleto().getDescripcion());
+								muleto.setVin(modificado.getMuleto().getVin());
+								muleto.setPedido(original.getPedido());
+								muleto.setPieza(original.getPieza());
+								muleto.setId(iControlMuelto.agregarMuleto(muleto));
+
+								original.setMuleto(muleto);
+							}
+						}else{
+							original.setMuleto(null);
+						}
+						//DEVOLUCION PIEZA
+						//FECHA SOLICITUD DEVOLUCION
+						if(modificado.getFecha_solicitud_devolucion()!=null){
+							original.setFecha_solicitud_devolucion(modificado.getFecha_solicitud_devolucion());
+						}else{
+							original.setFecha_solicitud_devolucion(null);
+						}
+						//FECHA APROBACION SOLICITUD DEVOLUCION
+						if(modificado.getFecha_aprobacion_solicitud_devolucion()!=null){
+							original.setFecha_aprobacion_solicitud_devolucion(modificado.getFecha_aprobacion_solicitud_devolucion());
+						}else{
+							original.setFecha_aprobacion_solicitud_devolucion(null);
+						}
+						if(modificado.getDevolucion_pieza()!=null){
+							if (original.getDevolucion_pieza()!=null){
+								//EXISTE DEVOLUCION
+								Devolucion_PiezaDTO devolucion = original.getDevolucion_pieza();
+								devolucion.setNumero_remito(modificado.getDevolucion_pieza().getNumero_remito());
+								devolucion.setNumero_retiro(modificado.getDevolucion_pieza().getNumero_retiro());
+								devolucion.setTransporte(modificado.getDevolucion_pieza().getTransporte());
+								if(modificado.getDevolucion_pieza().getFecha_devolucion()!=null){
+									devolucion.setFecha_devolucion(modificado.getDevolucion_pieza().getFecha_devolucion());
+								}else{
+									devolucion.setFecha_devolucion(null);
+								}
+								iControlDevolucion_Pieza.modificarDevolucion_Pieza(devolucion.getId(), devolucion);
+							}else{
+								//NO EXISTE DEVOLUCION
+								Devolucion_PiezaDTO devolucion = new Devolucion_PiezaDTO();
+								devolucion.setNumero_remito(modificado.getDevolucion_pieza().getNumero_remito());
+								devolucion.setNumero_retiro(modificado.getDevolucion_pieza().getNumero_retiro());
+								devolucion.setTransporte(modificado.getDevolucion_pieza().getTransporte());
+								if(modificado.getDevolucion_pieza().getFecha_devolucion()!=null){
+									devolucion.setFecha_devolucion(modificado.getDevolucion_pieza().getFecha_devolucion());
+								}else{
+									devolucion.setFecha_devolucion(null);
+								}
+								devolucion.setId(iControlDevolucion_Pieza.agregarDevolucion_Pieza(devolucion));
+
+								original.setDevolucion_pieza(devolucion);
+							}
+						}else{
+							original.setDevolucion_pieza(null);
+						}
+						//FECHA CIERRE OT
+						if(modificado.getPedido().getReclamo().getOrden().getFecha_cierre()!=null){
+							original.getPedido().getReclamo().getOrden().setFecha_cierre(modificado.getPedido().getReclamo().getOrden().getFecha_cierre());
+						}else{
+							original.getPedido().getReclamo().getOrden().setFecha_cierre(null);
+						}
+						iControlOrden.modificarOrden(original.getPedido().getReclamo().getOrden().getId(), original.getPedido().getReclamo().getOrden());
+						//RECURSO
+						if(modificado.getPedido().getReclamo().getOrden().getRecurso()!=null){
+							if (original.getPedido().getReclamo().getOrden().getRecurso()!=null){
+								//EXISTE RECURSO
+								RecursoDTO recurso = original.getPedido().getReclamo().getOrden().getRecurso();
+								recurso.setNumero_recurso(modificado.getPedido().getReclamo().getOrden().getRecurso().getNumero_recurso());
+								if(modificado.getPedido().getReclamo().getOrden().getRecurso().getFecha_recurso()!=null){
+									recurso.setFecha_recurso(modificado.getPedido().getReclamo().getOrden().getRecurso().getFecha_recurso());
+								}else{
+									recurso.setFecha_recurso(null);
+								}
+								iControlRecurso.modificarRecurso(recurso.getId(),recurso);
+							}else{
+								//NO EXISTE RECURSO
+								RecursoDTO recurso = new RecursoDTO();
+								recurso.setNumero_recurso(modificado.getPedido().getReclamo().getOrden().getRecurso().getNumero_recurso());
+								if(modificado.getPedido().getReclamo().getOrden().getRecurso().getFecha_recurso()!=null){
+									recurso.setFecha_recurso(modificado.getPedido().getReclamo().getOrden().getRecurso().getFecha_recurso());
+								}else{
+									recurso.setFecha_recurso(null);
+								}
+								recurso.setId(iControlRecurso.agregarRecurso(recurso));
+
+								original.getPedido().getReclamo().getOrden().setRecurso(recurso);
+							}
+						}else{
+							original.getPedido().getReclamo().getOrden().setRecurso(null);
+						}
+						//BDG
+						if(modificado.getBdg()!=null){
+							if (original.getBdg()!=null){
+								//EXISTE BDG
+								BdgDTO bdg = original.getBdg();
+								bdg.setNumero_bdg(modificado.getBdg().getNumero_bdg());
+								if(modificado.getBdg().getFecha_bdg()!=null){
+									bdg.setFecha_bdg(modificado.getBdg().getFecha_bdg());
+								}else{
+									bdg.setFecha_bdg(null);
+								}
+								iControlBdg.modificarBdg(bdg.getId(), bdg);
+							}else{
+								//NO EXISTE BDG
+								BdgDTO bdg = new BdgDTO();
+								bdg.setNumero_bdg(modificado.getBdg().getNumero_bdg());
+								if(modificado.getBdg().getFecha_bdg()!=null){
+									bdg.setFecha_bdg(modificado.getBdg().getFecha_bdg());
+								}else{
+									bdg.setFecha_bdg(null);
+								}
+								bdg.setPedido(original.getPedido());
+								bdg.setPieza(original.getPieza());
+								bdg.setId(iControlBdg.agregarBdg(bdg));
+
+								original.setBdg(bdg);
+							}
+						}else{
+							original.setBdg(null);
+						}
+						iControlPedido_Pieza.modificarPedido_Pieza(original.getId(), original);
+						break;
 					}
 				}
-				pedidos_piezasDTO = iControlPedido_Pieza.obtenerPedido_Pieza(pedido);
-				boolean cerrado = true;
-				boolean sinsolicitud = false;
-				for(int i=0;i<pedidos_piezasDTO.size();i++){
-					cerrado &= pedidos_piezasDTO.elementAt(i).getEstado_pedido().equals("CERRADO");
-					sinsolicitud |= pedidos_piezasDTO.elementAt(i).getEstado_pedido().equals("SIN SOLICITUD A FABRICA");
-				}
-				
-				ReclamoDTO reclamo = pedido.getReclamo();
-				if(sinsolicitud){
-					if (reclamo.getFecha_turno()!=null){
-						reclamo.setEstado_reclamo("ABIERTO/SIN PEDIDO/CON TURNO");
-					}else{
-						reclamo.setEstado_reclamo("ABIERTO/SIN PEDIDO/SIN TURNO");
-					}
-				}else{
-					if (reclamo.getFecha_turno()!=null){
-						reclamo.setEstado_reclamo("ABIERTO/CON PEDIDO/CON TURNO");
-					}else{
-						reclamo.setEstado_reclamo("ABIERTO/CON PEDIDO/SIN TURNO");
-					}
-				}
-				iControlReclamo.modificarReclamo(reclamo.getId(), reclamo);
-				if(cerrado){
-					reclamo.setEstado_reclamo("CERRADO");
-					iControlReclamo.modificarReclamo(reclamo.getId(), reclamo);
-				}
-				res = true;
 			}
+			boolean cerrado = true;
+			//boolean sinsolicitud = false;
+			for(int i=0;i<pedidos_piezasDTO.size();i++){
+				cerrado &= pedidos_piezasDTO.elementAt(i).getEstado_pedido().equals("CERRADO");
+				//sinsolicitud |= pedidos_piezasDTO.elementAt(i).getEstado_pedido().equals("SIN SOLICITUD A FABRICA");
+			}
+			if (pedidos_piezasDTO.elementAt(0).getPedido().getReclamo().getFecha_turno()!=null){
+				pedidos_piezasDTO.elementAt(0).getPedido().getReclamo().setEstado_reclamo("ABIERTO/CON PEDIDO/CON TURNO");
+			}else{
+				pedidos_piezasDTO.elementAt(0).getPedido().getReclamo().setEstado_reclamo("ABIERTO/CON PEDIDO/SIN TURNO");
+			}
+			iControlReclamo.modificarReclamo(pedidos_piezasDTO.elementAt(0).getPedido().getReclamo().getId(), pedidos_piezasDTO.elementAt(0).getPedido().getReclamo());
+			if(cerrado){
+				pedidos_piezasDTO.elementAt(0).getPedido().getReclamo().setEstado_reclamo("CERRADO");
+				iControlReclamo.modificarReclamo(pedidos_piezasDTO.elementAt(0).getPedido().getReclamo().getId(), pedidos_piezasDTO.elementAt(0).getPedido().getReclamo());
+			}
+			res = true;
 		} catch (Exception e) {
 			System.out.println("Error al modificar pedido en la clase MediadorPedido");
 			e.printStackTrace();
@@ -1030,6 +988,14 @@ public class MediadorPedido {
 			e.printStackTrace();
 		}
 		return pedidos_piezas;
+	}
+
+	public void altaPedidoAgente() {
+		mediadorPrincipal.reclamoRapidoAgente();
+	}
+	
+	public void altaPedidoEntidad() {
+		mediadorPrincipal.reclamoRapidoEntidad();
 	}
 
 }

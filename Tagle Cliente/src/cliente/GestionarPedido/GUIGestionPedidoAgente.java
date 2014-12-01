@@ -15,6 +15,7 @@
 package cliente.GestionarPedido;
 
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -87,8 +88,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 	private JTextField tfDominio;
 	private JTextField tfVIN;
 	private JTextField tfReclamante;
-	private JTextField tfMuleto;
-	private JTextField tfNumeroBDG;
+	private JTextField tfNumeroRecurso;
 	private JTextField tfRemito;
 	
 	//Tabla
@@ -101,7 +101,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 	private JDateChooser dCFSP;
 	private JDateChooser dCFSF;
 	private JDateChooser dCFRF;
-	private JDateChooser dCFBDG;
+	private JDateChooser dCFRecurso;
 	private JDateChooser dcFEF;
 	private JDateChooser dCFEA;
 	private JDateChooser dCFRA;
@@ -126,6 +126,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 	private JDateChooser dcFAS;
 	private JButton btn_clear_FSD;
 	private JButton btn_clear_FAS;
+	private JPanel panel;
 
 	public GUIGestionPedidoAgente(MediadorPedido mediadorRegistrante) {
 		this.mediador = mediadorRegistrante;
@@ -135,38 +136,18 @@ public class GUIGestionPedidoAgente extends JFrame{
 	
 	public void initialize(){
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1280, 720);
-		setTitle("GESTIONAR PEDIDO AGENTE");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/pedido.png")));
-		setResizable(false);
+		setBounds(0, 0,1382,768);
+		//setExtendedState(Frame.MAXIMIZED_BOTH);
+		//setLocationRelativeTo(null);
+		setTitle("GESTIONAR PEDIDOS AGENTES");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIGestionPedidoEntidad.class.getResource("/cliente/Resources/Icons/edit_pedido_entidad.png")));
+		
 		contentPane =  new JPanel_Whit_Image("/cliente/Recursos/Imagenes/background.jpg");
-		contentPane.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		contentPane.setBounds(new Rectangle(0, 0, 1366, 768));
 		setContentPane(contentPane);
-		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
-		
-		btnModificar = new GlossyButton("MODIFICAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_LIGHTGRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
-		btnModificar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btnModificar.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/edit.png")));
-		btnModificar.setBounds(1039, 70, 215, 23);
-		btnModificar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				modificar();
-			}
-		});
 		contentPane.setLayout(null);
-		contentPane.add(btnModificar);
-		
-		btnEliminar = new GlossyButton("ELIMINAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_RED_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
-		btnEliminar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btnEliminar.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/delete.png")));
-		btnEliminar.setBounds(1039, 104, 215, 23);
-		btnEliminar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				eliminar();
-			}
-		});
-		contentPane.add(btnEliminar);
+		contentPane.setLayout(null);
 		
 		modelo = new DefaultTableModel(datosTabla, nombreColumnas);
 		tablaPedidos = new JTable(modelo) {
@@ -187,7 +168,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if (e.getClickCount() == 2)
-					verReclamante();
+					 modificar();
 			    else{
 			    	e.consume();
 			    }
@@ -208,69 +189,22 @@ public class GUIGestionPedidoAgente extends JFrame{
 		JScrollPane scrollPaneTabla = new JScrollPane(tablaPedidos);
 		scrollPaneTabla.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tablaPedidos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		scrollPaneTabla.setBounds(10, 226, 1254, 421);
+		scrollPaneTabla.setBounds(10, 226, 1346, 421);
 		scrollPaneTabla.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPaneTabla.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scrollPaneTabla);
 		
-		btnAgregar = new GlossyButton("AGREGAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_GREEN_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
-		btnAgregar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btnAgregar.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/add.png")));
-		btnAgregar.setBounds(1039, 35, 215, 23);
-		btnAgregar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				mediador.altaPedidoAgente();
-			}
-		});
-		contentPane.add(btnAgregar);
-		
-		btnImprimir = new GlossyButton("",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_GRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
-		btnImprimir.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btnImprimir.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/printer.png")));
-		btnImprimir.setBounds(1230, 183, 32, 32);
-		btnImprimir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					tablaPedidos.print();
-				} catch (PrinterException ex) {
-					JOptionPane.showMessageDialog(contentPane,"Error al imprimir.","Error",JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		contentPane.add(btnImprimir);
-		
 		btnVolver = new GlossyButton("VOLVER",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_BLUEGREEN_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnVolver.setText("Volver");
 		btnVolver.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btnVolver.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/back.png")));
-		btnVolver.setBounds(562, 658, 150, 23);
+		btnVolver.setBounds(583, 658, 200, 30);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
 		contentPane.add(btnVolver);
-		
-		btnActualizar = new GlossyButton("",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_MULTIINDIGO_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
-		btnActualizar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btnActualizar.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/1refresh.png")));
-		btnActualizar.setBounds(1190, 183, 32, 32);
-		btnActualizar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				actualizarDatos();
-			}
-		});
-		contentPane.add(btnActualizar);
-		
-		btnVer = new GlossyButton("",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_LIME_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
-		btnVer.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btnVer.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/find_reclamo.png")));
-		btnVer.setBounds(1110, 183, 32, 32);
-		btnVer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				verReclamante();
-			}
-		});
-		contentPane.add(btnVer);
 		
 		JPanel primer_panel = new TransparentPanel();
 		primer_panel.setBounds(10, 11, 345, 209);
@@ -421,23 +355,6 @@ public class GUIGestionPedidoAgente extends JFrame{
 		segundo_panel.add(lbl_PNC);
 		lbl_PNC.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblIdMuleto = new JLabel("ID Muleto");
-		lblIdMuleto.setBorder(null);
-		lblIdMuleto.setBounds(0, 135, 135, 20);
-		segundo_panel.add(lblIdMuleto);
-		lblIdMuleto.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		tfMuleto = new JTextField();
-		tfMuleto.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tfMuleto.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				filtrarPorMuleto();
-			}
-		});
-		tfMuleto.setBounds(135, 135, 128, 20);
-		segundo_panel.add(tfMuleto);
-		tfMuleto.setColumns(10);
-		
 		tfpnc = new JTextField();
 		tfpnc.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tfpnc.addCaretListener(new CaretListener() {
@@ -462,20 +379,6 @@ public class GUIGestionPedidoAgente extends JFrame{
 				filtrarPorNum_Pieza();
 			}
 		});
-//		tfNumPieza.addKeyListener(new KeyListener() {
-//			private int limite;
-//			public void keyTyped(KeyEvent e) {
-//				if (tfNumPieza.getText().length()>=limite){
-//					e.consume();					
-//				}
-//			}
-//			@Override
-//			public void keyPressed(KeyEvent arg0) {
-//			}
-//			@Override
-//			public void keyReleased(KeyEvent arg0) {
-//			}
-//		});
 		tfNumPieza.setColumns(10);
 		tfNumPieza.setBounds(135, 85, 128, 20);
 		segundo_panel.add(tfNumPieza);
@@ -516,13 +419,6 @@ public class GUIGestionPedidoAgente extends JFrame{
 			if (tfDominio.getText().length()>=limite){
 				e.consume();					
 			}
-//			else{
-//				Pattern pat = Pattern.compile("^d{0,3}[A-Z]{0,3}$");
-//				Matcher mat = pat.matcher(tfDominio.getText().toLowerCase());
-//				if (!mat.find()) {
-//					e.consume();
-//				} 
-//			}
 		}
 		@Override
 		public void keyPressed(KeyEvent arg0) {
@@ -568,50 +464,50 @@ public class GUIGestionPedidoAgente extends JFrame{
 		tfVIN.setBounds(135, 60, 128, 20);
 		segundo_panel.add(tfVIN);
 		
-		JLabel lblNumeroBdg = new JLabel("Numero BDG");
+		JLabel lblNumeroBdg = new JLabel("Numero Recurso");
 		lblNumeroBdg.setBorder(null);
-		lblNumeroBdg.setBounds(0, 160, 135, 20);
+		lblNumeroBdg.setBounds(0, 135, 135, 20);
 		segundo_panel.add(lblNumeroBdg);
 		lblNumeroBdg.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblIdBdg = new JLabel("Fecha BDG");
+		JLabel lblIdBdg = new JLabel("Fecha Recurso");
 		lblIdBdg.setBorder(null);
-		lblIdBdg.setBounds(0, 185, 135, 20);
+		lblIdBdg.setBounds(0, 160, 135, 20);
 		segundo_panel.add(lblIdBdg);
 		lblIdBdg.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		dCFBDG = new JDateChooser();
-		dCFBDG.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		dCFBDG.setBounds(135, 185, 128, 20);
-		segundo_panel.add(dCFBDG);
+		dCFRecurso = new JDateChooser();
+		dCFRecurso.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		dCFRecurso.setBounds(135, 160, 128, 20);
+		segundo_panel.add(dCFRecurso);
 		
 		btn_clear_FBDG = new JButton("");
 		btn_clear_FBDG.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		btn_clear_FBDG.setBounds(275, 185, 25, 20);
+		btn_clear_FBDG.setBounds(275, 160, 25, 20);
 		segundo_panel.add(btn_clear_FBDG);
 		btn_clear_FBDG.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (dCFBDG.getDate()!=null){
-					dCFBDG.setDate(null);
+				if (dCFRecurso.getDate()!=null){
+					dCFRecurso.setDate(null);
 					actualizarDatos();
 				}
 			}
 		});
 		btn_clear_FBDG.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
 		
-		tfNumeroBDG = new JTextField();
-		tfNumeroBDG.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tfNumeroBDG.setBounds(135, 160, 128, 20);
-		segundo_panel.add(tfNumeroBDG);
-		tfNumeroBDG.addCaretListener(new CaretListener() {
+		tfNumeroRecurso = new JTextField();
+		tfNumeroRecurso.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tfNumeroRecurso.setBounds(135, 135, 128, 20);
+		segundo_panel.add(tfNumeroRecurso);
+		tfNumeroRecurso.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent e) {
-				filtrarPorNumBDG();
+				filtrarPorNumRecurso();
 			}
 		});
-		tfNumeroBDG.setColumns(10);
-		dCFBDG.getDateEditor().addPropertyChangeListener(new PropertyChangeListener(){ 
+		tfNumeroRecurso.setColumns(10);
+		dCFRecurso.getDateEditor().addPropertyChangeListener(new PropertyChangeListener(){ 
 	        public void propertyChange(PropertyChangeEvent e) {
-	               filtrarPorFBDG();
+	               filtrarPorFRecurso();
 	        }
 		});
 		
@@ -655,13 +551,13 @@ public class GUIGestionPedidoAgente extends JFrame{
 		JLabel lblFechaEnvioAgente = new JLabel("Fecha Envio Agente");
 		lblFechaEnvioAgente.setBorder(null);
 		lblFechaEnvioAgente.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFechaEnvioAgente.setBounds(0, 159, 164, 20);
+		lblFechaEnvioAgente.setBounds(0, 60, 164, 20);
 		tercer_panel.add(lblFechaEnvioAgente);
 		
 		JLabel lblFechaRecepcionAgente = new JLabel("Fecha Recepcion Agente");
 		lblFechaRecepcionAgente.setBorder(null);
 		lblFechaRecepcionAgente.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFechaRecepcionAgente.setBounds(0, 184, 164, 20);
+		lblFechaRecepcionAgente.setBounds(0, 85, 164, 20);
 		tercer_panel.add(lblFechaRecepcionAgente);
 		
 		dCFRA = new JDateChooser();
@@ -671,7 +567,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 	               filtrarPorFRA();
 	        }
 		});
-		dCFRA.setBounds(163, 184, 128, 20);
+		dCFRA.setBounds(163, 85, 128, 20);
 		tercer_panel.add(dCFRA);
 		
 		dCFEA = new JDateChooser();
@@ -681,13 +577,13 @@ public class GUIGestionPedidoAgente extends JFrame{
 	               filtrarPorFEA();
 	        }
 		});
-		dCFEA.setBounds(163, 159, 128, 20);
+		dCFEA.setBounds(163, 60, 128, 20);
 		tercer_panel.add(dCFEA);
 		
 		JLabel lblFechaDevolucionFabrica = new JLabel("Fecha Devolucion Fabrica");
 		lblFechaDevolucionFabrica.setBorder(null);
 		lblFechaDevolucionFabrica.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFechaDevolucionFabrica.setBounds(0, 109, 164, 20);
+		lblFechaDevolucionFabrica.setBounds(0, 159, 164, 20);
 		tercer_panel.add(lblFechaDevolucionFabrica);
 		
 		dcFEF = new JDateChooser();
@@ -697,25 +593,8 @@ public class GUIGestionPedidoAgente extends JFrame{
 	               filtrarPorFEF();
 	        }
 		});
-		dcFEF.setBounds(163, 109, 128, 20);
+		dcFEF.setBounds(163, 159, 128, 20);
 		tercer_panel.add(dcFEF);
-		
-		JLabel lblNumeroRemito = new JLabel("Numero Remito");
-		lblNumeroRemito.setBorder(null);
-		lblNumeroRemito.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNumeroRemito.setBounds(0, 134, 164, 20);
-		tercer_panel.add(lblNumeroRemito);
-		
-		tfRemito = new JTextField();
-		tfRemito.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tfRemito.addCaretListener(new CaretListener() {
-			public void caretUpdate(CaretEvent e) {
-				filtrarPorRemito();
-			}
-		});
-		tfRemito.setColumns(10);
-		tfRemito.setBounds(163, 134, 128, 20);
-		tercer_panel.add(tfRemito);
 		
 		btn_clear_FSF = new JButton("");
 		btn_clear_FSF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
@@ -757,7 +636,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 			}
 		});
 		btn_clear_FDF.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
-		btn_clear_FDF.setBounds(301, 109, 25, 20);
+		btn_clear_FDF.setBounds(301, 159, 25, 20);
 		tercer_panel.add(btn_clear_FDF);
 		
 		btn_clear_FEA = new JButton("");
@@ -771,7 +650,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 			}
 		});
 		btn_clear_FEA.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
-		btn_clear_FEA.setBounds(301, 159, 25, 20);
+		btn_clear_FEA.setBounds(301, 60, 25, 20);
 		tercer_panel.add(btn_clear_FEA);
 		
 		btn_clear_FRA = new JButton("");
@@ -785,19 +664,19 @@ public class GUIGestionPedidoAgente extends JFrame{
 			}
 		});
 		btn_clear_FRA.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
-		btn_clear_FRA.setBounds(301, 184, 25, 20);
+		btn_clear_FRA.setBounds(301, 85, 25, 20);
 		tercer_panel.add(btn_clear_FRA);
 		
 		JLabel lblFechaAprobadoSolicitud = new JLabel("Fecha Aprobada Solicitud");
 		lblFechaAprobadoSolicitud.setBorder(null);
 		lblFechaAprobadoSolicitud.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFechaAprobadoSolicitud.setBounds(0, 85, 164, 20);
+		lblFechaAprobadoSolicitud.setBounds(0, 135, 164, 20);
 		tercer_panel.add(lblFechaAprobadoSolicitud);
 		
 		JLabel lblFechaSolicitudDevolucion = new JLabel("Fecha Solicitud Devolucion");
 		lblFechaSolicitudDevolucion.setBorder(null);
 		lblFechaSolicitudDevolucion.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFechaSolicitudDevolucion.setBounds(0, 60, 164, 20);
+		lblFechaSolicitudDevolucion.setBounds(0, 110, 164, 20);
 		tercer_panel.add(lblFechaSolicitudDevolucion);
 		
 		dcFSD = new JDateChooser();
@@ -807,7 +686,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 	               filtrarPorFSD();
 	        }
 		});
-		dcFSD.setBounds(163, 60, 128, 20);
+		dcFSD.setBounds(163, 110, 128, 20);
 		tercer_panel.add(dcFSD);
 		
 		dcFAS = new JDateChooser();
@@ -817,7 +696,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 	               filtrarPorFAS();
 	        }
 		});
-		dcFAS.setBounds(163, 85, 128, 20);
+		dcFAS.setBounds(163, 135, 128, 20);
 		tercer_panel.add(dcFAS);
 		
 		btn_clear_FAS = new JButton("");
@@ -831,7 +710,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 			}
 		});
 		btn_clear_FAS.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
-		btn_clear_FAS.setBounds(301, 85, 25, 20);
+		btn_clear_FAS.setBounds(301, 135, 25, 20);
 		tercer_panel.add(btn_clear_FAS);
 		
 		btn_clear_FSD = new JButton("");
@@ -845,10 +724,61 @@ public class GUIGestionPedidoAgente extends JFrame{
 			}
 		});
 		btn_clear_FSD.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
-		btn_clear_FSD.setBounds(301, 60, 25, 20);
+		btn_clear_FSD.setBounds(301, 110, 25, 20);
 		tercer_panel.add(btn_clear_FSD);
 		
+		tfRemito = new JTextField();
+		tfRemito.setBounds(163, 185, 128, 20);
+		tercer_panel.add(tfRemito);
+		tfRemito.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		tfRemito.addCaretListener(new CaretListener() {
+			public void caretUpdate(CaretEvent e) {
+				filtrarPorRemito();
+			}
+		});
+		tfRemito.setColumns(10);
+		
+		JLabel lblNumeroRemito = new JLabel("Numero Guia");
+		lblNumeroRemito.setBounds(0, 185, 164, 20);
+		tercer_panel.add(lblNumeroRemito);
+		lblNumeroRemito.setBorder(null);
+		lblNumeroRemito.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		panel = new TransparentPanel();
+		panel.setBounds(1039, 11, 317, 209);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		btnAgregar = new GlossyButton("AGREGAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_GREEN_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnAgregar.setText("Nuevo Pedido");
+		btnAgregar.setBounds(58, 10, 200, 30);
+		panel.add(btnAgregar);
+		btnAgregar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnAgregar.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/add.png")));
+		
+		btnModificar = new GlossyButton("MODIFICAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_LIGHTGRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnModificar.setText("Modificar Pedido");
+		btnModificar.setBounds(58, 60, 200, 30);
+		panel.add(btnModificar);
+		btnModificar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnModificar.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/edit.png")));
+		
+		btnEliminar = new GlossyButton("ELIMINAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_RED_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnEliminar.setText("Eliminar Pedido");
+		btnEliminar.setBounds(58, 110, 200, 30);
+		panel.add(btnEliminar);
+		btnEliminar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnEliminar.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/delete.png")));
+		
+		btnVer = new GlossyButton("",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_LIME_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnVer.setBounds(155, 166, 32, 32);
+		panel.add(btnVer);
+		btnVer.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnVer.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/find_reclamo.png")));
+		
 		btnExportarTabla = new GlossyButton("",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_METALIC_BLUE_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnExportarTabla.setBounds(195, 166, 32, 32);
+		panel.add(btnExportarTabla);
 		btnExportarTabla.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btnExportarTabla.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -856,8 +786,52 @@ public class GUIGestionPedidoAgente extends JFrame{
 			}
 		});
 		btnExportarTabla.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/formulario.png")));
-		btnExportarTabla.setBounds(1150, 183, 32, 32);
-		contentPane.add(btnExportarTabla);
+		
+		btnActualizar = new GlossyButton("",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_MULTIINDIGO_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnActualizar.setBounds(235, 166, 32, 32);
+		panel.add(btnActualizar);
+		btnActualizar.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnActualizar.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/1refresh.png")));
+		
+		btnImprimir = new GlossyButton("",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_GRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnImprimir.setBounds(275, 166, 32, 32);
+		panel.add(btnImprimir);
+		btnImprimir.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		btnImprimir.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/printer.png")));
+		btnImprimir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					tablaPedidos.print();
+				} catch (PrinterException ex) {
+					JOptionPane.showMessageDialog(contentPane,"Error al imprimir.","Error",JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				actualizarDatos();
+			}
+		});
+		btnVer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				verReclamante();
+			}
+		});
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				eliminar();
+			}
+		});
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modificar();
+			}
+		});
+		btnAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mediador.altaPedidoAgente();
+			}
+		});
 	}
 	protected void exportarTablas() {
 		try {
@@ -1346,30 +1320,8 @@ public class GUIGestionPedidoAgente extends JFrame{
 		}
 	}
 
-	protected void filtrarPorMuleto() {
-		String filtro = tfMuleto.getText().toLowerCase();
-		Vector<Vector<String>>datos = new Vector<Vector<String>>();
-		Vector<Vector<String>> registrantes = datosTabla;
-		for (int i=0; i< registrantes.size();i++){
-			Vector<String> registrante = registrantes.elementAt(i);
-			if(registrante.elementAt(21)!=null){
-				Pattern pat = Pattern.compile(".*"+filtro+".*");
-				Matcher mat = pat.matcher(registrante.elementAt(21).toLowerCase());
-				if (mat.find())
-					datos.add(registrante);
-			}
-		}
-		modelo.setDataVector(datos, nombreColumnas);
-		modelo.fireTableStructureChanged();
-		
-		for(int i = 0; i < tablaPedidos.getColumnCount(); i++) {
-			tablaPedidos.getColumnModel().getColumn(i).setPreferredWidth(anchos.elementAt(i));
-			tablaPedidos.getColumnModel().getColumn(i).setMinWidth(anchos.elementAt(i));
-		}
-	}
-
-	protected void filtrarPorNumBDG() {
-		String filtro = tfNumeroBDG.getText().toLowerCase();
+	protected void filtrarPorNumRecurso() {
+		String filtro = tfNumeroRecurso.getText().toLowerCase();
 		Vector<Vector<String>>datos = new Vector<Vector<String>>();
 		Vector<Vector<String>> registrantes = datosTabla;
 		for (int i=0; i< registrantes.size();i++){
@@ -1390,10 +1342,10 @@ public class GUIGestionPedidoAgente extends JFrame{
 		}
 	}
 
-	protected void filtrarPorFBDG() {
-		if(dCFBDG.getDate()!=null){
+	protected void filtrarPorFRecurso() {
+		if(dCFRecurso.getDate()!=null){
 			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy"); 
-			String filtro = format2.format(dCFBDG.getDate());
+			String filtro = format2.format(dCFRecurso.getDate());
 		    		    
 			Vector<Vector<String>>datos = new Vector<Vector<String>>();
 			Vector<Vector<String>> registrantes = datosTabla;
@@ -1422,10 +1374,8 @@ public class GUIGestionPedidoAgente extends JFrame{
 		if (row >= 0) {
 			int aux = tablaPedidos.convertRowIndexToModel(row);
 			Long id_pedido = new Long (tablaPedidos.getValueAt(aux, 0).toString());
-			if (JOptionPane.showConfirmDialog(null, "¿Modificar Pedido [ID:"+id_pedido+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/edit.png"))) == JOptionPane.YES_OPTION){ 
-				mediador.modificarPedidoAgente(id_pedido);;
-				actualizarDatos();
-			}
+			mediador.modificarPedidoAgente(id_pedido);;
+			actualizarDatos();
 		}else{
 			JOptionPane.showMessageDialog(contentPane,"Seleccione un pedido primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
 		}
@@ -1489,15 +1439,15 @@ public class GUIGestionPedidoAgente extends JFrame{
 		anchos.add(mediano);
 		nombreColumnas.add("Fecha Devolucion Fabrica");//18
 		anchos.add(mediano);
-		nombreColumnas.add("Numero Remito");//19
+		nombreColumnas.add("Numero Guia");//19
 		anchos.add(chico);
 		nombreColumnas.add("PNC");//20
 		anchos.add(chico);
-		nombreColumnas.add("Id Muleto");//21
+		nombreColumnas.add("Muleto");//21
 		anchos.add(chico);
-		nombreColumnas.add("Numero BDG");//22
+		nombreColumnas.add("Numero Recurso");//22
 		anchos.add(chico);
-		nombreColumnas.add("Fecha BDG");//23
+		nombreColumnas.add("Fecha Recurso");//23
 		anchos.add(chico);
 		//
 		agentes = new Vector<String>();
@@ -1596,14 +1546,14 @@ public class GUIGestionPedidoAgente extends JFrame{
 			else
 				row.add("");
 			if (pedido_pieza.getMuleto()!=null)
-				row.add(pedido_pieza.getMuleto().getId().toString());//Id Muleto
+				row.add("SI");//Id Muleto
 			else
-				row.add("");
-			if (pedido_pieza.getBdg()!=null){
-				row.add(pedido_pieza.getBdg().getNumero_bdg());//Numero BDG
-				if(pedido_pieza.getBdg().getFecha_bdg()!=null){
-					java.sql.Date fbdg = new java.sql.Date(pedido_pieza.getBdg().getFecha_bdg().getTime());
-					row.add(format2.format(fbdg));//Fecha BDG
+				row.add("NO");
+			if (pedido_pieza.getPedido().getReclamo().getOrden().getRecurso()!=null){
+				row.add(pedido_pieza.getPedido().getReclamo().getOrden().getRecurso().getNumero_recurso());//Numero Recurso
+				if(pedido_pieza.getPedido().getReclamo().getOrden().getRecurso().getFecha_recurso()!=null){
+					java.sql.Date frecurso = new java.sql.Date(pedido_pieza.getPedido().getReclamo().getOrden().getRecurso().getFecha_recurso().getTime());
+					row.add(format2.format(frecurso));//Fecha Recurso
 				}else
 					row.add("");
 			}else{
@@ -1614,125 +1564,6 @@ public class GUIGestionPedidoAgente extends JFrame{
 		}
 		modelo.setDataVector(datosTabla, nombreColumnas);
 		modelo.fireTableStructureChanged();
-//		Vector<PedidoDTO> pedidos = mediador.obtenerPedidosAgentes();
-//		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy"); 
-//		for (int i=0; i< pedidos.size();i++){
-//				Vector<Pedido_PiezaDTO> pedidos_piezas = new Vector<Pedido_PiezaDTO>();
-//				pedidos_piezas = mediador.buscarPedidoPieza(pedidos.elementAt(i).getId());
-//				for (int j=0; j< pedidos_piezas.size();j++){
-//					Vector<String> row = new Vector<String> ();
-//
-//					row.add(pedidos.elementAt(i).getId().toString());//ID Pedido
-//					row.add(pedidos_piezas.elementAt(j).getEstado_pedido());//Estado Pedido
-//					row.add(pedidos_piezas.elementAt(j).getNumero_pedido());//Numero Pedido
-//
-//					if(pedidos.elementAt(i).getFecha_solicitud_pedido()!=null){
-//						java.sql.Date fsp = new java.sql.Date(pedidos.elementAt(i).getFecha_solicitud_pedido().getTime());
-//						row.add(format2.format(fsp));//Fecha Solicitud Pedido
-//					}else{
-//						row.add("");
-//					}			    
-//					
-//					row.add(pedidos.elementAt(i).getReclamo().getRegistrante().getNombre_registrante());//Nombre Agente
-//					if (pedidos.elementAt(i).getReclamo().getOrden()!=null){
-//						row.add(pedidos.elementAt(i).getReclamo().getOrden().getNumero_orden());//Numero Orden
-//					}else{
-//						row.add("");
-//					}
-//					if (pedidos.elementAt(i).getReclamo().getFecha_reclamo()!=null){
-//						java.sql.Date fr = new java.sql.Date(pedidos.elementAt(i).getReclamo().getFecha_reclamo().getTime());
-//						row.add(format2.format(fr));//Fecha Reclamo
-//					}else{
-//						row.add("");
-//					}
-//					row.add(pedidos.elementAt(i).getReclamo().getReclamante().getNombre_apellido());//Nombre Reclamante
-//					
-//					if (pedidos.elementAt(i).getReclamo().getVehiculo()!=null){
-//						row.add(pedidos.elementAt(i).getReclamo().getVehiculo().getNombre_titular());//Nombre Titular
-//						row.add(pedidos.elementAt(i).getReclamo().getVehiculo().getDominio());//Dominio
-//						row.add(pedidos.elementAt(i).getReclamo().getVehiculo().getVin());//VIN
-//					}else{
-//						row.add("");
-//						row.add("");
-//						row.add("");
-//					}
-//					if (pedidos_piezas.elementAt(j).getPieza()!=null){
-//						row.add(pedidos_piezas.elementAt(j).getPieza().getNumero_pieza());//Numero Pieza
-//					}else{
-//						row.add("");
-//					}
-//					if (pedidos_piezas.elementAt(j).getFecha_solicitud_fabrica()!=null){
-//						java.sql.Date fsf = new java.sql.Date(pedidos_piezas.elementAt(j).getFecha_solicitud_fabrica().getTime());
-//						row.add(format2.format(fsf));//Fecha Solicitud Fabrica
-//					}else{
-//						row.add("");
-//					}
-//					if (pedidos_piezas.elementAt(j).getFecha_recepcion_fabrica()!=null){
-//						java.sql.Date frf = new java.sql.Date(pedidos_piezas.elementAt(j).getFecha_recepcion_fabrica().getTime());
-//						row.add(format2.format(frf));//Fecha Recepcion Fabrica
-//					}else{
-//						row.add("");
-//					}
-//					if (pedidos_piezas.elementAt(j).getFecha_envio_agente()!=null){
-//						java.sql.Date fea = new java.sql.Date(pedidos_piezas.elementAt(j).getFecha_recepcion_fabrica().getTime());
-//						row.add(format2.format(fea));//Fecha Envio Agente
-//					}else{
-//						row.add("");
-//					}
-//					if (pedidos_piezas.elementAt(j).getFecha_recepcion_agente()!=null){
-//						java.sql.Date fra = new java.sql.Date(pedidos_piezas.elementAt(j).getFecha_recepcion_agente().getTime());
-//						row.add(format2.format(fra));//Fecha Recepcion Agente
-//					}else{
-//						row.add("");
-//					}
-//					if (pedidos_piezas.elementAt(j).getFecha_solicitud_devolucion()!=null){
-//						java.sql.Date fsd = new java.sql.Date(pedidos_piezas.elementAt(j).getFecha_solicitud_devolucion().getTime());
-//						row.add(format2.format(fsd));//Fecha Solicitud Devolucion
-//					}else{
-//						row.add("");
-//					}
-//					if (pedidos_piezas.elementAt(j).getFecha_aprobacion_solicitud_devolucion()!=null){
-//						java.sql.Date fas = new java.sql.Date(pedidos_piezas.elementAt(j).getFecha_aprobacion_solicitud_devolucion().getTime());
-//						row.add(format2.format(fas));//Fecha Aprobada Solicitud
-//					}else{
-//						row.add("");
-//					}
-//					if (pedidos_piezas.elementAt(j).getDevolucion_pieza()!=null && pedidos_piezas.elementAt(j).getDevolucion_pieza().getFecha_devolucion()!=null){
-//						java.sql.Date fdf = new java.sql.Date(pedidos_piezas.elementAt(j).getDevolucion_pieza().getFecha_devolucion().getTime());
-//						row.add(format2.format(fdf));//Fecha Devolucion Fabrica
-//						row.add(pedidos_piezas.elementAt(j).getDevolucion_pieza().getNumero_remito());//Numero Remito
-//					}else{
-//						row.add("");
-//						row.add("");
-//					}
-//					
-//					if (pedidos_piezas.elementAt(j).getPnc()!=null){
-//						row.add(pedidos_piezas.elementAt(j).getPnc());// PCN
-//					}else{
-//						row.add("");
-//					}
-//					if (pedidos_piezas.elementAt(j).getMuleto()!=null){
-//						row.add(pedidos_piezas.elementAt(j).getMuleto().getId().toString());//Id Muleto
-//					}else{
-//						row.add("");
-//					}
-//					if (pedidos_piezas.elementAt(j).getBdg()!=null){
-//						row.add(pedidos_piezas.elementAt(j).getBdg().getNumero_bdg());//Numero BDG
-//						if(pedidos_piezas.elementAt(j).getBdg().getFecha_bdg()!=null){
-//							java.sql.Date fbdg = new java.sql.Date(pedidos_piezas.elementAt(j).getBdg().getFecha_bdg().getTime());
-//							row.add(format2.format(fbdg));//Fecha BDG
-//						}else{
-//							row.add("");
-//						}
-//					}else{
-//						row.add("");
-//						row.add("");
-//					}
-//					datosTabla.add(row);
-//				}
-//		}
-//		modelo.setDataVector(datosTabla, nombreColumnas);
-//		modelo.fireTableStructureChanged();
 	}
 		
 	public void actualizarDatos() {
@@ -1817,14 +1648,14 @@ public class GUIGestionPedidoAgente extends JFrame{
 			else
 				row.add("");
 			if (pedido_pieza.getMuleto()!=null)
-				row.add(pedido_pieza.getMuleto().getId().toString());//Id Muleto
+				row.add("SI");//Id Muleto
 			else
-				row.add("");
-			if (pedido_pieza.getBdg()!=null){
-				row.add(pedido_pieza.getBdg().getNumero_bdg());//Numero BDG
-				if(pedido_pieza.getBdg().getFecha_bdg()!=null){
-					java.sql.Date fbdg = new java.sql.Date(pedido_pieza.getBdg().getFecha_bdg().getTime());
-					row.add(format2.format(fbdg));//Fecha BDG
+				row.add("NO");
+			if (pedido_pieza.getPedido().getReclamo().getOrden().getRecurso()!=null){
+				row.add(pedido_pieza.getPedido().getReclamo().getOrden().getRecurso().getNumero_recurso());//Numero Recurso
+				if(pedido_pieza.getPedido().getReclamo().getOrden().getRecurso().getFecha_recurso()!=null){
+					java.sql.Date frecurso = new java.sql.Date(pedido_pieza.getPedido().getReclamo().getOrden().getRecurso().getFecha_recurso().getTime());
+					row.add(format2.format(frecurso));//Fecha Recurso
 				}else
 					row.add("");
 			}else{
@@ -1851,9 +1682,8 @@ public class GUIGestionPedidoAgente extends JFrame{
 		tfVIN.setText("");
 		tfNumPieza.setText("");
 		tfpnc.setText("");
-		tfMuleto.setText("");
-		tfNumeroBDG.setText("");
-		dCFBDG.setDate(null);
+		tfNumeroRecurso.setText("");
+		dCFRecurso.setDate(null);
 		dCFSF.setDate(null);
 		dCFRF.setDate(null);
 		dcFEF.setDate(null);

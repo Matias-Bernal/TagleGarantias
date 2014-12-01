@@ -205,14 +205,6 @@ public class MediadorPrincipal{
 	}
 
 	// Pedido //
-	public void altaPedidoEntidad() {
-		mediadorPedidos = new MediadorPedido(this);
-		mediadorPedidos.altaPedidoEntidad();
-	}
-	public void altaPedidoAgente() {
-		mediadorPedidos = new MediadorPedido(this);
-		mediadorPedidos.altaPedidoAgente();
-	}
 	public void gestionarPedidoEntidad() {
 		mediadorPedidos = new MediadorPedido(this);
 		mediadorPedidos.gestionarPedidoEntidad();

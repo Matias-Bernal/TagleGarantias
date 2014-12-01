@@ -236,68 +236,6 @@ public class GUIMenu_Principal extends JFrame{
 		});
 		mnVehiculos.add(mntmGestionVehiculo);
 		
-		JMenu mnOrden = new JMenu("Ordenes");
-		mnOrden.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/ordenen.png")));
-		menuBar.add(mnOrden);
-		
-		JMenuItem mntmAltaOrden = new JMenuItem("Alta Orden");
-		mntmAltaOrden.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/add_orden.png")));
-		mntmAltaOrden.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				mediadorPrincipal.altaOrden();
-			}
-		});
-		mnOrden.add(mntmAltaOrden);
-		
-		JMenuItem mntmGestionOrden = new JMenuItem("Gestion Orden");
-		mntmGestionOrden.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/edit_orden.png")));
-		mntmGestionOrden.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				mediadorPrincipal.gestionarOrden();
-			}
-		});
-		mnOrden.add(mntmGestionOrden);
-		
-		JMenu mnReclamos = new JMenu("Reclamos");
-		mnReclamos.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/reclamo.png")));
-		menuBar.add(mnReclamos);
-		
-		JMenuItem mntmAltaReclamoAgente = new JMenuItem("Alta Reclamo Agente");
-		mntmAltaReclamoAgente.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/add_reclamo_agente.png")));
-		mntmAltaReclamoAgente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				mediadorPrincipal.altaReclamoAgente();
-			}
-		});
-		mnReclamos.add(mntmAltaReclamoAgente);
-		
-		JMenuItem mntmGestionReclamoAgente = new JMenuItem("Gestionar Reclamos Agente");
-		mntmGestionReclamoAgente.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/eddit_reclamo_agente.png")));
-		mntmGestionReclamoAgente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				mediadorPrincipal.gestionarReclamoAgente();
-			}
-		});
-		
-		JMenuItem mntmAltaReclamoEntidad = new JMenuItem("Alta Reclamo Entidad");
-		mntmAltaReclamoEntidad.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/add_reclamo_entidad.png")));
-		mntmAltaReclamoEntidad.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				mediadorPrincipal.altaReclamoEntidad();
-			}
-		});
-		mnReclamos.add(mntmAltaReclamoEntidad);
-		mnReclamos.add(mntmGestionReclamoAgente);
-		
-		JMenuItem mntmGestionarReclamosEntidad = new JMenuItem("Gestionar Reclamos Entidad");
-		mntmGestionarReclamosEntidad.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/eddit_reclamo_entidad.png")));
-		mntmGestionarReclamosEntidad.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				mediadorPrincipal.gestionarReclamoEntidad();
-			}
-		});
-		mnReclamos.add(mntmGestionarReclamosEntidad);
-		
 		JMenu mnReportes = new JMenu("Reportes");
 		mnReportes.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/tablas.png")));
 		menuBar.add(mnReportes);
@@ -509,6 +447,7 @@ public class GUIMenu_Principal extends JFrame{
 		mnAyuda.add(mntmAcercaDe);
 		
 		glsbtnReporteRapidoEntidad = new GlossyButton("REPORTE RAPIDO ENTIDAD",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_METALLICGRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		glsbtnReporteRapidoEntidad.setText("REPORTES ENTIDADES");
 		glsbtnReporteRapidoEntidad.setLocation(50, 300);
 		glsbtnReporteRapidoEntidad.setSize(315, 65);
 		glsbtnReporteRapidoEntidad.setHorizontalAlignment(SwingConstants.LEADING);
@@ -521,11 +460,12 @@ public class GUIMenu_Principal extends JFrame{
 		});
 		
 		btnReclamoRapidoEntidad = new GlossyButton("RECLAMO RAPIDO ENTIDAD",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_METALLICGRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnReclamoRapidoEntidad.setText("NUEVO PEDIDO ENTIDAD");
 		btnReclamoRapidoEntidad.setLocation(50, 50);
 		btnReclamoRapidoEntidad.setSize(310, 65);
 		btnReclamoRapidoEntidad.setHorizontalAlignment(SwingConstants.LEADING);
 		btnReclamoRapidoEntidad.setFont(new Font("Arial Black", Font.BOLD, 14));
-		btnReclamoRapidoEntidad.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/reclamo_rapido.png")));
+		btnReclamoRapidoEntidad.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/add_pedido_entidad.png")));
 		btnReclamoRapidoEntidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mediadorPrincipal.reclamoRapidoEntidad();
@@ -557,7 +497,7 @@ public class GUIMenu_Principal extends JFrame{
 		contentPane.add(btnReclamos_Piezas);
 		
 		panelNotificaciones = new TransparentPanel();
-		panelNotificaciones.setBounds(727, 50, 594, 656);
+		panelNotificaciones.setBounds(727, 50, 594, 640);
 		panelNotificaciones.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		contentPane.add(panelNotificaciones);
 		
@@ -631,6 +571,7 @@ public class GUIMenu_Principal extends JFrame{
 		contentPane.add(glsbtnReporteRapidoEntidad);
 		
 		glsbtnReporteRapidoAgente = new GlossyButton("REPORTE RAPIDO AGENTES",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_METALLICGRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		glsbtnReporteRapidoAgente.setText("REPORTES AGENTES");
 		glsbtnReporteRapidoAgente.setBounds(380, 300, 310, 65);
 		glsbtnReporteRapidoAgente.setHorizontalAlignment(SwingConstants.LEADING);
 		glsbtnReporteRapidoAgente.setFont(new Font("Arial Black", Font.BOLD, 14));
@@ -643,7 +584,8 @@ public class GUIMenu_Principal extends JFrame{
 		contentPane.add(glsbtnReporteRapidoAgente);
 		
 		btnReclamoRapidoAgente = new GlossyButton("RECLAMO RAPIDO AGENTE",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_METALLICGRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
-		btnReclamoRapidoAgente.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/reclamo_rapido.png")));
+		btnReclamoRapidoAgente.setText("NUEVO PEDIDO AGENTE");
+		btnReclamoRapidoAgente.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/add_reclamo_agente.png")));
 		btnReclamoRapidoAgente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mediadorPrincipal.reclamoRapidoAgente();

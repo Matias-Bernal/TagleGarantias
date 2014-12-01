@@ -133,6 +133,7 @@ public class GUIModificarPedidoEntidad extends JFrame {
 	private JDateChooser dCFCierreOrden;
 	private JDateChooser dCFechaRecurso;
 	private JDateChooser dCFSP;
+	private JButton btnModificarPieza;
 		
 	public GUIModificarPedidoEntidad(final MediadorPedido mediador, PedidoDTO pedido) {
 		this.setMediador(mediador);
@@ -219,7 +220,7 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		
 		JPanel panel_piezas = new TransparentPanel();
 		panel_piezas.setBorder(null);
-		panel_piezas.setBounds(27, 226, 420, 337);
+		panel_piezas.setBounds(26, 245, 420, 340);
 		contentPane.add(panel_piezas);
 		panel_piezas.setLayout(null);
 		
@@ -315,7 +316,7 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		panel_piezas.add(lblPiezas_1);
 		
 		JPanel vehiculo = new TransparentPanel();
-		vehiculo.setBounds(474, 45, 418, 170);
+		vehiculo.setBounds(472, 45, 420, 170);
 		contentPane.add(vehiculo);
 		vehiculo.setLayout(null);
 		
@@ -395,7 +396,7 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		lblNombreTitular.setFont(new Font("Tahoma", Font.BOLD, 10));
 		
 		panel = new TransparentPanel();
-		panel.setBounds(27, 45, 420, 170);
+		panel.setBounds(26, 45, 420, 170);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -485,7 +486,7 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		tfNumero_Pedido.setColumns(10);
 		
 		orden = new TransparentPanel();
-		orden.setBounds(919, 45, 418, 170);
+		orden.setBounds(918, 45, 420, 170);
 		contentPane.add(orden);
 		orden.setLayout(null);
 		
@@ -580,20 +581,20 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		btn_clear_frecurso.setBounds(330, 130, 25, 20);
 		orden.add(btn_clear_frecurso);
 		
-		JPanel panel_1 = new TransparentPanel();
-		panel_1.setBounds(474, 226, 420, 337);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
+		JPanel fabrica = new TransparentPanel();
+		fabrica.setBounds(472, 245, 420, 340);
+		contentPane.add(fabrica);
+		fabrica.setLayout(null);
 		
 		taDesc_Muleto = new JTextArea(4, 31);
 		taDesc_Muleto.setBounds(160, 190, 250, 70);
-		panel_1.add(taDesc_Muleto);
+		fabrica.add(taDesc_Muleto);
 		taDesc_Muleto.setLineWrap(true);
 		taDesc_Muleto.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
 		tfVIN_Muleto = new JTextField();
 		tfVIN_Muleto.setBounds(160, 160, 160, 20);
-		panel_1.add(tfVIN_Muleto);
+		fabrica.add(tfVIN_Muleto);
 		tfVIN_Muleto.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tfVIN_Muleto.setToolTipText("Ej 12345678901234567");
 		tfVIN_Muleto.addKeyListener(new KeyListener() {
@@ -617,38 +618,38 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		
 		JLabel lblMuleto = new JLabel("MULETO");
 		lblMuleto.setBounds(0, 130, 420, 20);
-		panel_1.add(lblMuleto);
+		fabrica.add(lblMuleto);
 		lblMuleto.setBorder(null);
 		lblMuleto.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblMuleto.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lblVin = new JLabel("VIN Muleto");
 		lblVin.setBounds(10, 160, 150, 20);
-		panel_1.add(lblVin);
+		fabrica.add(lblVin);
 		lblVin.setBorder(null);
 		lblVin.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lblDescripcionMuleto = new JLabel("Descripcion Muleto");
 		lblDescripcionMuleto.setBounds(10, 190, 150, 20);
-		panel_1.add(lblDescripcionMuleto);
+		fabrica.add(lblDescripcionMuleto);
 		lblDescripcionMuleto.setBorder(null);
 		lblDescripcionMuleto.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		dcFSF = new JDateChooser();
 		dcFSF.setBounds(160, 10, 160, 20);
-		panel_1.add(dcFSF);
+		fabrica.add(dcFSF);
 		dcFSF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
 		JLabel lblFechaSolicitudFabrica = new JLabel("Fecha Solicitud Fabrica");
 		lblFechaSolicitudFabrica.setBounds(10, 10, 150, 20);
-		panel_1.add(lblFechaSolicitudFabrica);
+		fabrica.add(lblFechaSolicitudFabrica);
 		lblFechaSolicitudFabrica.setBorder(null);
 		lblFechaSolicitudFabrica.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblFechaSolicitudFabrica.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		btn_clear_FSF = new JButton("");
 		btn_clear_FSF.setBounds(330, 10, 25, 20);
-		panel_1.add(btn_clear_FSF);
+		fabrica.add(btn_clear_FSF);
 		btn_clear_FSF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btn_clear_FSF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -660,19 +661,19 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		
 		JLabel lblFechaRecepcionFabrica = new JLabel("Fecha Recepcion Fabrica");
 		lblFechaRecepcionFabrica.setBounds(10, 40, 150, 20);
-		panel_1.add(lblFechaRecepcionFabrica);
+		fabrica.add(lblFechaRecepcionFabrica);
 		lblFechaRecepcionFabrica.setBorder(null);
 		lblFechaRecepcionFabrica.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblFechaRecepcionFabrica.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		dcFRF = new JDateChooser();
 		dcFRF.setBounds(160, 40, 160, 20);
-		panel_1.add(dcFRF);
+		fabrica.add(dcFRF);
 		dcFRF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
 		btn_clear_FRF = new JButton("");
 		btn_clear_FRF.setBounds(330, 40, 25, 20);
-		panel_1.add(btn_clear_FRF);
+		fabrica.add(btn_clear_FRF);
 		btn_clear_FRF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btn_clear_FRF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -684,32 +685,32 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		
 		JLabel lblFechaCambio = new JLabel("Fecha Turno");
 		lblFechaCambio.setBounds(10, 100, 150, 20);
-		panel_1.add(lblFechaCambio);
+		fabrica.add(lblFechaCambio);
 		lblFechaCambio.setBorder(null);
 		lblFechaCambio.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFechaCambio.setFont(new Font("Tahoma", Font.BOLD, 10));
 		
 		dcFTurno = new JDateChooser();
 		dcFTurno.setBounds(160, 100, 160, 20);
-		panel_1.add(dcFTurno);
+		fabrica.add(dcFTurno);
 		dcFTurno.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
 		btn_clear_FCambio = new JButton("");
 		btn_clear_FCambio.setBounds(330, 100, 25, 20);
-		panel_1.add(btn_clear_FCambio);
+		fabrica.add(btn_clear_FCambio);
 		btn_clear_FCambio.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btn_clear_FCambio.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
 		
 		JLabel lblEstadoPedido = new JLabel("Estado Pedido");
 		lblEstadoPedido.setBounds(10, 70, 150, 20);
-		panel_1.add(lblEstadoPedido);
+		fabrica.add(lblEstadoPedido);
 		lblEstadoPedido.setBorder(null);
 		lblEstadoPedido.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tfEstado_Pedido = new JTextField();
 		tfEstado_Pedido.setBackground(Color.LIGHT_GRAY);
 		tfEstado_Pedido.setBounds(160, 70, 250, 20);
-		panel_1.add(tfEstado_Pedido);
+		fabrica.add(tfEstado_Pedido);
 		tfEstado_Pedido.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tfEstado_Pedido.setEditable(false);
 		tfEstado_Pedido.setColumns(10);
@@ -720,76 +721,76 @@ public class GUIModificarPedidoEntidad extends JFrame {
 			}
 		});
 		
-		JPanel panel_2 = new TransparentPanel();
-		panel_2.setBounds(921, 226, 418, 337);
-		contentPane.add(panel_2);
-		panel_2.setLayout(null);
+		JPanel devoluciones = new TransparentPanel();
+		devoluciones.setBounds(918, 245, 420, 340);
+		contentPane.add(devoluciones);
+		devoluciones.setLayout(null);
 		
 		JLabel lblManoObra = new JLabel("MANO OBRA");
 		lblManoObra.setBounds(0, 10, 418, 20);
-		panel_2.add(lblManoObra);
+		devoluciones.add(lblManoObra);
 		lblManoObra.setBorder(null);
 		lblManoObra.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblManoObra.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lblCantidadHs = new JLabel("Horas de Mano Obra");
 		lblCantidadHs.setBounds(10, 40, 150, 20);
-		panel_2.add(lblCantidadHs);
+		devoluciones.add(lblCantidadHs);
 		lblCantidadHs.setBorder(null);
 		lblCantidadHs.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tfHs_Mano_Obra = new JTextField();
 		tfHs_Mano_Obra.setBounds(160, 40, 160, 20);
-		panel_2.add(tfHs_Mano_Obra);
+		devoluciones.add(tfHs_Mano_Obra);
 		tfHs_Mano_Obra.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tfHs_Mano_Obra.setColumns(10);
 		
 		JLabel lblValor = new JLabel(" Valor de Mano Obra");
 		lblValor.setBounds(10, 70, 150, 20);
-		panel_2.add(lblValor);
+		devoluciones.add(lblValor);
 		lblValor.setBorder(null);
 		lblValor.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tfVal_Mano_Obra = new JTextField();
 		tfVal_Mano_Obra.setBounds(160, 70, 160, 20);
-		panel_2.add(tfVal_Mano_Obra);
+		devoluciones.add(tfVal_Mano_Obra);
 		tfVal_Mano_Obra.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tfVal_Mano_Obra.setColumns(10);
 		
 		JLabel lblCodigoManoObra = new JLabel("Codigo de Mano Obra");
 		lblCodigoManoObra.setBounds(10, 100, 150, 20);
-		panel_2.add(lblCodigoManoObra);
+		devoluciones.add(lblCodigoManoObra);
 		lblCodigoManoObra.setBorder(null);
 		lblCodigoManoObra.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tfCod_Mano_Obra = new JTextField();
 		tfCod_Mano_Obra.setBounds(160, 100, 160, 20);
-		panel_2.add(tfCod_Mano_Obra);
+		devoluciones.add(tfCod_Mano_Obra);
 		tfCod_Mano_Obra.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tfCod_Mano_Obra.setColumns(10);
 		
 		JLabel lblDevolucion = new JLabel("DEVOLUCION");
 		lblDevolucion.setBounds(0, 130, 418, 20);
-		panel_2.add(lblDevolucion);
+		devoluciones.add(lblDevolucion);
 		lblDevolucion.setBorder(null);
 		lblDevolucion.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblDevolucion.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel label_3 = new JLabel("Fecha Devolucion");
 		label_3.setBounds(10, 160, 140, 20);
-		panel_2.add(label_3);
+		devoluciones.add(label_3);
 		label_3.setBorder(null);
 		label_3.setFont(new Font("Tahoma", Font.BOLD, 10));
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		dcFDF = new JDateChooser();
 		dcFDF.setBounds(150, 160, 160, 20);
-		panel_2.add(dcFDF);
+		devoluciones.add(dcFDF);
 		dcFDF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
 		btn_clear_FDF = new JButton("");
 		btn_clear_FDF.setBounds(320, 160, 25, 20);
-		panel_2.add(btn_clear_FDF);
+		devoluciones.add(btn_clear_FDF);
 		btn_clear_FDF.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btn_clear_FDF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -801,45 +802,51 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		
 		tfNumero_Remito = new JTextField();
 		tfNumero_Remito.setBounds(150, 190, 160, 20);
-		panel_2.add(tfNumero_Remito);
+		devoluciones.add(tfNumero_Remito);
 		tfNumero_Remito.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tfNumero_Remito.setColumns(10);
 		
 		JLabel label_4 = new JLabel("Numero Remito");
 		label_4.setBounds(10, 190, 140, 20);
-		panel_2.add(label_4);
+		devoluciones.add(label_4);
 		label_4.setBorder(null);
 		label_4.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel label_5 = new JLabel("Transporte");
 		label_5.setBounds(10, 220, 140, 20);
-		panel_2.add(label_5);
+		devoluciones.add(label_5);
 		label_5.setBorder(null);
 		label_5.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tfTransporte = new JTextField();
 		tfTransporte.setBounds(150, 220, 160, 20);
-		panel_2.add(tfTransporte);
+		devoluciones.add(tfTransporte);
 		tfTransporte.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tfTransporte.setColumns(10);
 		
 		JLabel lblNumeroGuia = new JLabel("Numero Guia");
 		lblNumeroGuia.setBounds(10, 250, 140, 20);
-		panel_2.add(lblNumeroGuia);
+		devoluciones.add(lblNumeroGuia);
 		lblNumeroGuia.setBorder(null);
 		lblNumeroGuia.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		tfNumero_Retiro = new JTextField();
 		tfNumero_Retiro.setBounds(150, 250, 160, 20);
-		panel_2.add(tfNumero_Retiro);
+		devoluciones.add(tfNumero_Retiro);
 		tfNumero_Retiro.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tfNumero_Retiro.setColumns(10);
 		
-		JButton btnModificarPieza = new GlossyButton("GUARDAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_LIGHTGRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
+		btnModificarPieza = new GlossyButton("GUARDAR",ButtonType.BUTTON_ROUNDED,Theme.GLOSSY_LIGHTGRAY_THEME,Theme.GLOSSY_ORANGE_THEME,Theme.GLOSSY_BLACK_THEME);
 		btnModificarPieza.setBounds(583, 600, 200, 30);
 		contentPane.add(btnModificarPieza);
 		btnModificarPieza.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		btnModificarPieza.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/save.png")));
+		
+		JPanel piezas = new TransparentPanel();
+		piezas.setBorder(new MatteBorder(3, 3, 3, 3, (Color) new Color(0, 0, 0)));
+		piezas.setBounds(0, 230, 1366, 429);
+		contentPane.add(piezas);
+		piezas.setLayout(null);
 		contentPane.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{tFEntidad, tFNombreReclamante, dcFReclamo, dCFSP, tfNumero_Pedido, tFNombreTitular, tFDominio, tFVinVehiculo, tFMarca, tFModelo, tfNumeroOrden, dCFAperturaOrden, dCFCierreOrden, tFNumeroRecurso, dCFechaRecurso, cbPiezas, tfNum_Pieza, cbProveedor, taDesc_Pedido, cbxPropio, cbxStrock, tfPNC, dcFSF, dcFRF, tfEstado_Pedido, dcFTurno, tfVIN_Muleto, taDesc_Muleto, tfHs_Mano_Obra, tfVal_Mano_Obra, tfCod_Mano_Obra, dcFDF, tfNumero_Remito, tfTransporte, tfNumero_Retiro, btnModificarPieza, btnCancelar, btnModificar, panel_piezas, lblPiezas, lblPnc, dcFSF.getCalendarButton(), lblFechaSolicitudFabrica, lblFechaRecepcionFabrica, dcFRF.getCalendarButton(), label, label_1, label_2, lblEstadoPedido, lblPiezas_1, btn_clear_FSF, btn_clear_FRF, lblFechaCambio, dcFTurno.getCalendarButton(), btn_clear_FCambio, lblVin, lblMuleto, lblDescripcionMuleto, lblManoObra, lblCantidadHs, lblValor, lblCodigoManoObra, lblDevolucion, dcFDF.getCalendarButton(), btn_clear_FDF, label_3, label_4, label_5, lblNumeroGuia, vehiculo, label_10, label_9, label_8, label_6, lblNombreTitular, panel, btnVerReclamante, lblNombreReclamante, lblEntidad, lblFechaReclamo, dcFReclamo.getCalendarButton(), lblFechaSolicitud, dCFSP.getCalendarButton(), lblNumeroPedido, orden, lblOrden, lblFechaAperturaOrden, dCFAperturaOrden.getCalendarButton(), lblFechaCierreOrden, dCFCierreOrden.getCalendarButton(), lblNumeroDeRecurso, lblFechaRecurso, dCFechaRecurso.getCalendarButton(), btn_clear_fcorden, btn_clear_frecurso}));
 		btnModificarPieza.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
